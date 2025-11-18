@@ -1,0 +1,4 @@
+uiautomator2>=2.16.23
+openai>=0.27.0,<1.0.0
+tiktoken>=0.5.1
+python-dotenv>=1.0.0
