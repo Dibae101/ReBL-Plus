@@ -1,15 +1,37 @@
-# Introduction
-Welcome to the GitHub repository for the paper "**Feedback-Driven Automated Whole Bug Report Reproduction for Android Apps**" which will be published in **ISSTA 2024**. 
+# ReBL-Plus
 
-In this paper, we introduce **ReBL**, a novel feedback-driven approach that leverages GPT-4.0, a large-scale language model, to automatically reproduce Android bug reports. 
+**Feedback-Driven Automated Whole Bug Report Reproduction for Android Apps - Enhanced with Google Gemini AI**
 
-If you have any questions, please do not hesitate to email me at **dbenw96@gmail.com**.  
+This is an enhanced version of the ReBL tool from the ISSTA 2024 paper, modified to use Google's Gemini AI instead of OpenAI's GPT-4.
 
-### Running the Tool
-1. `my_gpt.py`: Provide your API key at line 12-13 
-2. Ensure the app is installed and open on your emulator, or you can add a few lines of code to automate the installation and launch process. This is entirely up to your preference.
-3. Run the following command in your terminal: python3 reproduction.py [emulator-id] [path_to_bug_report]
-- e.g. python3 reproduction.py 5554 ./BRs/k9_3255.txt (assumed that your emulator ID is 'emulator-5554').
+## ✅ Quick Start (Your System is Ready!)
+
+### Prerequisites Installed
+- ✅ Python 3.9
+- ✅ Android Studio with SDK
+- ✅ Android Emulator: Medium_Phone_API_36.1
+- ✅ Gemini API configured
+- ✅ Dependencies installed
+
+### Run the Tool
+
+**Easy Way:**
+```bash
+./run.sh Automation/BRs/k9_3255.txt
+```
+
+**Manual Way:**
+```bash
+cd Automation
+export PATH=$PATH:~/Library/Android/sdk/platform-tools
+python3 reproduction.py 5554 ./BRs/k9_3255.txt
+```
+
+**⚠️ Important**: Install and open the test app on the emulator first!
+
+## How It Works
+
+1. Reads bug report → 2. Connects to emulator → 3. Analyzes UI with Gemini → 4. Executes actions → 5. Reproduces bug
 
 ### Demo 
 [![Watch the video](https://img.youtube.com/vi/Wr8EiwpcFTU/maxresdefault.jpg)](https://www.youtube.com/watch?v=Wr8EiwpcFTU)

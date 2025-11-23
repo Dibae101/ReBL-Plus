@@ -1,21 +1,18 @@
-import openai
+import google.generativeai as genai
 import datetime
 import math
 import time 
 import json
-import tiktoken
 from utils import *
 from dotenv import load_dotenv
 
 # Replace your key here 
 load_dotenv()
-openai.organization = os.getenv('OPENAI_ORGANIZE')
-openai.api_key = os.getenv('OPENAI_API_KEY')
+genai.configure(api_key=os.getenv('GEMINI_API_KEY'))
 
 def count_tokens(message):
-    encoding = tiktoken.encoding_for_model("gpt-4")
-    tokens_integer= encoding.encode(message)
-    return len(tokens_integer)
+    # Approximate token count for Gemini (roughly 1 token per 4 characters)
+    return len(message) // 4
 
 def count_chat_history_tokens(chat_history):
     total_tokens = 0
@@ -26,13 +23,14 @@ def count_chat_history_tokens(chat_history):
     return total_tokens
 
 def truncate_message(message, n):
-    encoding = tiktoken.encoding_for_model("gpt-4")
-    tokens_integer = encoding.encode(message)
-    if len(tokens_integer) <= n:
+    # Approximate truncation for Gemini
+    estimated_tokens = len(message) // 4
+    if estimated_tokens <= n:
         return False, None
     else:
-        truncated_tokens = tokens_integer[:math.floor(n)]
-        truncated_message = encoding.decode(truncated_tokens)
+        # Truncate to approximate character count
+        char_limit = math.floor(n * 4)
+        truncated_message = message[:char_limit]
         return True, truncated_message
 
 def process_history(prompt, history, max_tokens, threshold):
@@ -46,40 +44,57 @@ def process_history(prompt, history, max_tokens, threshold):
             history.append({"role": "user", "content": truncated_message})
         
         print('summarize==========================================')
-        history.append({"role": "user", "content": 'The conversation is about to exceed the limit, before we continue the reproduction process. Can you summarize the above conversation. Note that You shouldn\'summary the rule and keep the rules as original since the rules are the standards.'})
-        response = openai.ChatCompletion.create(
-                model="gpt-4",
-                messages=history,
-                max_tokens=max_tokens-count_chat_history_tokens(history)-300,
-                n=1,
-                stop=None,
-                temperature=0.3,
-            )
-        message = response["choices"][0]["message"]["content"]
+        history.append({"role": "user", "content": 'The conversation is about to exceed the limit, before we continue the reproduction process. Can you summarize the above conversation. Note that You shouldn\'t summarize the rule and keep the rules as original since the rules are the standards.'})
+        
+        model = genai.GenerativeModel('gemini-2.5-flash')
+        chat_text = convert_history_to_text(history)
+        response = model.generate_content(chat_text)
+        message = response.text
         print(message)
-        history = load_training_prompts('./training_prompts_ori.json')
+        history = load_training_prompts('./prompts/training_prompts_ori.json')
         history.append({"role": "user", "content": message})
        
     history.append({"role": "user", "content": prompt})
   
     return history
 
-def generate_text(prompt, history, package_name=None, model="gpt-4", max_tokens=128000, attempts = 3):
+def convert_history_to_text(history):
+    """Convert chat history to a single text prompt for Gemini"""
+    text = ""
+    for msg in history:
+        role = msg['role']
+        content = msg['content']
+        if role == 'system':
+            text += f"System: {content}\n\n"
+        elif role == 'user':
+            text += f"User: {content}\n\n"
+        elif role == 'assistant':
+            text += f"Assistant: {content}\n\n"
+    return text
+
+def generate_text(prompt, history, package_name=None, model_name="gemini-2.5-flash", max_tokens=128000, attempts = 3):
     
     history = process_history(prompt, history, max_tokens, threshold = 0.75)
 
     for times in range(attempts):  # retry up to 3 times
         try:
-            response = openai.ChatCompletion.create(
-                model=model,
-                messages=history,
-                #max_tokens=max_tokens,
-                n=1,
-                stop=None,
-                temperature=0.3,
+            model = genai.GenerativeModel(model_name)
+            chat_text = convert_history_to_text(history)
+            
+            response = model.generate_content(
+                chat_text,
+                generation_config=genai.types.GenerationConfig(
+                    temperature=0.3,
+                )
             )
-            return response, history
-        except openai.OpenAIError as e:
+            
+            # Create a response object similar to OpenAI format
+            formatted_response = {
+                "model": model_name,
+                "choices": [{"message": {"content": response.text}}]
+            }
+            return formatted_response, history
+        except Exception as e:
             print(f"Attempt {times + 1} failed with error: {str(e)}")
             if times < 2: 
                 if package_name is not None:
