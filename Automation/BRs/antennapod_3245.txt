@@ -1,0 +1,34 @@
+Bug Report Title:
+Feed settings crash when rotating screen
+
+Bug Report Issue:
+First of all, thank you for this very useful Podcast app! While building the app myself from `develop`, I noticed an issue with the revised feed settings. It appears the feed and its settings are not properly saved and restored in the `FeedSettingsActivity` (lifecycle methods).
+
+**App version**: unreleased/develop 1580e93b940436b76e2db46fa5501c8f02e38770
+
+**Android version**: 7.1.2 (LineageOS 14.1-20180610-NIGHTLY-titan)
+
+**Device model**: MOTO G 2014
+
+**Expected behaviour**: View is restored after rotation
+
+**Current behaviour**: App crashes
+
+**First occurred**: On branch `develop` with revised feed settings
+
+**Steps to reproduce**: 
+1. Open AntennaPod
+2. Navigate to any feed
+3. Open feed settings
+4. Rotate screen
+5. App crashes with NullPointerException
+
+**Environment**: Default settings on branch develop
+
+**Stacktrace/Logcat**: 
+```
+java.lang.RuntimeException: Unable to start activity ComponentInfo{de.danoeh.antennapod.debug/de.danoeh.antennapod.activity.FeedSettingsActivity}: java.lang.NullPointerException: Attempt to invoke virtual method 'de.danoeh.antennapod.core.feed.FeedPreferences de.danoeh.antennapod.core.feed.Feed.getPreferences()' on a null object reference
+```
+
+Comments:
+Fixed in commit after June 29, 2019.

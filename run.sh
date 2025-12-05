@@ -4,13 +4,7 @@ ANDROID_SDK="$HOME/Library/Android/sdk"
 ADB="$ANDROID_SDK/platform-tools/adb"
 EMULATOR="$ANDROID_SDK/emulator/emulator"
 
-#  Android SDK to PATH
 export PATH="$ANDROID_SDK/platform-tools:$ANDROID_SDK/emulator:$PATH"
-
-echo "========================================"
-echo "  ReBL-Plus Bug Reproduction"
-echo "========================================"
-echo ""
 
 # Start ADB server
 echo "[1/5] Starting ADB server..."
@@ -101,15 +95,14 @@ echo "[4/5] Activating Python environment..."
 cd "$(dirname "$0")/Automation"
 source ../env/bin/activate
 
-echo "[5/5] Running bug reproduction..."
-echo ""
-echo "Command: python3 reproduction.py $DEVICE_PORT BRs/k9_3255.txt"
-echo "========================================"
+echo "[5/6] Installing APK..."
+$ADB -s "$DEVICE_SERIAL" install -r APKs/QKSMS-v2.6.0.apk
 echo ""
 
-python3 reproduction.py "$DEVICE_PORT" BRs/k9_3255.txt
-
+echo "[6/6] Running bug reproduction..."
 echo ""
-echo "========================================"
+echo "Command: python3 reproduction.py $DEVICE_PORT BRs/qksms_482.txt"
+
+python3 reproduction.py "$DEVICE_PORT" BRs/qksms_482.txt
 echo "  Execution Complete"
-echo "========================================"
+
