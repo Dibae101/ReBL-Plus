@@ -1,0 +1,58 @@
+We need to dwn
+# ReBL-Plus Testing Guide
+
+## Prerequisites
+1. Start the emulator (if not already running):
+   ~/Library/Android/sdk/emulator/emulator -avd <avd_name> &
+
+2. Activate Python virtual environment:
+   source /Users/darshan/Desktop/Papers/ReBL/env/bin/activate
+
+3. Navigate to project directory:
+   cd /Users/darshan/Desktop/Papers/ReBL
+
+## Install APK to Emulator
+
+# Check if emulator is connected (should show emulator-5554):
+~/Library/Android/sdk/platform-tools/adb devices
+
+# Uninstall old version (if exists):
+~/Library/Android/sdk/platform-tools/adb -s emulator-5554 uninstall com.dozingcatsoftware.asciicam
+
+# Install the APK:
+~/Library/Android/sdk/platform-tools/adb -s emulator-5554 install Automation/APKs/ascii-cam-1.2.3.apk
+
+# Verify installed version:
+~/Library/Android/sdk/platform-tools/adb -s emulator-5554 shell dumpsys package com.dozingcatsoftware.asciicam | grep versionName
+
+## Run Bug Reproduction Testing
+
+# Option 1: Using run.sh (includes emulator checks and setup):
+bash run.sh
+
+# Option 2: Direct reproduction script:
+cd Automation
+python3 reproduction.py 5554 BRs/asciicam_17.txt
+
+# Option 3: For K-9 Mail bug:
+python3 reproduction.py 5554 BRs/k9_3255.txt
+
+## View Test Results
+
+# Check logcat output:
+cat Automation/logcat.txt | tail -100
+
+# Check for crashes:
+~/Library/Android/sdk/platform-tools/adb -s emulator-5554 logcat -d | grep -i "exception\|crash"
+
+## Troubleshooting
+
+# Clear app data before testing:
+~/Library/Android/sdk/platform-tools/adb -s emulator-5554 shell pm clear com.dozingcatsoftware.asciicam
+
+# Restart emulator:
+~/Library/Android/sdk/platform-tools/adb -s emulator-5554 reboot
+
+# Kill and restart ADB server:
+~/Library/Android/sdk/platform-tools/adb kill-server
+~/Library/Android/sdk/platform-tools/adb start-server

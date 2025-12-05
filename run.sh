@@ -95,14 +95,16 @@ echo "[4/5] Activating Python environment..."
 cd "$(dirname "$0")/Automation"
 source ../env/bin/activate
 
-echo "[5/6] Installing APK..."
-$ADB -s "$DEVICE_SERIAL" install -r APKs/QKSMS-v2.6.0.apk
+echo "[5/6] Installing AsciiCam APK..."
+$ADB -s "$DEVICE_SERIAL" install -r APKs/ascii-cam.apk
 echo ""
 
 echo "[6/6] Running bug reproduction..."
 echo ""
-echo "Command: python3 reproduction.py $DEVICE_PORT BRs/qksms_482.txt"
+echo "Command: python3 reproduction.py $DEVICE_PORT BRs/asciicam_17.txt"
+echo "========================================"
+echo ""
 
-python3 reproduction.py "$DEVICE_PORT" BRs/qksms_482.txt
+python3 reproduction.py "$DEVICE_PORT" BRs/asciicam_17.txt
 echo "  Execution Complete"
 
