@@ -1,0 +1,48 @@
+Title: Long tap on note > send note > crash
+
+App: Notepad (Banderlabs)
+Package: com.banderlabs.notepad
+Issue: https://code.google.com/archive/p/banderlabs/issues/23
+
+Description:
+The application crashes when attempting to send a note using the "send note" option after long-pressing on a note in the list. This is a reproducible crash in the share/send functionality.
+
+Steps to Reproduce:
+1. Open Notepad app
+2. Ensure you have at least one note saved
+3. Long-press (long tap) on a note in the note list
+4. A context menu appears
+5. Select "Send note" option
+6. The app crashes immediately
+
+Expected Behavior:
+When selecting "Send note" from the context menu, the app should:
+- Launch the Android share intent chooser
+- Allow the user to select an app to share the note with (Email, SMS, etc.)
+- Successfully share the note content through the selected app
+- Return to the note list without crashing
+
+Actual Behavior:
+The application crashes immediately when the "Send note" option is selected from the long-press context menu.
+
+Crash Details:
+- Trigger: Selecting "Send note" after long-pressing a note
+- Likely cause: NullPointerException or improper intent creation when trying to share the note
+- The crash suggests issues with:
+  - Intent creation for sharing functionality
+  - Note content retrieval before sharing
+  - Missing null checks when preparing share data
+
+Technical Details:
+The send/share functionality is a common Android feature that uses the ACTION_SEND intent. The crash likely occurs when:
+- The note content is not properly retrieved before creating the share intent
+- The intent extras are not properly set
+- Required permissions or data are missing
+
+Android Version: CyanogenMod 10.1 (Android 4.2.x)
+Device: Samsung Galaxy Ace 2 (GT-I8160)
+
+Notes:
+- The issue was reported on CyanogenMod 10.1, an unofficial ROM
+- However, the crash is likely a general bug not specific to the ROM
+- The summary from the reporter indicates this is easily reproducible

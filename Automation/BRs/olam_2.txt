@@ -1,0 +1,72 @@
+Title: Force Close when entering word with apostrophe
+
+App: Olam (Malayalam Dictionary)
+Package Name: com.olam
+Issue: https://github.com/vishnus/Olam/issues/2
+
+Description:
+The app crashes with an SQLiteException when a user enters a search query containing an apostrophe (single quote character). This is a SQL injection vulnerability where the apostrophe breaks the SQL query syntax. The crash occurs in an AsyncTask while performing a database search for words with similar stems.
+
+Root Cause:
+The application uses raw SQL queries without proper escaping or parameterized queries. When a word containing an apostrophe (e.g., "slumdroid's test") is entered, it's directly inserted into the SQL LIKE clause, breaking the SQL syntax: `WHERE stems LIKE '%slumdroid's test %'`. The unescaped apostrophe terminates the string literal prematurely, causing a syntax error.
+
+Steps to Reproduce:
+1. Launch the Olam Malayalam Dictionary app
+2. In the search field, type any word containing an apostrophe (e.g., "word's" or "slumdroid's test")
+3. The app will attempt to search for similar words in the database
+4. Observe app crashes immediately with SQLiteException
+
+Expected Behavior:
+The app should handle special characters like apostrophes gracefully by either escaping them or using parameterized queries. The search should complete without crashing, potentially showing results that match the query or indicating no results found.
+
+Actual Behavior:
+The app crashes with a Fatal Exception in AsyncTask #1, showing SQLiteException with "near 's': syntax error" in the logcat.
+
+Crash Details:
+- Exception Type: android.database.sqlite.SQLiteException
+- Error Message: near "s": syntax error (code 1)
+- Failed SQL Query: SELECT word, _id FROM words_en WHERE stems LIKE '%slumdroid's test %' OR stems LIKE 'slumdroid's test' ORDER BY LENGTH(word) LIMIT 10
+- Location: com.olam.DatabaseHelper.getSimilarStems(DatabaseHelper.java:115)
+- Thread: AsyncTask #1
+
+Stack Trace:
+```
+E/AndroidRuntime(727): FATAL EXCEPTION: AsyncTask #1
+E/AndroidRuntime(727): java.lang.RuntimeException: An error occured while executing doInBackground()
+E/AndroidRuntime(727):     at android.os.AsyncTask$3.done(AsyncTask.java:299)
+E/AndroidRuntime(727):     at java.util.concurrent.FutureTask$Sync.innerSetException(FutureTask.java:273)
+E/AndroidRuntime(727):     at java.util.concurrent.FutureTask.setException(FutureTask.java:124)
+E/AndroidRuntime(727):     at java.util.concurrent.FutureTask$Sync.innerRun(FutureTask.java:307)
+E/AndroidRuntime(727):     at java.util.concurrent.FutureTask.run(FutureTask.java:137)
+E/AndroidRuntime(727):     at android.os.AsyncTask$SerialExecutor$1.run(AsyncTask.java:230)
+E/AndroidRuntime(727):     at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1076)
+E/AndroidRuntime(727):     at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:569)
+E/AndroidRuntime(727):     at java.lang.Thread.run(Thread.java:856)
+E/AndroidRuntime(727): Caused by: android.database.sqlite.SQLiteException: near "s": syntax error (code 1): , while compiling: SELECT word, _id FROM words_en WHERE stems LIKE '%slumdroid's test %' OR stems LIKE 'slumdroid's test' ORDER BY LENGTH(word) LIMIT 10
+E/AndroidRuntime(727):     at android.database.sqlite.SQLiteConnection.nativePrepareStatement(Native Method)
+E/AndroidRuntime(727):     at android.database.sqlite.SQLiteConnection.acquirePreparedStatement(SQLiteConnection.java:882)
+E/AndroidRuntime(727):     at android.database.sqlite.SQLiteConnection.prepare(SQLiteConnection.java:493)
+E/AndroidRuntime(727):     at android.database.sqlite.SQLiteSession.prepare(SQLiteSession.java:588)
+E/AndroidRuntime(727):     at android.database.sqlite.SQLiteProgram.<init>(SQLiteProgram.java:58)
+E/AndroidRuntime(727):     at android.database.sqlite.SQLiteQuery.<init>(SQLiteQuery.java:37)
+E/AndroidRuntime(727):     at android.database.sqlite.SQLiteDirectCursorDriver.query(SQLiteDirectCursorDriver.java:44)
+E/AndroidRuntime(727):     at android.database.sqlite.SQLiteDatabase.rawQueryWithFactory(SQLiteDatabase.java:1314)
+E/AndroidRuntime(727):     at android.database.sqlite.SQLiteDatabase.rawQuery(SQLiteDatabase.java:1253)
+E/AndroidRuntime(727):     at com.olam.DatabaseHelper.getSimilarStems(DatabaseHelper.java:115)
+E/AndroidRuntime(727):     at com.olam.MainSearch$doSearch.doInBackground(MainSearch.java:255)
+E/AndroidRuntime(727):     at com.olam.MainSearch$doSearch.doInBackground(MainSearch.java:228)
+E/AndroidRuntime(727):     at android.os.AsyncTask$2.call(AsyncTask.java:287)
+E/AndroidRuntime(727):     at java.util.concurrent.FutureTask$Sync.innerRun(FutureTask.java:305)
+E/AndroidRuntime(727):     ... 5 more
+```
+
+Technical Analysis:
+The bug is in DatabaseHelper.java at line 115 in the getSimilarStems() method. The code uses SQLiteDatabase.rawQuery() with string concatenation to build the SQL query, which is vulnerable to SQL injection and special character issues. The fix should use parameterized queries (prepared statements) with '?' placeholders, or escape the apostrophe by replacing it with two apostrophes ('').
+
+Impact:
+- Severity: High - Complete app crash
+- Frequency: Every time a word with apostrophe is entered
+- Affected Component: Search functionality
+- User Impact: Users cannot search for possessive forms or contractions (common in many languages)
+
+Note: According to a comment from maintainer tapanprakasht on Feb 21, 2016, this issue was reproducible only in the Play Store version and has been fixed in the current repository, though the issue remains open.

@@ -1,0 +1,76 @@
+Title: App crashes when refreshing after changing to invalid server
+
+App: LibreNews
+Package Name: app.librenews.io.librenews
+Issue: https://github.com/milesmcc/LibreNews-Android/issues/27
+
+Description:
+The LibreNews app crashes when a user changes the server address to an invalid or non-LibreNews server (such as Steemit.com) and then attempts to refresh the news flashes. Instead of gracefully handling the connection error and showing a red connection icon, the app crashes completely. This is similar to issue #22 but reported with more specific reproduction steps including video evidence.
+
+Root Cause:
+The app does not properly validate or handle responses from non-LibreNews servers. When the refresh operation attempts to fetch news flashes from an incompatible server endpoint, it likely encounters unexpected data formats, missing endpoints, or network errors that are not caught by proper exception handling. The app should detect that the server is not a valid LibreNews server and display an error state rather than crashing.
+
+Steps to Reproduce:
+1. Open the LibreNews app
+2. Navigate to settings and click on the "Server" option
+3. Change the server address to a different server (e.g., "Steemit.com" or any non-LibreNews server)
+4. Press the "Refresh" button
+5. Observe the app crashes immediately
+
+Expected Behavior:
+When attempting to connect to an invalid or non-LibreNews server, the app should:
+1. Detect that the server is not responding with expected LibreNews data format
+2. Display a red connection icon indicating connection failure
+3. Show an error message to the user explaining the server is unreachable or incompatible
+4. Remain functional and allow the user to change the server back or try again
+
+Actual Behavior:
+The app crashes completely when attempting to refresh after changing to an invalid server. The crash repeats every time the user tries to refresh with the invalid server configured.
+
+Crash Details:
+- Exception Type: Likely similar to issue #22 (ArrayIndexOutOfBoundsException or network-related exception)
+- Frequency: 100% when refreshing with non-LibreNews server
+- Device: Moto G5 Plus running Android 7 (Nougat)
+- Video Recording: https://youtu.be/9Lf84UArX8Q
+
+Technical Analysis:
+This bug is related to insufficient error handling in the refresh/network layer. When the app attempts to:
+1. Connect to a non-LibreNews server
+2. Parse the response (which won't match expected format)
+3. Process the data
+
+Any of these steps can fail without proper exception handling. The app likely encounters:
+- HTTP errors (404, 500, etc.) from missing LibreNews API endpoints
+- JSON parsing errors from unexpected response format
+- Empty or malformed data that causes array/null pointer exceptions
+
+The connection should be wrapped in comprehensive try-catch blocks, and the UI should reflect connection state rather than crashing on errors.
+
+Proposed Solutions:
+1. Add validation to check if the server is a LibreNews-compatible server before attempting refresh
+2. Wrap all network operations in proper exception handling:
+   ```java
+   try {
+       // refresh operations
+   } catch (Exception e) {
+       // show error state, set connection icon to red
+       Log.e(TAG, "Failed to refresh from server", e);
+   }
+   ```
+3. Implement server compatibility check or ping endpoint
+4. Add user-facing error messages for invalid server configurations
+5. Gracefully degrade functionality when server is unreachable
+
+Impact:
+- Severity: High - Complete app crash
+- Frequency: 100% when using non-LibreNews server
+- Affected Component: Server configuration, refresh functionality, network layer
+- User Impact: Users cannot experiment with different server configurations without crashing the app; app becomes unusable until server is changed back to valid address
+
+Developer Comment:
+As noted by maintainer milesmcc: "Because `Steemit.com` is not a LibreNews server, you won't be able to receive notifications from it—that being said, this is indeed a bug. The connection icon should go red; the app shouldn't crash."
+
+Note: This repository was archived on December 24, 2021, and is now read-only. The issue remains open and unfixed.
+
+Related Issues:
+- Issue #22: Similar crash with invalid server causing ArrayIndexOutOfBoundsException

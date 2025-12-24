@@ -1,0 +1,108 @@
+Title: Import/Export settings can crash app with certain invalid QR codes
+
+App: ODK Collect (Open Data Kit Collect)
+Package Name: org.odk.collect.android
+Issue: https://github.com/getodk/collect/issues/2086
+
+Description:
+ODK Collect crashes and becomes completely unusable when scanning a malformed QR code during the settings import process. The crash occurs because the app fails to validate the data types of settings imported from QR codes. When a malformed QR code contains settings with incorrect types (e.g., a Boolean value for a field that should be a String), the app crashes with a ClassCastException. This crash is particularly severe because it makes the app completely unusable - it crashes on every launch until the user clears app data or reinstalls.
+
+Root Cause:
+The app lacks input validation when importing settings from QR codes. Specifically, when a QR code contains a password field with a Boolean value instead of a String, the app saves this incorrect type to SharedPreferences. Later, when the app launches and tries to retrieve the password as a String, Android's SharedPreferencesImpl throws a ClassCastException because it cannot cast Boolean to String. This happens during app initialization in Collect.onCreate(), causing the app to crash before it can even display the main screen.
+
+The vulnerable flow:
+1. User scans a malformed QR code with incorrect data types
+2. App imports settings without type validation
+3. Incorrect types are saved to SharedPreferences
+4. App tries to read password as String but gets Boolean
+5. ClassCastException crashes the app during initialization
+6. App is now permanently broken until data is cleared
+
+Steps to Reproduce:
+1. Install ODK Collect v1.14.0-beta.1 on an Android device (Samsung A5, Android 6.0.1)
+2. Navigate to Admin settings > Import/Export settings
+3. Click "SCAN CODE FROM OTHER DEVICE" button
+4. Scan a malformed QR code that contains incorrect data types (e.g., Boolean value for password field instead of String)
+5. Observe the app crashes immediately with "ODK Collect has stopped"
+6. Try to reopen ODK Collect
+7. Observe the app crashes on every launch attempt, making it completely unusable
+
+Example Malformed QR Code:
+The issue reporter provided a sample malformed QR code that triggers this crash (see buggyqr.png in the original issue). The QR code was generated using PHP with compressed JSON and base64 encoding, but contained a Boolean type for the password field instead of a String.
+
+Expected Behavior:
+When importing settings from a QR code:
+1. The app should validate that all setting values have the correct data types before saving them
+2. If invalid data types are detected, show a clear error message: "Invalid QR code - settings could not be imported"
+3. Reject the import and leave existing settings unchanged
+4. Keep the app functional and allow the user to try again with a valid QR code
+5. Never allow the app to enter a state where it crashes on every launch
+
+Actual Behavior:
+- The app accepts and saves settings with incorrect data types without validation
+- The malformed settings cause the app to crash during initialization
+- The app becomes completely unusable - crashes on every launch
+- The only recovery method is to clear app data or reinstall the app, losing all settings and data
+- Users have no way to fix the issue from within the app
+
+Crash Details:
+- Exception Type: java.lang.ClassCastException
+- Error Message: java.lang.Boolean cannot be cast to java.lang.String
+- Location: android.app.SharedPreferencesImpl.getString(SharedPreferencesImpl.java:223)
+- Call Chain:
+  - org.odk.collect.android.preferences.GeneralSharedPreferences.get()
+  - org.odk.collect.android.utilities.AuthDialogUtility.getPasswordFromPreferences()
+  - org.odk.collect.android.utilities.AuthDialogUtility.setWebCredentialsFromPreferences()
+  - org.odk.collect.android.application.Collect.onCreate()
+- Device: Samsung Galaxy A5 (2016)
+- Android Version: 6.0.1
+- App Version: ODK Collect v1.14.0-beta.1
+
+Stack Trace:
+```
+Caused by: java.lang.ClassCastException: java.lang.Boolean cannot be cast to java.lang.String
+    at android.app.SharedPreferencesImpl.getString(SharedPreferencesImpl.java:223)
+    at org.odk.collect.android.preferences.GeneralSharedPreferences.get(GeneralSharedPreferences.java:56)
+    at org.odk.collect.android.utilities.AuthDialogUtility.getPasswordFromPreferences(AuthDialogUtility.java:127)
+    at org.odk.collect.android.utilities.AuthDialogUtility.setWebCredentialsFromPreferences(AuthDialogUtility.java:103)
+    at org.odk.collect.android.application.Collect.onCreate(Collect.java:281)
+    at android.app.Instrumentation.callApplicationOnCreate(Instrumentation.java:1035)
+    at android.app.ActivityThread.handleBindApplication(ActivityThread.java:6034)
+```
+
+Technical Analysis:
+The issue occurs when custom QR codes are generated programmatically (e.g., using PHP) for automated user registration. The QR code format requires:
+1. JSON settings data
+2. Compression (gzip)
+3. Base64 encoding
+
+If the JSON contains incorrect types (Boolean instead of String for password), the import succeeds but the app becomes permanently broken.
+
+The fix requires two changes:
+1. **Fail early**: Validate setting types when QR code is scanned, before saving to SharedPreferences
+2. **Fail gracefully**: If corrupt settings already exist, show a toast message and load default values instead of crashing
+
+Use Case Context:
+Users were generating custom QR codes programmatically to register users to ODK Aggregate and provide them with pre-configured settings QR codes. This is a valid use case documented at: https://docs.opendatakit.org/collect-import-export/#making-your-own-qr-code/
+
+Impact:
+- Severity: Critical - App becomes completely unusable, crashes on every launch
+- Frequency: 100% when scanning a malformed QR code with type mismatches
+- Recovery: Requires clearing app data or reinstalling (data loss)
+- Affected Component: Settings import/export, QR code scanning
+- User Impact: Users lose all data and settings; cannot use the app until manual intervention
+- Deployment Impact: Broken QR codes distributed to multiple users can break ODK Collect for entire teams
+
+Resolution:
+Fixed in multiple commits by seadowg in October-November 2018:
+- Commit 0be35a7: "Show toast to user when invalid QR code scanned Fixes #2086"
+- Commit 84fe978: "Show user a toast when they try to view server settings with corrupt preferences"
+- Commit 5eef847: "Show toast to user when invalid QR code scanned Fixes #2086"
+- PR #2703: "Don't let user save invalid preferences"
+
+The fix implements type validation before importing settings and graceful error handling for already-corrupted settings.
+
+Labels: help wanted, in progress
+Related Issues: #2071 (initial QR preview issue), #3529 (inconsistent behavior on QR code scan)
+
+Note: ODK Collect is a widely-used Android app for mobile data collection, part of the Open Data Kit project.

@@ -1,3 +1,4 @@
 **/env
 Automation/tmp
 .DS_Store
+Automation/.env

@@ -1,0 +1,63 @@
+Title: GenericItem crashes in app sample
+
+App: FastAdapter Sample App
+Package Name: com.mikepenz.fastadapter.app (sample)
+Issue: https://github.com/mikepenz/FastAdapter/issues/394
+
+Description:
+The FastAdapter sample application crashes with a NullPointerException when clicking on the GenericItem sample menu option. This occurs in version 2.5.1 of the sample app available on the Play Store. The crash happens when attempting to call recycle() on a null TypedArray object, indicating that a resource retrieval failed but the code didn't properly handle the null case.
+
+Root Cause:
+The crash occurs at line 69 where the code attempts to invoke the recycle() method on a TypedArray that is null. This typically happens when obtainStyledAttributes() or similar methods fail to retrieve attributes (possibly due to missing theme attributes or resource issues), but the code assumes the TypedArray is always non-null and proceeds to call recycle() without null checking.
+
+Steps to Reproduce:
+1. Launch the FastAdapter sample app (version 2.5.1 from Play Store)
+2. Navigate to the main menu/list of samples
+3. Click on the "GenericItem" sample option
+4. Observe the app crashes immediately with NullPointerException
+
+Expected Behavior:
+The app should navigate to the GenericItem sample screen and display the example implementation without crashing. If there are missing resources, the app should handle this gracefully with appropriate error handling or default values.
+
+Actual Behavior:
+The app crashes with a NullPointerException when attempting to access the GenericItem sample, making this feature completely unusable in the released version.
+
+Crash Details:
+- Exception Type: java.lang.NullPointerException
+- Error Message: Attempt to invoke virtual method 'void android.content.res.TypedArray.recycle()' on a null object reference
+- Location: Line 69 (likely in GenericItem class or related layout inflation code)
+- Version: FastAdapter 2.5.1 (Play Store version)
+
+Stack Trace:
+```
+java.lang.NullPointerException: Attempt to invoke virtual method 'void android.content.res.TypedArray.recycle()' on a null object reference
+    at [GenericItem or related class]:69
+```
+
+Technical Analysis:
+The issue is caused by improper null handling when obtaining styled attributes. The typical pattern that causes this:
+```java
+TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.Something);
+// ... use attributes ...
+a.recycle(); // crashes here if obtainStyledAttributes returned null
+```
+
+The fix should add null checking before calling recycle():
+```java
+TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.Something);
+if (a != null) {
+    // ... use attributes ...
+    a.recycle();
+}
+```
+
+Or ensure that obtainStyledAttributes() is called with valid parameters that guarantee a non-null return.
+
+Impact:
+- Severity: High - Complete crash when accessing feature
+- Frequency: 100% reproduction rate in version 2.5.1
+- Affected Component: GenericItem sample
+- User Impact: Users cannot view or test the GenericItem implementation in the sample app
+
+Resolution:
+This issue was fixed by maintainer mikepenz in commit d12f4f2 on April 17, 2017, one day after the issue was reported. The issue is now closed as completed.

@@ -46,7 +46,7 @@ def process_history(prompt, history, max_tokens, threshold):
         print('summarize==========================================')
         history.append({"role": "user", "content": 'The conversation is about to exceed the limit, before we continue the reproduction process. Can you summarize the above conversation. Note that You shouldn\'t summarize the rule and keep the rules as original since the rules are the standards.'})
         
-        model = genai.GenerativeModel('gemini-2.5-flash')
+        model = genai.GenerativeModel('models/gemini-2.5-pro')
         chat_text = convert_history_to_text(history)
         response = model.generate_content(chat_text)
         message = response.text

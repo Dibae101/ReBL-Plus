@@ -1,0 +1,137 @@
+Title: Crash on add picture from camera on Android 7
+
+App: AnkiDroid (Anki Android)
+Package Name: com.ichi2.anki
+Issue: https://github.com/ankidroid/Anki-Android/issues/4586
+
+Description:
+AnkiDroid crashes when a user attempts to add an image to a flashcard by taking a photo with the device camera on Android 7 (Nougat) and above. The crash occurs due to a FileUriExposedException, which is thrown when the app tries to share a file:// URI across app boundaries. This is caused by Android 7's stricter security policies that prohibit exposing file:// URIs to other apps. The app needs to use FileProvider and content:// URIs instead of file:// URIs to share files with the camera app.
+
+Root Cause:
+Starting with Android 7.0 (API level 24), Android enforces stricter file sharing policies through the StrictMode FileUriExposedException. When an app tries to pass a file:// URI to another app (like the camera app) through an Intent, the system throws a FileUriExposedException. This is a security measure to prevent accidental file exposure.
+
+The issue occurs because AnkiDroid uses a file:// URI when requesting the camera to save a photo:
+```java
+// Old, problematic code:
+Uri photoUri = Uri.fromFile(new File("/storage/emulated/0/Pictures/img_201702162214361518016482.jpg"));
+intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+```
+
+The fix requires using FileProvider to generate a content:// URI instead:
+```java
+// Correct code for Android 7+:
+Uri photoUri = FileProvider.getUriForFile(context, 
+    "com.ichi2.anki.fileprovider", 
+    photoFile);
+intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+```
+
+Steps to Reproduce:
+1. Install AnkiDroid version 2.8.2 or 2.9alpha4 on a device running Android 7.0 or higher
+2. Open AnkiDroid and navigate to deck view
+3. Press the "+" button to add a new card
+4. Select "Add card" option
+5. In the card editor, press the "Attach" button
+6. Select "Add image" from the menu
+7. Choose "Camera" as the image source
+8. Observe the app crashes immediately with FileUriExposedException
+
+Expected Behavior:
+When the user selects "Camera" to add an image:
+1. The camera app should open successfully
+2. User can take a photo
+3. The photo is saved and returned to AnkiDroid
+4. The image is attached to the flashcard
+5. No crash occurs
+
+Actual Behavior:
+The app crashes immediately when trying to open the camera, before the camera app even launches. The user cannot add images from the camera at all on Android 7+.
+
+Crash Details:
+- Exception Type: android.os.FileUriExposedException
+- Error Message: file:///storage/emulated/0/Pictures/img_201702162214361518016482.jpg exposed beyond app through ClipData.Item.getUri()
+- Location: Exposed through Intent/ClipData when launching camera
+- Affected Versions: 2.8.2, 2.9alpha4
+- Affected Android Versions: Android 7.0 (Nougat) and above
+- Working Android Versions: Android 6.0 (Marshmallow) and below
+
+Stack Trace:
+```
+android.os.FileUriExposedException: file:///storage/emulated/0/Pictures/img_201702162214361518016482.jpg exposed beyond app through ClipData.Item.getUri()
+    [Full stack trace not provided in issue]
+```
+
+Debug Information (from user report):
+- AnkiDroid Version: 2.9alpha4
+- Android Version: 7.0
+- ACRA UUID: 7b59c410-9be8-4f99-8be1-0b634cca407f
+
+Technical Analysis:
+Android 7.0 introduced FileUriExposedException as part of enhanced security measures. The breaking change requires:
+
+1. **Add FileProvider to AndroidManifest.xml**:
+```xml
+<provider
+    android:name="androidx.core.content.FileProvider"
+    android:authorities="com.ichi2.anki.fileprovider"
+    android:exported="false"
+    android:grantUriPermissions="true">
+    <meta-data
+        android:name="android.support.FILE_PROVIDER_PATHS"
+        android:resource="@xml/fileprovider" />
+</provider>
+```
+
+2. **Define file paths in xml/fileprovider.xml**:
+```xml
+<paths>
+    <external-path name="pictures" path="Pictures/" />
+</paths>
+```
+
+3. **Update code to use FileProvider**:
+```java
+File photoFile = new File(picturesDir, "img_" + timestamp + ".jpg");
+Uri photoUri;
+
+if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+    photoUri = FileProvider.getUriForFile(context,
+        "com.ichi2.anki.fileprovider",
+        photoFile);
+} else {
+    photoUri = Uri.fromFile(photoFile);
+}
+
+Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+cameraIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+startActivityForResult(cameraIntent, REQUEST_CAMERA);
+```
+
+Similar Issue:
+The issue reporter (timrae) noted this is similar to a previously fixed crash when emailing APKGs, which also involved file URI exposure issues. This suggests a pattern of file:// URI usage that needs updating throughout the codebase.
+
+Impact:
+- Severity: High - Core feature completely broken on Android 7+
+- Frequency: 100% on Android 7.0 and above when using camera to add images
+- Affected Component: Image attachment, camera integration, card editor
+- User Impact: Users cannot add images from camera to flashcards on modern Android versions
+- Market Share: As of 2017, Android 7+ adoption was growing rapidly, affecting increasing number of users
+
+Resolution:
+Fixed by jkennethcarino in PR #4678: "Fix crash on add picture from camera on Android 7"
+Closed by timrae on August 6, 2017, after merge.
+
+The fix implements FileProvider usage to properly handle file URIs on Android 7+.
+
+Android 7.0 Breaking Changes:
+This issue is part of a broader category of Android 7.0 compatibility issues. Other apps experienced similar crashes due to:
+- Passing file:// URIs through Intents
+- Sharing files with other apps
+- Taking photos with camera
+- Attaching files to emails
+
+All require migration to FileProvider and content:// URIs.
+
+Note: AnkiDroid is a free, open-source flashcard app for Android, based on the spaced repetition system. It's widely used for language learning and memorization.

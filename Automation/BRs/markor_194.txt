@@ -1,0 +1,48 @@
+Title: NullPointerException when rotating device during filesystem dialog
+
+App: Markor
+Version: v0.3.2
+Package: net.gsantner.markor
+Issue: https://github.com/gsantner/markor/issues/194
+
+Description:
+The app crashes with a NullPointerException when the device is rotated while the filesystem browser dialog is open. This occurs when inserting an image and browsing the filesystem, then rotating the device.
+
+Steps to Reproduce:
+1. Open Markor app
+2. Create or open a document
+3. Click on "Insert image" option
+4. Click "BROWSE FILESYSTEM" button
+5. Enable auto-rotate on the device
+6. Rotate the device (portrait to landscape or vice versa)
+
+Expected Behavior:
+The filesystem dialog should properly handle the configuration change and redraw without crashing.
+
+Actual Behavior:
+The app crashes with a NullPointerException when trying to access the FilesystemDialogData$Options.cancelButtonEnable field.
+
+Crash Details:
+java.lang.RuntimeException: Unable to start activity ComponentInfo{net.gsantner.markor/net.gsantner.markor.activity.DocumentActivity}: java.lang.NullPointerException
+	at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2195)
+	at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2245)
+	at android.app.ActivityThread.handleRelaunchActivity(ActivityThread.java:3738)
+	at android.app.ActivityThread.access$900(ActivityThread.java:135)
+	at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1202)
+	at android.os.Handler.dispatchMessage(Handler.java:102)
+	at android.os.Looper.loop(Looper.java:136)
+	at android.app.ActivityThread.main(ActivityThread.java:5017)
+	at java.lang.reflect.Method.invokeNative(Native Method)
+	at java.lang.reflect.Method.invoke(Method.java:515)
+	at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:779)
+	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:595)
+	at dalvik.system.NativeStart.main(Native Method)
+
+Caused by: NullPointerException: Attempt to read from field 'boolean net.gsantner.opoc.ui.FilesystemDialogData$Options.cancelButtonEnable' on a null object reference
+	at net.gsantner.opoc.ui.FilesystemDialog.onViewCreated(FilesystemDialog.java:128)
+
+Android Version: 6.0.1
+Device: Nexus 5
+
+Root Cause:
+The crash occurs during activity recreation after configuration change (rotation). The FilesystemDialog fragment is not properly saving and restoring its state, resulting in a null Options object when the view is recreated.

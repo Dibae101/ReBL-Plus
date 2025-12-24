@@ -1,0 +1,62 @@
+Title: Crash if rotate after deleting a game
+
+App: OpenSudoku
+Version: 1.1.5
+Package: cz.romario.opensudoku
+Issue: https://code.google.com/archive/p/opensudoku-android/issues/173
+
+Description:
+The application crashes with a NullPointerException when the device is rotated after deleting a puzzle from the game list. The crash occurs because the deleted game reference is still being accessed during the activity recreation process after configuration change.
+
+Steps to Reproduce:
+1. Start OpenSudoku app
+2. Select a level (Easy, Medium, Hard, or Expert)
+3. Long-click on a game in the list
+4. The context menu pops up
+5. Select "Edit note"
+6. A dialog pops up - click Cancel to dismiss it
+7. Long-click the same game again
+8. The context menu pops up again
+9. Select "Delete puzzle"
+10. A confirmation dialog pops up - click "OK" to confirm deletion
+11. Rotate the device (switch between portrait and landscape orientation)
+12. Crash occurs
+
+Expected Behavior:
+The app should handle the configuration change gracefully after deleting a puzzle, properly cleaning up any references to the deleted game and restoring the activity state without crashing.
+
+Actual Behavior:
+The app crashes with a NullPointerException when trying to restore the dialog state during activity recreation after rotation.
+
+Crash Details:
+java.lang.RuntimeException: Unable to start activity ComponentInfo{cz.romario.opensudoku/cz.romario.opensudoku.gui.SudokuListActivity}: java.lang.NullPointerException
+	at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2180)
+	at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2230)
+	at android.app.ActivityThread.handleRelaunchActivity(ActivityThread.java:3692)
+	at android.app.ActivityThread.access$700(ActivityThread.java:141)
+	at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1240)
+	at android.os.Handler.dispatchMessage(Handler.java:99)
+	at android.os.Looper.loop(Looper.java:137)
+	at android.app.ActivityThread.main(ActivityThread.java:5041)
+	at java.lang.reflect.Method.invokeNative(Native Method)
+	at java.lang.reflect.Method.invoke(Method.java:511)
+	at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:793)
+	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:560)
+	at dalvik.system.NativeStart.main(Native Method)
+
+Caused by: java.lang.NullPointerException
+	at cz.romario.opensudoku.gui.SudokuListActivity.onPrepareDialog(SudokuListActivity.java:333)
+	at android.app.Activity.onPrepareDialog(Activity.java:3007)
+	at android.app.Activity.restoreManagedDialogs(Activity.java:968)
+	at android.app.Activity.performRestoreInstanceState(Activity.java:911)
+	at android.app.Instrumentation.callActivityOnRestoreInstanceState(Instrumentation.java:1131)
+	at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2158)
+
+Root Cause:
+The crash occurs at line 333 of SudokuListActivity.java in the onPrepareDialog method. After the puzzle is deleted, the "game" variable becomes null, but the system tries to restore the dialog state during configuration change (rotation), attempting to access the now-deleted game object, resulting in a NullPointerException.
+
+Android Version: 4.2
+Device: Nexus 4
+
+Fix Suggestion:
+Add null check before accessing the game variable in onPrepareDialog method to handle cases where the game has been deleted before dialog restoration.

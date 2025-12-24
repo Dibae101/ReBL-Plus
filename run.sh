@@ -96,15 +96,15 @@ cd "$(dirname "$0")/Automation"
 source ../env/bin/activate
 
 echo "[5/6] Installing AsciiCam APK..."
-$ADB -s "$DEVICE_SERIAL" install -r APKs/ascii-cam.apk
+$ADB -s "$DEVICE_SERIAL" install -r APKs/6.acv_debug.apk
 echo ""
 
 echo "[6/6] Running bug reproduction..."
 echo ""
-echo "Command: python3 reproduction.py $DEVICE_PORT BRs/asciicam_17.txt"
+echo "Command: python3 reproduction.py $DEVICE_PORT BRs/acv_11.txt"
 echo "========================================"
 echo ""
 
-python3 reproduction.py "$DEVICE_PORT" BRs/asciicam_17.txt
+python3 reproduction.py "$DEVICE_PORT" BRs/acv_11.txt
 echo "  Execution Complete"
 

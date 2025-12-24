@@ -1,0 +1,245 @@
+Title: Multiple force closes on database requests - Package name mismatch
+
+App: AIMSICD (Android IMSI Catcher Detector)
+Package Name: com.SecUpwN.AIMSICD / com.secupwn.aimsicd
+Issue: https://github.com/CellularPrivacy/Android-IMSI-Catcher-Detector/issues/816
+
+Description:
+AIMSICD (Android IMSI Catcher Detector) crashes with multiple force closes when users attempt various database-related operations. The app crashes when: (1) Requesting an OpenCellID API key from preferences, (2) Using "Add new strings" feature, (3) Using "Delete SMS" feature, and (4) Downloading OCID data from map view. These crashes affect multiple devices running Android 6.0 (Marshmallow) and Android 5.0 (Lollipop) with CyanogenMod. The root cause is a package name inconsistency in AndroidManifest.xml where the manifest declares `package="com.secupwn.aimsicd"` (lowercase), but activity declarations use the old package name `com.SecUpwN.AIMSICD` (mixed case), causing Android to fail when trying to launch activities.
+
+Root Cause:
+In PR #812 (which fixed issue #810), the package name in AndroidManifest.xml was changed from `com.SecUpwN.AIMSICD` to `com.secupwn.aimsicd` (lowercase). However, the activity declarations within the same manifest file were not updated, still referencing the old mixed-case package name.
+
+This causes an IllegalArgumentException with the error:
+```
+java.lang.IllegalArgumentException: Unknown component: 
+com.secupwn.aimsicd/com.secupwn.aimsicd.activities.OpenCellIdActivity
+```
+
+When the app tries to start an activity (like OpenCellIdActivity), Android constructs the component name using:
+1. The current package name from the manifest: `com.SecUpwN.AIMSICD`
+2. The activity class path declared in the manifest: `com.secupwn.aimsicd.activities.OpenCellIdActivity`
+
+This creates a mismatch: Android looks for `com.SecUpwN.AIMSICD/com.secupwn.aimsicd.activities.OpenCellIdActivity` but the actual component should be either:
+- `com.SecUpwN.AIMSICD/com.SecUpwN.AIMSICD.activities.OpenCellIdActivity` (old format), or
+- `com.secupwn.aimsicd/com.secupwn.aimsicd.activities.OpenCellIdActivity` (new format)
+
+The package name case sensitivity issue causes ActivityNotFoundException because Android cannot resolve the component.
+
+Steps to Reproduce:
+
+**Crash 1 - Request OpenCellID API Key**:
+1. Launch AIMSICD v0.1.41-alpha on Android 6.0+ device
+2. Open the main menu from top-right
+3. Navigate to "Preferences"
+4. Tap on "Ask for OpenCell API Key"
+5. Observe immediate crash with IllegalArgumentException
+
+**Crash 2 - Add New Strings**:
+1. Launch AIMSICD app
+2. Navigate to preferences or database settings
+3. Try to use "Add new strings" feature
+4. Observe app crashes immediately
+
+**Crash 3 - Delete SMS**:
+1. Launch AIMSICD app
+2. Navigate to SMS tracking features
+3. Try to delete an SMS using "Delete SMS" option
+4. Observe app crashes immediately
+
+**Crash 4 - Download OCID Data**:
+1. Launch AIMSICD app
+2. Navigate to Map view
+3. Attempt to download OpenCellID data
+4. Download icon (circle) keeps spinning
+5. Unable to complete download or upload to OCID database
+
+**Secondary Issue - Airplane Mode with WiFi**:
+1. Enable Airplane mode on device
+2. Enable WiFi (keeps airplane mode active)
+3. Try to download OpenCellID data from Map view
+4. Observe app crashes with StringIndexOutOfBoundsException
+
+Expected Behavior:
+- Tapping "Ask for OpenCell API Key" should open OpenCellIdActivity successfully
+- User should be able to request an API key without crashes
+- "Add new strings" feature should work without crashing
+- "Delete SMS" functionality should work correctly
+- Downloading OCID data should complete successfully with visual feedback
+- Uploading to OCID database should work as expected
+- All activities should launch properly regardless of package name
+
+Actual Behavior:
+- App crashes immediately when trying to open any activity related to database operations
+- IllegalArgumentException thrown due to unknown component name
+- OpenCellIdActivity cannot be found by Android system
+- NullPointerException occurs on DeviceFragment.updateUI() after service connection
+- StringIndexOutOfBoundsException when downloading OCID data in airplane mode
+- All database-related features are completely unusable
+- Affects multiple devices and Android versions (Marshmallow 6.0, Lollipop 5.0)
+
+Crash Details:
+
+**Crash 1 - ActivityNotFoundException**:
+```
+03-31 16:13:02.783 E AndroidRuntime: FATAL EXCEPTION: main
+03-31 16:13:02.783 E AndroidRuntime: Process: com.SecUpwN.AIMSICD, PID: 5686
+03-31 16:13:02.783 E AndroidRuntime: android.content.ActivityNotFoundException: 
+    Unable to find explicit activity class {com.SecUpwN.AIMSICD/com.secupwn.aimsicd.activities.OpenCellIdActivity}; 
+    have you declared this activity in your AndroidManifest.xml?
+03-31 16:13:02.783 E AndroidRuntime: at android.app.Instrumentation.checkStartActivityResult(Instrumentation.java:1801)
+03-31 16:13:02.783 E AndroidRuntime: at android.app.Instrumentation.execStartActivity(Instrumentation.java:1514)
+03-31 16:13:02.783 E AndroidRuntime: at android.app.Activity.startActivityForResult(Activity.java:3930)
+03-31 16:13:02.783 E AndroidRuntime: at android.support.v4.app.FragmentActivity.startActivityForResult(FragmentActivity.java:784)
+03-31 16:13:02.783 E AndroidRuntime: at android.app.Activity.startActivity(Activity.java:4213)
+03-31 16:13:02.783 E AndroidRuntime: at android.preference.Preference.performClick(Preference.java:1012)
+03-31 16:13:02.783 E AndroidRuntime: at android.preference.PreferenceScreen.onItemClick(PreferenceScreen.java:214)
+```
+
+**Crash 2 - NullPointerException**:
+```
+03-21 20:28:51.929 E AndroidRuntime: FATAL EXCEPTION: main
+03-21 20:28:51.929 E AndroidRuntime: Process: com.SecUpwN.AIMSICD, PID: 28125
+03-21 20:28:51.929 E AndroidRuntime: java.lang.NullPointerException: 
+    Attempt to invoke virtual method 'android.view.View android.view.View.findViewById(int)' on a null object reference
+03-21 20:28:51.929 E AndroidRuntime: at com.secupwn.aimsicd.fragments.DeviceFragment.updateUI(DeviceFragment.java:132)
+03-21 20:28:51.929 E AndroidRuntime: at com.secupwn.aimsicd.fragments.DeviceFragment.access$200(DeviceFragment.java:47)
+03-21 20:28:51.929 E AndroidRuntime: at com.secupwn.aimsicd.fragments.DeviceFragment$1.onServiceConnected(DeviceFragment.java:109)
+03-21 20:28:51.929 E AndroidRuntime: at android.app.LoadedApk$ServiceDispatcher.doConnected(LoadedApk.java:1224)
+```
+
+**Crash 3 - StringIndexOutOfBoundsException (Airplane Mode + WiFi)**:
+```
+03-31 17:23:37.726 E AndroidRuntime: FATAL EXCEPTION: main
+03-31 17:23:37.726 E AndroidRuntime: Process: com.SecUpwN.AIMSICD, PID: 9493
+03-31 17:23:37.726 E AndroidRuntime: java.lang.StringIndexOutOfBoundsException: 
+    length=0; regionStart=0; regionLength=30
+03-31 17:23:37.726 E AndroidRuntime: at java.lang.String.startEndAndLength(String.java:298)
+03-31 17:23:37.726 E AndroidRuntime: at java.lang.String.substring(String.java:1087)
+03-31 17:23:37.726 E AndroidRuntime: at com.secupwn.aimsicd.ui.activities.MainActivity.downloadBtsDataIfApiKeyAvailable(MainActivity.java:313)
+03-31 17:23:37.726 E AndroidRuntime: at com.secupwn.aimsicd.ui.activities.MainActivity.selectDrawerItem(MainActivity.java:267)
+03-31 17:23:37.726 E AndroidRuntime: at com.secupwn.aimsicd.ui.activities.MainActivity$DrawerItemClickListener.onItemClick(MainActivity.java:214)
+```
+
+- Exception Types: IllegalArgumentException (ActivityNotFoundException), NullPointerException, StringIndexOutOfBoundsException
+- Affected Versions: AIMSICD WIP v0.1.41-alpha (before fix)
+- Devices Affected: 
+  - Sony Xperia V (lt25i) - Lollipop - CyanogenMod
+  - Samsung Galaxy S4 Mini - CyanogenMod 13 (Marshmallow)
+  - Nexus 6 - Android 6.0 (MMB29V)
+- Frequency: 100% reproducible on all database operations
+
+Technical Analysis:
+
+**The Package Name Mismatch**:
+In AndroidManifest.xml, after PR #812:
+```xml
+<manifest package="com.secupwn.aimsicd" ...>
+    <!-- Activities still declared with old package path -->
+    <activity android:name="com.secupwn.aimsicd.activities.OpenCellIdActivity" />
+</manifest>
+```
+
+Android constructs component names by combining:
+1. Application package name (from manifest root): `com.SecUpwN.AIMSICD`
+2. Activity class name (from activity declaration): `com.secupwn.aimsicd.activities.OpenCellIdActivity`
+
+Result: `com.SecUpwN.AIMSICD/com.secupwn.aimsicd.activities.OpenCellIdActivity` (invalid)
+
+When Android tries to launch OpenCellIdActivity via Intent:
+```java
+Intent intent = new Intent(context, OpenCellIdActivity.class);
+startActivity(intent);
+```
+
+Android uses the manifest package name to resolve the component, but the case mismatch causes it to fail.
+
+**Why PR #812 Caused This**:
+PR #812 changed the package name from `com.SecUpwN.AIMSICD` to `com.secupwn.aimsicd` to fix issue #810, but didn't update all references consistently. This is a common refactoring error when changing package names - all references in the manifest, build.gradle, and code must be updated together.
+
+**The NullPointerException Issue**:
+After the activity launch fails, the app attempts to reconnect services. DeviceFragment.updateUI() tries to call findViewById() on a null view reference because the fragment's view was never properly created due to the failed activity launch.
+
+**The StringIndexOutOfBoundsException Issue**:
+In airplane mode with WiFi enabled, the app tries to parse API key or network response strings. When the API key is empty or network response is empty, substring() is called with invalid indices (trying to get 30 characters from a 0-length string), causing the crash.
+
+Related Commits and PRs:
+- Issue #810: Original issue that prompted package name change
+- PR #812: Changed package name but caused this issue
+- PR #821: First attempt to fix (not fully successful)
+- PR #829: Final fix that resolved all crashes
+
+Impact:
+- Severity: Critical - Multiple core features completely broken
+- Frequency: 100% on all devices and Android versions
+- Affected Components: 
+  - OpenCellID API key management
+  - Database string management
+  - SMS tracking and deletion
+  - OCID data download/upload
+  - Preference activities
+  - Fragment lifecycle management
+- User Impact: App is essentially unusable for database operations, defeating the core purpose of IMSI catcher detection which relies heavily on cell tower database functionality
+- Workaround: Revert to version before PR #812, but this reintroduces issue #810
+
+Use Case Context:
+AIMSICD is a security/privacy app designed to detect fake cell towers (IMSI catchers) used for surveillance. The app relies on comparing current cell tower data with the OpenCellID database. Without the ability to request API keys, download OCID data, or manage the database, users cannot effectively detect IMSI catchers, making the app non-functional for its intended purpose.
+
+Resolution:
+Fixed by mimi89999 in PR #829 on March 31, 2016: "Fix issue when requesting an OpenCellId key"
+Confirmed working by Nordlenning on April 1, 2016.
+
+The fix involved:
+1. Ensuring consistency between package name declaration and activity references in AndroidManifest.xml
+2. Either reverting the package name change or updating all activity references to match the new lowercase package name
+3. Fixing null reference checks in DeviceFragment.updateUI()
+4. Adding proper string length validation before substring operations in MainActivity.downloadBtsDataIfApiKeyAvailable()
+
+Files Changed:
+- AndroidManifest.xml: Updated activity declarations to match package name
+- DeviceFragment.java: Added null checks for view references
+- MainActivity.java: Added string length validation before substring operations
+
+Testing Results:
+After fix (v0.1.41-alpha compiled April 1, 2016):
+- ✓ "Ask for OpenCell API Key" - Solved
+- ✓ "Add new strings" - Works, Solved
+- ✓ "Delete SMS" - Works, Solved
+- ✓ Works smooth and fine
+- User feedback: "Excellent work" from Nordlenning
+
+Alternative Solutions:
+1. **Revert package name change**: Simple but reintroduces issue #810
+2. **Comprehensive refactoring**: Update all references in manifest, build files, and code
+3. **Use applicationId in Gradle**: Separate applicationId from package name in build.gradle
+4. **Automated refactoring tools**: Use IDE refactoring to ensure all references are updated
+
+Best Practices Violated:
+- Incomplete refactoring when changing package names
+- Missing null checks for view references
+- No input validation before string operations
+- Lack of integration testing after package name changes
+
+Lessons Learned:
+- Package name changes require comprehensive updates across all configuration files
+- Always verify AndroidManifest.xml activity declarations match package name
+- Add null checks when accessing view references in fragments
+- Validate string lengths before substring operations
+- Test all major features after refactoring operations
+- Consider using Android Studio's refactoring tools for package name changes
+
+Note: AIMSICD is now maintained by CellularPrivacy organization. The app helps protect user privacy by detecting suspicious cell tower activity that could indicate IMSI catcher surveillance devices.
+
+---
+
+Reproduction Confirmation (December 23, 2025):
+Successfully reproduced the bug using AIMSICD_debug.apk on Android emulator (emulator-5554).
+
+Reproduction Steps Verified:
+1. Installed AIMSICD_debug.apk (pre-fix version containing the bug)
+2. Launched the app successfully
+3. Navigated to Settings menu
+4. Clicked on "request OpenCellID API Key" option
+5. App crashed immediately with ActivityNotFoundException
+
+Result: Bug reproduced 100% - confirms the package name mismatch issue causes immediate crash when attempting to open OpenCellIdActivity from Settings. The crash occurs exactly as documented in the original bug report due to the case sensitivity mismatch between the manifest package declaration (com.secupwn.aimsicd) and the activity component reference (com.SecUpwN.AIMSICD).

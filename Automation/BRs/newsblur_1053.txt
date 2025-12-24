@@ -1,0 +1,33 @@
+Title: IllegalArgumentException: unexpected url
+
+App: NewsBlur
+Version: v6.1.0
+Package: com.newsblur
+Issue: https://github.com/samuelclay/NewsBlur/issues/1053
+
+Description:
+The app crashes with an IllegalArgumentException when trying to login with an invalid custom server address. The crash occurs when the custom server address entered is not a valid URL format.
+
+Steps to Reproduce:
+1. Install v6.1.0 from F-Droid and launch the app
+2. Click "I have a custom server"
+3. Input an invalid server address (e.g., "xx" or "x214w22k71g60836m2mfwk0x2cec")
+4. Type a username (e.g., "t")
+5. Type a password (e.g., "t")
+6. Click "register" or "login"
+
+Expected Behavior:
+The app should provide feedback indicating that the server address is invalid, rather than crashing.
+
+Actual Behavior:
+The app crashes with the following exception:
+java.lang.IllegalArgumentException: unexpected url: x214w22k71g60836m2mfwk0x2cec/api/login
+
+Crash Details:
+- Exception: java.lang.IllegalArgumentException
+- Location: okhttp3.Request$Builder.url(Request.java:143)
+- Caused by: Invalid custom server URL format
+- The crash occurs in the login async task when trying to make an API request
+
+Android Version: 6.0.1
+Device: hammerhead (Nexus 5)
