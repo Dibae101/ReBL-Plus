@@ -1,82 +1,36 @@
-Title: Multiple force closes on database requests - Package name mismatch
+App Name: AIMSICD (Android IMSI Catcher Detector)
 
-App: AIMSICD (Android IMSI Catcher Detector)
-Package Name: com.SecUpwN.AIMSICD / com.secupwn.aimsicd
-Issue: https://github.com/CellularPrivacy/Android-IMSI-Catcher-Detector/issues/816
+Bug Report Title:
+App crashes when requesting OpenCellID API key from Settings
 
-Description:
-AIMSICD (Android IMSI Catcher Detector) crashes with multiple force closes when users attempt various database-related operations. The app crashes when: (1) Requesting an OpenCellID API key from preferences, (2) Using "Add new strings" feature, (3) Using "Delete SMS" feature, and (4) Downloading OCID data from map view. These crashes affect multiple devices running Android 6.0 (Marshmallow) and Android 5.0 (Lollipop) with CyanogenMod. The root cause is a package name inconsistency in AndroidManifest.xml where the manifest declares `package="com.secupwn.aimsicd"` (lowercase), but activity declarations use the old package name `com.SecUpwN.AIMSICD` (mixed case), causing Android to fail when trying to launch activities.
+Bug Report Issue:
+AIMSICD crashes immediately when user tries to request an OpenCellID API key from the Settings menu. The app crashes with ActivityNotFoundException due to a package name mismatch in the AndroidManifest.xml.
 
-Root Cause:
-In PR #812 (which fixed issue #810), the package name in AndroidManifest.xml was changed from `com.SecUpwN.AIMSICD` to `com.secupwn.aimsicd` (lowercase). However, the activity declarations within the same manifest file were not updated, still referencing the old mixed-case package name.
+### DESCRIPTION
+When attempting to request an OpenCellID API key through Settings, the app crashes with "Unfortunately, AIMSICD has stopped" error. The crash also occurs when using other database features like "Add new strings" and "Delete SMS".
 
-This causes an IllegalArgumentException with the error:
-```
-java.lang.IllegalArgumentException: Unknown component: 
-com.secupwn.aimsicd/com.secupwn.aimsicd.activities.OpenCellIdActivity
-```
+### STEPS TO REPRODUCE
+1. Open AIMSICD app
+2. Tap the menu button (three dots menu)
+3. Select "Settings"
+4. Scroll down to the bottom of the Settings page to locate the "OpenCellID Settings" section
+5. Find and click on "Request OpenCellID API Key" option under OpenCellID Settings
+6. App crashes immediately with ActivityNotFoundException
 
-When the app tries to start an activity (like OpenCellIdActivity), Android constructs the component name using:
-1. The current package name from the manifest: `com.SecUpwN.AIMSICD`
-2. The activity class path declared in the manifest: `com.secupwn.aimsicd.activities.OpenCellIdActivity`
+### EXPECTED BEHAVIOR
+The OpenCellID API key request screen should open, allowing the user to request an API key.
 
-This creates a mismatch: Android looks for `com.SecUpwN.AIMSICD/com.secupwn.aimsicd.activities.OpenCellIdActivity` but the actual component should be either:
-- `com.SecUpwN.AIMSICD/com.SecUpwN.AIMSICD.activities.OpenCellIdActivity` (old format), or
-- `com.secupwn.aimsicd/com.secupwn.aimsicd.activities.OpenCellIdActivity` (new format)
+### ACTUAL BEHAVIOR
+App crashes with "Unfortunately, AIMSICD has stopped" error. ActivityNotFoundException is thrown because the app cannot find the OpenCellIdActivity.
 
-The package name case sensitivity issue causes ActivityNotFoundException because Android cannot resolve the component.
+### ENVIRONMENT
+AIMSICD version: Debug build (pre-fix version)
+Android version: 6.0 (Marshmallow) / 5.0 (Lollipop)
+Device: Multiple devices with CyanogenMod
 
-Steps to Reproduce:
-
-**Crash 1 - Request OpenCellID API Key**:
-1. Launch AIMSICD v0.1.41-alpha on Android 6.0+ device
-2. Open the main menu from top-right
-3. Navigate to "Preferences"
-4. Tap on "Ask for OpenCell API Key"
-5. Observe immediate crash with IllegalArgumentException
-
-**Crash 2 - Add New Strings**:
-1. Launch AIMSICD app
-2. Navigate to preferences or database settings
-3. Try to use "Add new strings" feature
-4. Observe app crashes immediately
-
-**Crash 3 - Delete SMS**:
-1. Launch AIMSICD app
-2. Navigate to SMS tracking features
-3. Try to delete an SMS using "Delete SMS" option
-4. Observe app crashes immediately
-
-**Crash 4 - Download OCID Data**:
-1. Launch AIMSICD app
-2. Navigate to Map view
-3. Attempt to download OpenCellID data
-4. Download icon (circle) keeps spinning
-5. Unable to complete download or upload to OCID database
-
-**Secondary Issue - Airplane Mode with WiFi**:
-1. Enable Airplane mode on device
-2. Enable WiFi (keeps airplane mode active)
-3. Try to download OpenCellID data from Map view
-4. Observe app crashes with StringIndexOutOfBoundsException
-
-Expected Behavior:
-- Tapping "Ask for OpenCell API Key" should open OpenCellIdActivity successfully
-- User should be able to request an API key without crashes
-- "Add new strings" feature should work without crashing
-- "Delete SMS" functionality should work correctly
-- Downloading OCID data should complete successfully with visual feedback
-- Uploading to OCID database should work as expected
-- All activities should launch properly regardless of package name
-
-Actual Behavior:
-- App crashes immediately when trying to open any activity related to database operations
-- IllegalArgumentException thrown due to unknown component name
-- OpenCellIdActivity cannot be found by Android system
-- NullPointerException occurs on DeviceFragment.updateUI() after service connection
-- StringIndexOutOfBoundsException when downloading OCID data in airplane mode
-- All database-related features are completely unusable
-- Affects multiple devices and Android versions (Marshmallow 6.0, Lollipop 5.0)
+### LOGCAT
+ActivityNotFoundException: Unable to find explicit activity class
+java.lang.IllegalArgumentException: Unknown component
 
 Crash Details:
 
@@ -229,17 +183,3 @@ Lessons Learned:
 - Consider using Android Studio's refactoring tools for package name changes
 
 Note: AIMSICD is now maintained by CellularPrivacy organization. The app helps protect user privacy by detecting suspicious cell tower activity that could indicate IMSI catcher surveillance devices.
-
----
-
-Reproduction Confirmation (December 23, 2025):
-Successfully reproduced the bug using AIMSICD_debug.apk on Android emulator (emulator-5554).
-
-Reproduction Steps Verified:
-1. Installed AIMSICD_debug.apk (pre-fix version containing the bug)
-2. Launched the app successfully
-3. Navigated to Settings menu
-4. Clicked on "request OpenCellID API Key" option
-5. App crashed immediately with ActivityNotFoundException
-
-Result: Bug reproduced 100% - confirms the package name mismatch issue causes immediate crash when attempting to open OpenCellIdActivity from Settings. The crash occurs exactly as documented in the original bug report due to the case sensitivity mismatch between the manifest package declaration (com.secupwn.aimsicd) and the activity component reference (com.SecUpwN.AIMSICD).

@@ -1,0 +1,39 @@
+App Name: A Time Tracker
+
+Bug Report Title:
+App crashes when toggling activities with sound enabled
+
+Bug Report Issue:
+A Time Tracker crashes when starting or stopping activities after returning from background, specifically when sound is enabled in settings.
+
+### DESCRIPTION
+When sound is enabled and the app is sent to background then brought back to foreground, tapping any activity causes a crash due to MediaPlayer being null.
+
+### STEPS TO REPRODUCE
+1. Launch A Time Tracker app
+2. Tap menu and go to Settings
+3. Enable sound in Settings
+4. Press home button to send app to background
+5. Reopen A Time Tracker app
+6. Tap on any activity to start or stop it
+7. App crashes with NullPointerException
+
+### EXPECTED BEHAVIOR
+The activity should start or stop normally and play the configured sound.
+
+### ACTUAL BEHAVIOR
+App crashes with "Unfortunately, A Time Tracker has stopped". MediaPlayer.start() is called on a null object.
+
+### ENVIRONMENT
+A Time Tracker version: 0.20-works_debug
+Device: Samsung Galaxy S5
+Android version: 9 (LineageOS)
+
+### WORKAROUND
+Disable sound in Settings to avoid the crash.
+
+===== WORKAROUND =====
+Disable sound in Settings to avoid the crash.
+
+===== RELATED ISSUES =====
+- Issue #127: Similar crash related to activity status changes

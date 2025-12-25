@@ -1,53 +1,33 @@
-Title: Crash when no method step number entered
+App Name: Bites (Brewing Timer)
 
-App: Bites (Brewing Timer App)
-Package Name: bites.android (assumed from project name)
-Issue: https://code.google.com/archive/p/bites-android/issues/44
+Bug Report Title:
+App crashes when no method step number is entered
 
-Description:
-The Bites brewing timer application crashes when a user attempts to add or interact with a method step without entering a step number. The error occurs in the methods section where users define brewing steps and procedures. When the step number field is left empty or null, the app fails to handle this invalid input gracefully and crashes instead of displaying an error message or using a default value. This is a critical input validation failure that makes the core brewing method functionality unusable.
+Bug Report Issue:
+Bites crashes when user tries to add a method step without entering a step number value.
 
-Root Cause:
-The application is attempting to parse or process the step number field without first checking if the field is empty or null. When the user leaves the step number field blank, the code likely tries to convert the empty string to an integer (or similar numeric operation), causing a NumberFormatException or NullPointerException.
+### DESCRIPTION
+The app doesn't validate the step number input field, causing NumberFormatException when the field is left empty.
 
-Probable code pattern causing the issue:
-```java
-// Methods section - adding/editing a brewing step
-String stepNumberText = stepNumberEditText.getText().toString();
-
-// PROBLEM: No validation before parsing
-int stepNumber = Integer.parseInt(stepNumberText); // Crashes if empty!
-
-// Or similar issue with null checking:
-int stepNumber = Integer.parseInt(stepNumberText.trim()); // Still crashes on empty
-```
-
-The correct approach would be:
-```java
-String stepNumberText = stepNumberEditText.getText().toString();
-
-// Validate input first
-if (stepNumberText == null || stepNumberText.trim().isEmpty()) {
-    // Show error message to user
-    Toast.makeText(context, "Please enter a step number", Toast.LENGTH_SHORT).show();
-    return;
-}
-
-try {
-    int stepNumber = Integer.parseInt(stepNumberText.trim());
-    // Proceed with valid step number
-} catch (NumberFormatException e) {
-    // Handle non-numeric input
-    Toast.makeText(context, "Step number must be a valid number", Toast.LENGTH_SHORT).show();
-}
-```
-
-Steps to Reproduce:
-1. Launch the Bites brewing timer app
+### STEPS TO REPRODUCE
+1. Launch Bites brewing timer app
 2. Navigate to the Methods section
-3. Attempt to create a new brewing method or edit an existing one
-4. Add a new step to the method
-5. Leave the "step number" field empty (do not enter any value)
+3. Create a new brewing method or edit existing one
+4. Tap to add a new step to the method
+5. Leave the "step number" field empty (don't enter any value)
+6. Try to save or proceed
+7. App crashes with NumberFormatException
+
+### EXPECTED BEHAVIOR
+The app should show an error message like "Please enter a step number" or automatically assign a sequential step number.
+
+### ACTUAL BEHAVIOR
+App crashes when trying to parse empty step number field, making the methods feature unusable.
+
+### ENVIRONMENT
+Bites version: 1.0
+Android version: Various
+Device: Various
 6. Click "Save" or "Add Step" or any button that processes the step
 7. Observe the app crashes immediately
 

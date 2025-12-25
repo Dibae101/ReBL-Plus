@@ -1,0 +1,117 @@
+App Name: F-Droid
+
+Bug Report Title:
+App crashes when changing orientation with Theme/Anti-Features selector open
+
+Bug Report Issue:
+F-Droid crashes when the device orientation changes while the Theme selector dialog or Anti-Features selector dialog is open in Settings.
+
+### DESCRIPTION
+When a preference dialog (Theme or Anti-Features) is open and the user rotates the device, the app crashes due to Fragment lifecycle issues during activity recreation.
+
+### STEPS TO REPRODUCE
+1. Ensure device auto-rotation is enabled (Settings → Display → Auto-rotate)
+2. Open F-Droid app
+3. Tap on "Settings" tab at the bottom
+4. Scroll to "Display" section
+5. Tap on "Theme" to open the theme selector dialog
+6. With the dialog open, rotate the device from portrait to landscape (or vice versa)
+7. App crashes with "Unfortunately, F-Droid has stopped"
+
+Alternate path:
+- Instead of Theme, open "Anti-Features" dialog and rotate device
+
+### EXPECTED BEHAVIOR
+The dialog should remain open or gracefully close after orientation change without crashing.
+
+### ACTUAL BEHAVIOR
+App crashes with IllegalStateException: "Target fragment must implement TargetFragment interface"
+
+### ENVIRONMENT
+F-Droid version: 1.6.2 and later (including 2025 builds)
+Android version: 8.0 to Android 15
+Device: Various devices
+
+### NOTES
+- Also affects Anti-Features selector
+- Known Android framework bug with PreferenceDialogFragmentCompat
+- Persists across multiple app versions from 2019-2025
+
+Alternative path (Anti-Features):
+1-4. Same as above
+5. Instead of Theme, tap on "Anti-Features" preference
+6-8. Follow same rotation steps
+
+Note: Crash typically occurs when rotating from landscape back to portrait, though it can occur on either orientation change.
+
+### EXPECTED BEHAVIOR
+When the device orientation changes while a preference dialog is open:
+- The dialog should be dismissed or properly recreated
+- The app should smoothly transition to the new orientation
+- The Settings screen should remain accessible
+- No crash should occur
+- User can reopen the dialog after orientation change if needed
+
+### ACTUAL BEHAVIOR
+The app crashes immediately during orientation change with:
+- Error message: "Unfortunately, F-Droid has stopped"
+- User is returned to home screen or previous app
+- Settings state is lost
+- LogCat shows: "java.lang.IllegalStateException: Target fragment must implement TargetFragment interface"
+
+The crash happens during activity recreation at:
+```
+RuntimeException: Unable to start activity
+Caused by: IllegalStateException: Target fragment must implement TargetFragment interface
+at androidx.preference.PreferenceDialogFragmentCompat.onCreate()
+```
+
+### DEVICE INFORMATION
+- App: F-Droid
+- Affected Versions: 1.6.2, 1.7-alpha2, 1.16.3, 1.19-alpha0, and later (still present in 2025)
+- Android Versions: 8.0.0 (tested on Motorola Moto E5 Play), Android 9, Android 13, Android 15
+- Device Types: Motorola Moto E5 Play, various other devices
+- Build Flavor: Both "Full" and "Basic" versions affected
+
+### TECHNICAL DETAILS
+Exception: java.lang.IllegalStateException
+Message: "Target fragment must implement TargetFragment interface"
+Location: androidx.preference.PreferenceDialogFragmentCompat.onCreate()
+
+Stack trace key points:
+```
+at androidx.preference.PreferenceDialogFragmentCompat.onCreate(PreferenceDialogFragmentCompat.java:85)
+at androidx.preference.ListPreferenceDialogFragmentCompat.onCreate()
+OR
+at androidx.preference.MultiSelectListPreferenceDialogFragmentCompat.onCreate()
+at android.app.ActivityThread.handleRelaunchActivity()
+```
+
+This is related to Android framework bug: https://issuetracker.google.com/issues/181793702
+
+### WORKAROUND ATTEMPTS
+Potential approaches (as discussed in issue):
+1. Override PreferenceDialogFragmentCompat (doesn't work)
+2. Wrap MainActivity.onCreate() super call in try-catch (temporary fix)
+3. Use newer Fragment APIs that don't rely on setTargetFragment()
+4. Handle configuration changes manually for preference dialogs
+5. Dismiss dialogs before configuration change
+
+### REPRODUCTION SUCCESS CRITERIA
+The bug is successfully reproduced when:
+1. Theme selector or Anti-Features selector dialog is visible
+2. Device is rotated causing orientation change
+3. App crashes with "Unfortunately, F-Droid has stopped"
+4. LogCat shows IllegalStateException about Target fragment
+5. Crash occurs during activity recreation/relaunch
+
+### TESTING NOTES
+- Confirmed on multiple Android versions (8.0 to 15)
+- Reproducible with both Theme and Anti-Features dialogs
+- Crash is more likely on portrait → landscape → portrait sequence
+- May require multiple rotation attempts
+- Auto-rotation must be enabled
+- This is a confirmed bug with "crash" and "help-wanted" labels
+- Related to Fragment lifecycle management issues
+- Bug has persisted for multiple years (2019-2025)
+- Video demonstration available in the original issue

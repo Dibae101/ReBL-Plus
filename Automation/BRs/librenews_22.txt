@@ -1,30 +1,32 @@
-Title: ArrayIndexOutOfBoundsException when refreshing with invalid server
+App Name: LibreNews
 
-App: LibreNews
-Package Name: app.librenews.io.librenews
-Issue: https://github.com/milesmcc/LibreNews-Android/issues/22
+Bug Report Title:
+App crashes when refreshing with invalid server address
 
-Description:
-The LibreNews app crashes with an ArrayIndexOutOfBoundsException when the user attempts to refresh the news feed after configuring an invalid server address. The crash occurs because the code attempts to access the first element of an empty array without checking if the array has any elements. This happens when there are no stored flashes and the minimum value calculation results in an array of length 0.
+Bug Report Issue:
+LibreNews crashes with ArrayIndexOutOfBoundsException when user refreshes after setting an invalid server address.
 
-Root Cause:
-The bug is in FlashManager.java at line 184 in the convertFlashesToOutputString() method. The code calculates a minimum value that can be 0 when there are no flashes loaded from storage. When the array is empty (length=0), attempting to access index 0 causes an ArrayIndexOutOfBoundsException. The issue is triggered when:
-1. No flash storage file exists (FileNotFoundException)
-2. The user has set an invalid server address
-3. The refresh operation attempts to write an empty flash list to storage
+### DESCRIPTION
+The app tries to access the first element of an empty array without checking if the array has elements, causing a crash when no flashes are available.
 
-Steps to Reproduce:
-1. Launch the app
-2. Navigate to settings and disable "automatically refresh"
-3. Change the server address to an invalid one (e.g., "xxyyzz")
-4. Click the "refresh" button
-5. Observe the app crashes with ArrayIndexOutOfBoundsException
+### STEPS TO REPRODUCE
+1. Launch LibreNews app
+2. Navigate to Settings
+3. Disable "Automatically refresh"
+4. Change server address to an invalid one (e.g., "xxyyzz")
+5. Click the "Refresh" button
+6. App crashes with ArrayIndexOutOfBoundsException
 
-Expected Behavior:
-When refreshing with an invalid server address or when no flashes are available, the app should handle the empty state gracefully, either displaying an error message to the user or silently handling the empty flash list without crashing.
+### EXPECTED BEHAVIOR
+The app should show an error message like "Unable to connect to server" or "Invalid server address" instead of crashing.
 
-Actual Behavior:
-The app crashes immediately when attempting to refresh, making it impossible to recover from the invalid server configuration without reinstalling or clearing app data.
+### ACTUAL BEHAVIOR
+App crashes with ArrayIndexOutOfBoundsException: length=0; index=0 at FlashManager.convertFlashesToOutputString().
+
+### ENVIRONMENT
+LibreNews version: v1.4
+Android version: 6.0, 6.0.1
+Device: Android Studio Emulator, Nexus 5
 
 Crash Details:
 - Exception Type: java.lang.ArrayIndexOutOfBoundsException

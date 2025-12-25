@@ -95,16 +95,16 @@ echo "[4/5] Activating Python environment..."
 cd "$(dirname "$0")/Automation"
 source ../env/bin/activate
 
-echo "[5/6] Installing AsciiCam APK..."
-$ADB -s "$DEVICE_SERIAL" install -r APKs/6.acv_debug.apk
+echo "[5/6] Installing  APK..."
+$ADB -s "$DEVICE_SERIAL" install -r APKs/AIMSICD_debug.apk
 echo ""
 
 echo "[6/6] Running bug reproduction..."
 echo ""
-echo "Command: python3 reproduction.py $DEVICE_PORT BRs/acv_11.txt"
+echo "Command: python3 reproduction.py $DEVICE_PORT BRs/aimsicd_816.txt"
 echo "========================================"
 echo ""
 
-python3 reproduction.py "$DEVICE_PORT" BRs/acv_11.txt
+python3 reproduction.py "$DEVICE_PORT" BRs/aimsicd_816.txt
 echo "  Execution Complete"
 

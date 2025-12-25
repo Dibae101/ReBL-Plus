@@ -1,29 +1,36 @@
-Title: Long tap on note > send note > crash
+App Name: Notepad (Banderlabs)
 
-App: Notepad (Banderlabs)
-Package: com.banderlabs.notepad
-Issue: https://code.google.com/archive/p/banderlabs/issues/23
+Bug Report Title:
+App crashes when sending note via long-press menu
 
-Description:
-The application crashes when attempting to send a note using the "send note" option after long-pressing on a note in the list. This is a reproducible crash in the share/send functionality.
+Bug Report Issue:
+Notepad crashes when user selects "Send note" option after long-pressing on a note in the list.
 
-Steps to Reproduce:
+### DESCRIPTION
+The app crashes when trying to share a note through the context menu, likely due to improper intent creation or missing null checks.
+
+### STEPS TO REPRODUCE
 1. Open Notepad app
-2. Ensure you have at least one note saved
+2. Ensure at least one note is saved
 3. Long-press (long tap) on a note in the note list
-4. A context menu appears
+4. Context menu appears
 5. Select "Send note" option
-6. The app crashes immediately
+6. App crashes immediately
 
-Expected Behavior:
-When selecting "Send note" from the context menu, the app should:
-- Launch the Android share intent chooser
-- Allow the user to select an app to share the note with (Email, SMS, etc.)
-- Successfully share the note content through the selected app
-- Return to the note list without crashing
+### EXPECTED BEHAVIOR
+The app should:
+- Launch Android share intent chooser
+- Allow user to select app to share with (Email, SMS, etc.)
+- Successfully share note content
+- Return to note list without crashing
 
-Actual Behavior:
-The application crashes immediately when the "Send note" option is selected from the long-press context menu.
+### ACTUAL BEHAVIOR
+App crashes immediately when "Send note" is selected from long-press context menu. Likely NullPointerException or improper intent creation.
+
+### ENVIRONMENT
+Notepad version: Debug build
+Android version: 4.2.x (CyanogenMod 10.1)
+Device: Samsung Galaxy Ace 2 (GT-I8160)
 
 Crash Details:
 - Trigger: Selecting "Send note" after long-pressing a note

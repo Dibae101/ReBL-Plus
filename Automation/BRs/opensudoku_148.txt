@@ -1,62 +1,26 @@
-Title: Game crashes on first sudoku board input attempt on Android 3.0
-
 App: OpenSudoku
-Package Name: org.moire.opensudoku (assumed from project name)
-Issue: https://code.google.com/archive/p/opensudoku-android/issues/148
+
+Bug Report Title: Crash on first cell selection on Android 3.0
 
 Description:
-OpenSudoku crashes on Android 3.0 (Honeycomb) when a user attempts to select a cell on the sudoku board for the first time. After starting an easy game and selecting a board, the app crashes immediately upon clicking any cell on the game board. This is an Android 3.0-specific compatibility issue, likely related to changes in the view system, touch handling, or fragment lifecycle in Honeycomb. The crash prevents any gameplay, making the app completely unusable on Android 3.0 devices and tablets.
-
-Root Cause:
-Android 3.0 (Honeycomb) introduced significant changes to the Android platform, including:
-- New fragment system and activity lifecycle
-- Hardware acceleration enabled by default
-- Changes to view drawing and touch event handling
-- New tablet-optimized UI framework
-- Modified event propagation system
-
-The crash on first cell selection suggests one of several possible issues:
-1. **Hardware acceleration incompatibility**: Custom view drawing not compatible with hardware acceleration
-2. **Touch event handling changes**: Event handling in Android 3.0 works differently
-3. **View inflation/initialization**: Views not properly initialized before touch events
-4. **Fragment lifecycle issues**: Game board fragment not properly attached/created
-5. **IME (Input Method) changes**: Input method handling changed in Honeycomb
-
-Probable code issue:
-```java
-// Custom SudokuBoardView touch handling
-@Override
-public boolean onTouchEvent(MotionEvent event) {
-    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-        // Calculate which cell was touched
-        int x = (int) event.getX();
-        int y = (int) event.getY();
-        
-        // PROBLEM: On Android 3.0, view might not be fully initialized
-        // or hardware acceleration causes drawing issues
-        Cell selectedCell = getCellAtPosition(x, y);
-        selectedCell.setSelected(true); // Potential NPE or drawing issue
-        invalidate(); // May cause crash with hardware acceleration
-    }
-    return true;
-}
-```
+OpenSudoku crashes on Android 3.0 (Honeycomb) when selecting any cell on the game board for the first time. This is an Android 3.0-specific compatibility issue, likely related to hardware acceleration or touch event handling changes. App becomes completely unusable on Android 3.0 devices.
 
 Steps to Reproduce:
-1. Install OpenSudoku on an Android 3.0 (Honeycomb) device or tablet
-2. Launch the application
+1. Launch OpenSudoku app
 3. Start a new "easy" difficulty game
-4. Select a sudoku puzzle from the board list
-5. Click through any initial dialogs that appear
-6. Touch/tap any cell on the sudoku game board to select it
-7. Observe the app crashes immediately on first cell selection
+4. Select a sudoku puzzle from board list
+5. Touch/tap any cell on the game board
+6. App crashes immediately
 
 Expected Behavior:
-- Tapping a cell should select it (highlight it)
-- The number input pad should appear
-- User should be able to input numbers into the cell
-- Game should function normally as it does on Android 2.x devices
-- No crashes should occur during normal gameplay
+Tapping a cell should select it, show number input pad, and allow input. Game should function normally like on Android 2.x.
+
+Actual Behavior:
+App crashes on first cell selection. Possible causes: hardware acceleration incompatibility, touch event handling changes, or view initialization issues in Honeycomb.
+
+Environment:
+- Package: org.moire.opensudoku
+- Android Version: 3.0 (Honeycomb)
 
 Actual Behavior:
 - App crashes immediately when any cell is touched

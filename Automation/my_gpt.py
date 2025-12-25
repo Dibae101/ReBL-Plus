@@ -72,7 +72,7 @@ def convert_history_to_text(history):
             text += f"Assistant: {content}\n\n"
     return text
 
-def generate_text(prompt, history, package_name=None, model_name="gemini-2.5-flash", max_tokens=128000, attempts = 3):
+def generate_text(prompt, history, package_name=None, model_name="models/gemini-2.5-pro", max_tokens=128000, attempts = 3):
     
     history = process_history(prompt, history, max_tokens, threshold = 0.75)
 

@@ -1,57 +1,50 @@
-Title: Bug in app calendar which leads app to crash
+App Name: Memento Calendar
 
-App: Memento Calendar
-Package Name: com.alexstyl.specialdates
-Issue: https://github.com/alexstyl/Memento-Calendar/issues/169
+Bug Report Title:
+App crashes when setting invalid date like February 30th
 
-Description:
-Memento Calendar crashes when a user sets an invalid date (such as February 30th or March 31st in February) as a contact's birthday using the date picker. The crash occurs because the date picker allows selection of invalid dates that don't exist in the calendar (like February 30th in a non-leap year). When the app attempts to process this impossible date, it crashes because the date validation logic fails to handle these edge cases. The date picker should dynamically adjust the maximum allowed day based on the selected month and year.
+Bug Report Issue:
+Memento Calendar crashes when user selects an invalid date (like Feb 30, Feb 31, April 31) using the birthday date picker.
 
-Root Cause:
-The date picker (EventDatePicker) does not properly validate or constrain the maximum day value based on the selected month and year. Users can scroll through days without the picker updating to reflect valid days for the current month. For example:
-- User scrolls to March (31 days) and selects day 31
-- User then changes month to February (28/29 days) without the day resetting
-- Day picker still shows "31" even though February only has 28/29 days
-- When user confirms this invalid date (Feb 30, Feb 31, etc.), the app crashes
+### DESCRIPTION
+The date picker doesn't dynamically adjust maximum day value based on selected month, allowing invalid dates to be selected.
 
-The picker needs dynamic validation:
-- February: 28 days (or 29 in leap years)
-- April, June, September, November: 30 days
-- January, March, May, July, August, October, December: 31 days
-
-Steps to Reproduce:
-
-Method 1 (Direct selection):
+### STEPS TO REPRODUCE
+Method 1:
 1. Launch Memento Calendar app v11.2
-2. Create a new contact by clicking the '+' button
-3. Click on the birthday field
-4. In the date picker, select February as the month
-5. Scroll the day picker to "30" (which doesn't exist in February)
-6. Click "Set" to confirm the date
-7. Observe the app crashes immediately
+2. Click '+' to create new contact
+3. Click birthday field
+4. Select February as month
+5. Scroll day picker to "30"
+6. Click "Set" to confirm
+7. App crashes immediately
 
-Method 2 (Month switching - as described by invokergakki):
-1. Create a new contact by clicking '+'
-2. Click the birthday field and disable 'include year'
-3. Slide the month to March (31 days)
-4. Slide the day selector to 31
-5. Don't click set yet - slide the month back to February
-6. Now click "Set" to confirm
-7. Observe the app crashes (trying to set Feb 31)
+Method 2:
+1. Create new contact, click birthday field
+2. Disable 'include year'
+3. Slide month to March
+4. Slide day selector to 31
+5. Slide month back to February (don't click Set yet)
+6. Click "Set"
+7. App crashes
 
-Expected Behavior:
-When using the date picker:
-1. The maximum day value should automatically adjust based on the selected month
-2. If month changes from one with more days to fewer days, the day should auto-adjust
-3. Example: If day is set to 31 and user changes month to February, day should reset to 28 (or 29 for leap years)
-4. Only valid dates should be selectable in the picker
-5. The app should never crash due to invalid date selection
+### EXPECTED BEHAVIOR
+Day picker maximum should auto-adjust based on month:
+- February: 28 days (29 in leap years)
+- April, June, Sept, Nov: 30 days
+- Other months: 31 days
+If day is 31 and user changes to February, day should reset to 28.
 
-Actual Behavior:
-- The date picker allows selection of invalid dates (Feb 30, Feb 31, April 31, etc.)
-- When an invalid date is set as a birthday, the app crashes immediately
-- The day picker does not dynamically update its maximum value when the month changes
-- 2018 is not a leap year, so February should only show 28 days, but the picker shows 30+
+### ACTUAL BEHAVIOR
+App crashes when invalid date is confirmed (Feb 30, April 31, etc.).
+
+### ENVIRONMENT
+Memento version: v11.2
+Android version: Various
+Device: Samsung J7 Prime
+
+### NOTE
+2018 is not a leap year, February should only show 28 days.
 
 Crash Details:
 - Exception Type: Likely IllegalArgumentException or DateTimeException

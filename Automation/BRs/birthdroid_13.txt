@@ -1,27 +1,33 @@
-Title: Setting "Foresight Period" with any integer greater than 10 digits crashes application
+App Name: Birthdroid
 
-App: Birthdroid
-Package: de.j4velin.birthdayreminder
-Issue: https://github.com/rigid/Birthdroid/issues/13
+Bug Report Title:
+App crashes when setting Foresight Period with value > 10 digits
 
-Description:
-The application crashes when a user enters a foresight period value with more than 10 digits in the settings. This is likely due to an integer overflow or improper input validation.
+Bug Report Issue:
+Birthdroid crashes when user enters a foresight period value with 11 or more digits in the settings.
 
-Steps to Reproduce:
+### DESCRIPTION
+The app doesn't validate input length for the Foresight Period setting, causing integer overflow crash when values exceed 10 digits.
+
+### STEPS TO REPRODUCE
 1. Open Birthdroid app
-2. Go to Settings
+2. Tap menu and go to Settings
 3. Find "Foresight Period" setting
-4. Enter a value with 11 or more digits (e.g., "11111111111")
-5. Save or confirm the setting
+4. Tap on it to edit
+5. Enter a value with 11 or more digits (e.g., "11111111111")
+6. Save or confirm the setting
+7. App crashes
 
-Expected Behavior:
-The app should either:
-- Limit the input to a reasonable maximum value (e.g., 10 digits)
-- Display an error message indicating the value is too large
-- Gracefully handle the large number without crashing
+### EXPECTED BEHAVIOR
+The app should either limit input to maximum 10 digits or show an error message for invalid values.
 
-Actual Behavior:
-The application crashes when trying to save a foresight period value with more than 10 digits.
+### ACTUAL BEHAVIOR
+App crashes when trying to save a foresight period value with more than 10 digits due to integer overflow.
+
+### ENVIRONMENT
+Birthdroid version: Debug build
+Android version: Various
+Device: Various
 
 Crash Details:
 - Trigger: Entering an 11+ digit number in the "Foresight Period" setting

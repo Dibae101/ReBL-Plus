@@ -1,63 +1,37 @@
-Title: NullPointerException in drawPeekingText during swipe gesture race condition
+App Name: Materialistic - Hacker News Reader
 
-App: Materialistic - Hacker News Reader
-Package Name: io.github.hidroh.materialistic
-Issue: https://github.com/hidroh/materialistic/issues/1067
+Bug Report Title:
+App crashes with NullPointerException during swipe gesture after save
 
-Description:
-Materialistic crashes with a NullPointerException when a race condition occurs between saving an item via context menu and swiping left on a list item. The crash happens when the user performs a "Save" action from the context menu and immediately follows it with a left swipe gesture on any item. The timing-sensitive bug occurs in the drawPeekingText() method which attempts to call String.length() on a null string reference while drawing the swipe peek text overlay. This is a race condition where the swipe action is set to "None" but the UI still tries to render peeking text for the swipe gesture.
+Bug Report Issue:
+Materialistic crashes when user saves an item and immediately performs a left swipe gesture, due to race condition with null peeking text.
 
-Root Cause:
-The issue is in PeekabooTouchHelperCallback.drawPeekingText() at line 66. When "Swipe left to" is set to "None" in the list display options, the peeking text string becomes null. However, when a swipe gesture is performed immediately after a save operation, the onChildDraw() method still attempts to draw the peeking text without checking if the text string is null first.
+### DESCRIPTION
+When "Swipe left to" is set to "None", performing a swipe immediately after saving causes NPE in drawPeekingText() which tries to call length() on null string.
 
-The problematic code flow:
-```java
-// PeekabooTouchHelperCallback.java:57
-@Override
-public void onChildDraw(Canvas c, RecyclerView recyclerView, 
-                        RecyclerView.ViewHolder viewHolder, 
-                        float dX, float dY, int actionState, boolean isCurrentlyActive) {
-    // ... drawing code ...
-    drawPeekingText(c, viewHolder, dX); // Line 57 - calls drawPeekingText
-}
-
-// PeekabooTouchHelperCallback.java:66
-private void drawPeekingText(Canvas c, RecyclerView.ViewHolder viewHolder, float dX) {
-    String peekText = getPeekingText(); // Returns null when "Swipe left to" is set to "None"
-    int textLength = peekText.length(); // Line 66 - NullPointerException here!
-    // ... drawing code ...
-}
-```
-
-When "Swipe left to" is configured as "None", the getPeekingText() method returns null. The drawPeekingText() method doesn't validate this before calling length() on the string, causing the NPE.
-
-The race condition is triggered by:
-1. User saves an item via context menu (triggers UI update)
-2. Immediately after, user swipes left on any item
-3. The swipe gesture handler (ItemTouchHelper) calls onChildDraw()
-4. onChildDraw() calls drawPeekingText() which tries to render text
-5. Since swipe action is "None", peekText is null, causing NPE
-
-Steps to Reproduce:
+### STEPS TO REPRODUCE
 1. Launch Materialistic app
-2. Open Settings/Preferences
-3. Navigate to "List display options"
-4. Set "Swipe left to" option to "None" (default is "Save")
-5. Return to the main story list
-6. Use your RIGHT hand to long-press on any item to open the context menu
-7. Click "Save" from the context menu
-8. Immediately (within ~100ms), use your LEFT hand to perform a left swipe gesture on any item in the list
-9. The swipe in step 8 must be executed very quickly after clicking "Save" in step 7
-10. Observe the app crashes immediately with NullPointerException
+2. Click on Hamburger icon
+3. Go to Settings → List display options
+4. Set "Swipe left to" option to "None"
+5. Return to main story list
+6. Use RIGHT hand to long-press any item → open context menu
+7. Click "Save" from context menu
+8. IMMEDIATELY (within ~100ms) use LEFT hand to swipe left on any item
+9. App crashes with NullPointerException
 
-Note: The timing is critical - the swipe must happen during or immediately after the save operation completes to trigger the race condition.
+Note: Timing is critical - swipe must happen during/immediately after save operation.
 
-Expected Behavior:
-- When "Swipe left to" is set to "None", swiping left on items should do nothing
-- No peeking text should be displayed during the swipe gesture
-- The app should handle null peeking text gracefully without crashing
-- The swipe gesture should be ignored or show no visual feedback when configured as "None"
-- Save operations should not interfere with swipe gesture handling
+### EXPECTED BEHAVIOR
+When "Swipe left to" is set to "None", swiping should do nothing and show no visual feedback.
+
+### ACTUAL BEHAVIOR
+App crashes with NullPointerException in PeekabooTouchHelperCallback.drawPeekingText() at line 66 when trying to get length() of null peeking text.
+
+### ENVIRONMENT
+Materialistic version: Various
+Android version: Various
+Device: Various
 
 Actual Behavior:
 - App crashes immediately when the swipe gesture occurs right after a save operation

@@ -1,38 +1,37 @@
-Title: Every 2nd Stop Live Data crash
+App Name: Android OBD Reader
 
-App: Android OBD Reader
-Package Name: pt.lighthouselabs.obd.reader
-Issue: https://github.com/pires/android-obd-reader/issues/22
+Bug Report Title:
+App crashes every 2nd time stopping live data
 
-Description:
-The Android OBD Reader app crashes every second time the user attempts to stop live data monitoring. The crash occurs due to an IllegalArgumentException when trying to unbind a service that was not properly registered or has already been unbound. This is a service lifecycle management bug where the app attempts to unbind a service twice without properly tracking the binding state.
+Bug Report Issue:
+Android OBD Reader crashes every second time user clicks "Stop Live Data" due to attempting to unbind an already unbound service.
 
-Root Cause:
-The bug is caused by improper service binding state management in MainActivity. When the user clicks "Stop Live Data" for the second time, the app calls doUnbindService() which attempts to unbind a service that is not currently bound (either never bound or already unbound from the previous cycle). The Android framework throws an IllegalArgumentException because you cannot unbind a service that isn't registered/bound.
+### DESCRIPTION
+The app doesn't properly track service binding state, causing IllegalArgumentException when trying to unbind a service that's not currently bound.
 
-The issue follows this pattern:
-1. Start Live Data → Service binds successfully
-2. Stop Live Data → Service unbinds successfully  
-3. Start Live Data → Service binds successfully
-4. Stop Live Data → Crash! Attempts to unbind service that's not properly tracked
-
-Steps to Reproduce:
-1. Launch the Android OBD Reader app
-2. Connect to an OBD-II device (or use mock mode)
-3. Click "Start Live Data" to begin monitoring vehicle data
-4. Click "Stop Live Data" to stop monitoring - works successfully
-5. Click "Start Live Data" again to resume monitoring
+### STEPS TO REPRODUCE
+1. Launch Android OBD Reader app
+2. Connect to OBD-II device (or use mock mode)
+3. Click "Start Live Data" to begin monitoring
+4. Click "Stop Live Data" → works successfully
+5. Click "Start Live Data" again
 6. Click "Stop Live Data" again
-7. Observe the app crashes with IllegalArgumentException
+7. App crashes with IllegalArgumentException
 
-Expected Behavior:
-Users should be able to start and stop live data monitoring repeatedly without any crashes. The service binding/unbinding should maintain proper state tracking:
-- Before unbinding, verify the service is actually bound
-- Use a boolean flag to track bound state
-- Only call unbindService() when the service is confirmed to be bound
+### EXPECTED BEHAVIOR
+Users should be able to start and stop live data monitoring repeatedly without crashes. Service binding/unbinding should maintain proper state tracking.
 
-Actual Behavior:
-The app crashes every second time "Stop Live Data" is clicked. The crash prevents users from reliably controlling the data monitoring functionality.
+### ACTUAL BEHAVIOR
+App crashes every second time "Stop Live Data" is clicked with IllegalArgumentException: Service not registered.
+
+### ENVIRONMENT
+OBD Reader version: Debug build
+Android version: Various
+Device: Various
+
+### LOGCAT
+java.lang.IllegalArgumentException: Service not registered: pt.lighthouselabs.obd.reader.activity.MainActivity$3@41d9e930
+at pt.lighthouselabs.obd.reader.activity.MainActivity.doUnbindService(MainActivity.java:408)
 
 Crash Details:
 - Exception Type: java.lang.IllegalArgumentException

@@ -1,61 +1,40 @@
-Title: NumberFormatException when parsing very large number in "Significant digits in result" field
+App Name: microMathematics Plus
 
-App: microMathematics Plus
-Package Name: com.mkulesh.micromath.plus
-Issue: https://github.com/mkulesh/microMathematics/issues/39
+Bug Report Title:
+App crashes with NumberFormatException when entering large number in significant digits field
 
-Description:
-microMathematics Plus crashes with a NumberFormatException when a user enters a very large number in the "Significant digits in result" field in the Document Settings dialog and then presses the "+" button. The app attempts to parse this large number as an integer using Integer.parseInt(), but the number exceeds the maximum value for a 32-bit integer (2,147,483,647), causing the parsing to fail. The crash occurs because the code doesn't validate that the input value is within the valid integer range before attempting to parse it.
+Bug Report Issue:
+microMathematics Plus crashes when user enters a very large number (exceeding integer max) in "Significant digits in result" field and presses "+" button.
 
-Root Cause:
-The HorizontalNumberPicker widget's onClick() method attempts to parse the text field value directly using Integer.valueOf() without checking if the number is within the valid integer range. When users enter extremely large numbers (like 123456789012 or 1274375155085100044673746644154457), these exceed Integer.MAX_VALUE (2^31 - 1 = 2,147,483,647) and cause a NumberFormatException.
+### DESCRIPTION
+The app uses Integer.parseInt() without validating input is within valid integer range (-2,147,483,648 to 2,147,483,647), causing NumberFormatException.
 
-The problematic code in HorizontalNumberPicker.java line 111:
-```java
-@Override
-public void onClick(View v) {
-    String currentValue = editText.getText().toString();
-    
-    // PROBLEM: No validation before parsing
-    int value = Integer.valueOf(currentValue); // CRASH if value > Integer.MAX_VALUE
-    
-    if (v == plusButton) {
-        value++;
-    } else if (v == minusButton) {
-        value--;
-    }
-    
-    editText.setText(String.valueOf(value));
-}
-```
-
-The integer range limits:
-- Minimum: -2,147,483,648 (Integer.MIN_VALUE)
-- Maximum: 2,147,483,647 (Integer.MAX_VALUE)
-
-Any number outside this range causes NumberFormatException when parsing with Integer.parseInt() or Integer.valueOf().
-
-Steps to Reproduce:
+### STEPS TO REPRODUCE
 1. Launch microMathematics Plus app
-2. Open the "Document settings" dialog from the menu
-3. Navigate to the "Significant digits in result" field
-4. Enter a very large number that exceeds integer range: `123456789012`
-   - Or any number > 2,147,483,647
-5. Press the "+" button on the right side of this field
-6. Observe the app crashes immediately with NumberFormatException
+2. Open "Document settings" dialog from menu
+3. Navigate to "Significant digits in result" field
+4. Enter a very large number: `123456789012` (exceeds 2,147,483,647)
+5. Click Ok
+6. App crashes with NumberFormatException
 
-Alternative reproduction:
-- Enter: `1274375155085100044673746644154457` (extremely large number)
-- Press "+" or "-" button
-- App crashes
+Alternate: Enter `1274375155085100044673746644154457` and press "+"
 
-Expected Behavior:
-- When a number exceeds the maximum allowed value, the field should:
-  - Be automatically capped at the maximum valid value (e.g., 15 or 20 for significant digits)
-  - Display an error message: "Value too large, maximum is [MAX]"
-  - Prevent the "+" button from increasing beyond maximum
-- No crash should occur for any user input
-- Input validation should enforce reasonable bounds for significant digits (typically 1-15)
+### EXPECTED BEHAVIOR
+The field should:
+- Cap input at maximum valid value (e.g., 15-20 for significant digits)
+- Show error message: "Value too large, maximum is [MAX]"
+- Prevent "+" button from exceeding maximum
+
+### ACTUAL BEHAVIOR
+App crashes with NumberFormatException in HorizontalNumberPicker.onClick() at line 111 when trying to parse number exceeding Integer.MAX_VALUE.
+
+### ENVIRONMENT
+microMathematics version: v2.15.4
+Android version: Various
+Device: Various
+
+### NOTE
+Integer range: -2,147,483,648 to 2,147,483,647 (32-bit)
 
 Actual Behavior:
 - App crashes immediately when pressing "+" or "-" with a large number

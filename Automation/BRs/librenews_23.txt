@@ -1,33 +1,33 @@
-Title: NullPointerException when toggling auto-refresh after navigation
+App Name: LibreNews
 
-App: LibreNews
-Package Name: app.librenews.io.librenews
-Issue: https://github.com/milesmcc/LibreNews-Android/issues/23
+Bug Report Title:
+App crashes when toggling auto-refresh after browser navigation
 
-Description:
-The LibreNews app crashes with a NullPointerException when a user toggles the "Automatically refresh" setting after navigating to an external browser and returning to the app. The crash occurs because the code attempts to invoke getContext() on a null View object in the settings fragment's preference change listener. This is a lifecycle-related bug where the view becomes null after the user navigates away and returns.
+Bug Report Issue:
+LibreNews crashes with NullPointerException when user toggles "Automatically refresh" setting after navigating to external browser and returning to the app.
 
-Root Cause:
-The bug is in SettingsActivityFragment.java at line 26 in the onSharedPreferenceChanged() callback. When the user navigates to the LibreNews website via the INFO screen and then returns to the app, the fragment's view lifecycle is disrupted. The preference change listener attempts to access the view's context, but the view has become null because the fragment's view was destroyed when the user left the app. The listener remains registered and fires when preferences change, but the view reference is no longer valid.
+### DESCRIPTION
+The preference change listener tries to access a null view's context after the user has navigated away and returned, causing a crash.
 
-Steps to Reproduce:
-1. Install LibreNews v1.4 from F-Droid
-2. Launch the app
-3. Navigate to settings and enable "Automatically refresh"
-4. Click "INFO" button
-5. Click "GO TO LIBRENEWS" button (opens browser)
-6. Press the BACK button to return to the app
-7. In settings, disable "Automatically refresh"
-8. Observe the app crashes with NullPointerException
+### STEPS TO REPRODUCE
+1. Launch LibreNews app
+2. Navigate to Settings and enable "Automatically refresh"
+3. Click "INFO" button
+4. Click "GO TO LIBRENEWS" button (opens external browser)
+5. Press BACK button to return to the app
+6. In Settings, disable "Automatically refresh"
+7. App crashes with NullPointerException
 
-Expected Behavior:
-The app should handle the preference change gracefully even after the user has navigated away and returned. The settings fragment should either:
-1. Check if the view is null before accessing it
-2. Properly unregister and re-register preference listeners based on fragment lifecycle
-3. Use the activity context instead of view context when available
+### EXPECTED BEHAVIOR
+The preference change should work smoothly even after navigating away and returning to the app.
 
-Actual Behavior:
-The app crashes immediately when toggling the "Automatically refresh" setting after returning from the external browser, making the app unusable until it's restarted.
+### ACTUAL BEHAVIOR
+App crashes with NullPointerException: Attempt to invoke virtual method 'android.content.Context android.view.View.getContext()' on a null object reference.
+
+### ENVIRONMENT
+LibreNews version: v1.4
+Android version: 6.0, 6.0.1
+Device: Android Studio Emulator, Nexus 5
 
 Crash Details:
 - Exception Type: java.lang.NullPointerException

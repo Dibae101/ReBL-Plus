@@ -1,31 +1,39 @@
-Title: App crashes when refreshing after changing to invalid server
+App Name: LibreNews
 
-App: LibreNews
-Package Name: app.librenews.io.librenews
-Issue: https://github.com/milesmcc/LibreNews-Android/issues/27
+Bug Report Title:
+App crashes when refreshing after changing to invalid server
 
-Description:
-The LibreNews app crashes when a user changes the server address to an invalid or non-LibreNews server (such as Steemit.com) and then attempts to refresh the news flashes. Instead of gracefully handling the connection error and showing a red connection icon, the app crashes completely. This is similar to issue #22 but reported with more specific reproduction steps including video evidence.
+Bug Report Issue:
+LibreNews crashes when user changes server address to a non-LibreNews server (like Steemit.com) and then attempts to refresh.
 
-Root Cause:
-The app does not properly validate or handle responses from non-LibreNews servers. When the refresh operation attempts to fetch news flashes from an incompatible server endpoint, it likely encounters unexpected data formats, missing endpoints, or network errors that are not caught by proper exception handling. The app should detect that the server is not a valid LibreNews server and display an error state rather than crashing.
+### DESCRIPTION
+The app doesn't properly validate or handle responses from non-LibreNews servers, causing a crash instead of showing an error state.
 
-Steps to Reproduce:
-1. Open the LibreNews app
-2. Navigate to settings and click on the "Server" option
-3. Change the server address to a different server (e.g., "Steemit.com" or any non-LibreNews server)
-4. Press the "Refresh" button
-5. Observe the app crashes immediately
+### STEPS TO REPRODUCE
+1. Open LibreNews app
+2. Navigate to Settings
+3. Tap on "Server" option
+4. Change server address to a different server (e.g., "Steemit.com")
+5. Press the "Refresh" button
+6. App crashes immediately
 
-Expected Behavior:
-When attempting to connect to an invalid or non-LibreNews server, the app should:
-1. Detect that the server is not responding with expected LibreNews data format
-2. Display a red connection icon indicating connection failure
-3. Show an error message to the user explaining the server is unreachable or incompatible
-4. Remain functional and allow the user to change the server back or try again
+### EXPECTED BEHAVIOR
+When connecting to an invalid or non-LibreNews server, the app should:
+- Display a red connection icon indicating failure
+- Show error message: "Server is unreachable or incompatible"
+- Allow user to change server back
 
-Actual Behavior:
-The app crashes completely when attempting to refresh after changing to an invalid server. The crash repeats every time the user tries to refresh with the invalid server configured.
+### ACTUAL BEHAVIOR
+App crashes completely when attempting to refresh with non-LibreNews server configured.
+
+### ENVIRONMENT
+LibreNews version: Various
+Android version: 7.0 (Nougat)
+Device: Moto G5 Plus
+
+### NOTE
+Video demonstration: https://youtu.be/9Lf84UArX8Q
+Similar to issue #22
 
 Crash Details:
 - Exception Type: Likely similar to issue #22 (ArrayIndexOutOfBoundsException or network-related exception)

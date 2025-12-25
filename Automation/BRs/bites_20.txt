@@ -1,56 +1,31 @@
-Title: Ingredients Edit with no ingredients crashes app
+App Name: Bites (Brewing Timer)
 
-App: Bites (Brewing Timer App)
-Package Name: bites.android (assumed from project name)
-Issue: https://code.google.com/archive/p/bites-android/issues/20
+Bug Report Title:
+App crashes when selecting Edit with no ingredients
 
-Description:
-The Bites brewing timer application crashes when a user selects "Edit" from the ingredients options menu when no ingredients exist in the list. The crash occurs because the app attempts to edit an ingredient when the ingredients list is empty, likely trying to access a null or non-existent list item. This is a null pointer or index out of bounds exception caused by not validating that an ingredient is selected or exists before attempting to open the edit interface.
+Bug Report Issue:
+Bites crashes when user selects "Edit" from the options menu when the ingredients list is empty.
 
-Root Cause:
-The "Edit" option in the options menu was accessible even when no ingredients existed in the list. When the user pressed "Edit" with an empty ingredients list, the app attempted to retrieve and edit an ingredient that didn't exist, causing a crash.
+### DESCRIPTION
+The app doesn't check if ingredients exist before trying to edit, causing a crash when Edit is selected with an empty list.
 
-The probable code flow:
-```java
-// Options menu "Edit" handler
-@Override
-public boolean onOptionsItemSelected(MenuItem item) {
-    switch (item.getItemId()) {
-        case R.id.menu_edit_ingredient:
-            // PROBLEM: No check if list is empty or if an item is selected
-            Ingredient ingredient = ingredientsList.get(selectedPosition); // Crash!
-            editIngredient(ingredient);
-            return true;
-    }
-}
-```
+### STEPS TO REPRODUCE
+1. Launch Bites brewing timer app
+2. Navigate to the Ingredients section
+3. Press the three dots on the system navigation bar of the screen.
+4. Select "Edit" from the options menu
+5. App crashes immediately
 
-The issue is that:
-1. The "Edit" menu item was available in the options menu
-2. No ingredient was selected (or list was empty)
-3. The code tried to access a non-existent list item
-4. This caused NullPointerException or IndexOutOfBoundsException
+### EXPECTED BEHAVIOR
+The "Edit" option should be disabled when no ingredients exist, or show a message "No ingredient to edit".
 
-Steps to Reproduce:
-1. Launch the Bites brewing timer app
-2. Navigate to the Ingredients section/screen
-3. Ensure the ingredients list is empty (no ingredients have been added yet)
-4. Press the device menu button to open the options menu
-5. Select "Edit" from the options menu
-6. Observe the app crashes immediately
+### ACTUAL BEHAVIOR
+App crashes with NullPointerException or IndexOutOfBoundsException when trying to edit a non-existent ingredient.
 
-Expected Behavior:
-- If no ingredients exist, the "Edit" option should be disabled or hidden
-- If "Edit" is selected with no ingredients, show a message: "No ingredient to edit"
-- The options menu "Edit" should only work when an ingredient is selected
-- Alternatively, the "Edit" option should only appear in the context menu (long-press on item)
-- The app should not crash under any circumstances
-
-Actual Behavior:
-- App crashes immediately when "Edit" is pressed with an empty ingredients list
-- No error message or validation
-- The app terminates unexpectedly
-- User is forced to restart the app
+### ENVIRONMENT
+Bites version: 1.0
+Android version: Various
+Device: Various
 
 Crash Details:
 - Exception Type: Likely NullPointerException or IndexOutOfBoundsException

@@ -1,26 +1,30 @@
-Title: GenericItem crashes in app sample
+App Name: FastAdapter Sample App
 
-App: FastAdapter Sample App
-Package Name: com.mikepenz.fastadapter.app (sample)
-Issue: https://github.com/mikepenz/FastAdapter/issues/394
+Bug Report Title:
+App crashes when clicking GenericItem sample
 
-Description:
-The FastAdapter sample application crashes with a NullPointerException when clicking on the GenericItem sample menu option. This occurs in version 2.5.1 of the sample app available on the Play Store. The crash happens when attempting to call recycle() on a null TypedArray object, indicating that a resource retrieval failed but the code didn't properly handle the null case.
+Bug Report Issue:
+The FastAdapter sample app crashes with NullPointerException when user taps on the GenericItem sample menu option.
 
-Root Cause:
-The crash occurs at line 69 where the code attempts to invoke the recycle() method on a TypedArray that is null. This typically happens when obtainStyledAttributes() or similar methods fail to retrieve attributes (possibly due to missing theme attributes or resource issues), but the code assumes the TypedArray is always non-null and proceeds to call recycle() without null checking.
+### DESCRIPTION
+The app attempts to call recycle() on a null TypedArray object, indicating improper null handling when obtaining styled attributes.
 
-Steps to Reproduce:
-1. Launch the FastAdapter sample app (version 2.5.1 from Play Store)
+### STEPS TO REPRODUCE
+1. Launch FastAdapter sample app (version 2.5.1)
 2. Navigate to the main menu/list of samples
-3. Click on the "GenericItem" sample option
-4. Observe the app crashes immediately with NullPointerException
+3. Click on "GenericItem" sample option
+4. App crashes immediately with NullPointerException
 
-Expected Behavior:
-The app should navigate to the GenericItem sample screen and display the example implementation without crashing. If there are missing resources, the app should handle this gracefully with appropriate error handling or default values.
+### EXPECTED BEHAVIOR
+The GenericItem sample screen should open and display the example implementation.
 
-Actual Behavior:
-The app crashes with a NullPointerException when attempting to access the GenericItem sample, making this feature completely unusable in the released version.
+### ACTUAL BEHAVIOR
+App crashes with NullPointerException: Attempt to invoke virtual method 'void android.content.res.TypedArray.recycle()' on a null object reference at line 69.
+
+### ENVIRONMENT
+FastAdapter version: 2.5.1 (Play Store)
+Android version: Various
+Device: Various
 
 Crash Details:
 - Exception Type: java.lang.NullPointerException

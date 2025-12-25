@@ -1,27 +1,34 @@
-Title: IllegalArgumentException: unexpected url
+App Name: NewsBlur
 
-App: NewsBlur
-Version: v6.1.0
-Package: com.newsblur
-Issue: https://github.com/samuelclay/NewsBlur/issues/1053
+Bug Report Title:
+App crashes with IllegalArgumentException when using invalid custom server URL
 
-Description:
-The app crashes with an IllegalArgumentException when trying to login with an invalid custom server address. The crash occurs when the custom server address entered is not a valid URL format.
+Bug Report Issue:
+NewsBlur crashes when user tries to login/register with an invalid custom server address format.
 
-Steps to Reproduce:
-1. Install v6.1.0 from F-Droid and launch the app
-2. Click "I have a custom server"
-3. Input an invalid server address (e.g., "xx" or "x214w22k71g60836m2mfwk0x2cec")
-4. Type a username (e.g., "t")
-5. Type a password (e.g., "t")
-6. Click "register" or "login"
+### DESCRIPTION
+The app doesn't validate custom server URL format before making API requests, causing IllegalArgumentException for malformed URLs.
 
-Expected Behavior:
-The app should provide feedback indicating that the server address is invalid, rather than crashing.
+### STEPS TO REPRODUCE
+1. Launch NewsBlur app
+3. Click "I have a custom server"
+4. Input invalid server address (e.g., "xx" or "x214w22k71g60836m2mfwk0x2cec")
+5. Type any username (e.g., "t")
+6. Type any password (e.g., "t")
+7. Click "register" or "login"
+8. App crashes with IllegalArgumentException
 
-Actual Behavior:
-The app crashes with the following exception:
-java.lang.IllegalArgumentException: unexpected url: x214w22k71g60836m2mfwk0x2cec/api/login
+### EXPECTED BEHAVIOR
+The app should validate server URL format and show error message: "Invalid server address. Please enter a valid URL."
+
+### ACTUAL BEHAVIOR
+App crashes with IllegalArgumentException: unexpected url: x214w22k71g60836m2mfwk0x2cec/api/login
+Crash occurs in okhttp3.Request$Builder.url() at line 143.
+
+### ENVIRONMENT
+NewsBlur version: v6.1.0
+Android version: 6.0.1
+Device: Nexus 5 (hammerhead)
 
 Crash Details:
 - Exception: java.lang.IllegalArgumentException
