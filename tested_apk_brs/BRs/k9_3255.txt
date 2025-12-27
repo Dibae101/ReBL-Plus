@@ -1,0 +1,52 @@
+App Name: K-9 Mail
+
+Bug Report Title:
+App crashes with invalid format email address
+
+Bug Report Issue:
+K-9 Mail crashes when user tries to add an email account with an invalid top-level domain format like "foo@b.2".
+
+### DESCRIPTION
+The app doesn't validate email hostname format properly, causing a crash when encountering invalid TLDs like ".2".
+
+### STEPS TO REPRODUCE
+1. Open K-9 Mail app
+2. Tap to add new email account
+3. Enter email address "foo@b.2" (or any email with invalid TLD)
+4. Enter password
+5. Press "Manually" or "Continue" button
+6. App crashes with "K-9 Mail has stopped"
+
+### EXPECTED BEHAVIOR
+The app should show an error message like "Invalid email address format" instead of crashing.
+
+### ACTUAL BEHAVIOR
+App crashes when trying to validate or process the email address with an invalid TLD.
+
+### ENVIRONMENT
+K-9 Mail version: 5.403
+Android version: 6.0.1
+Device: Various
+
+### NOTE
+Internal email addresses with custom TLDs like ".2" work in Thunderbird but are technically invalid per DNS standards.
+
+
+Comments:
+Comment#1:
+`.2` is invalid and will never be valid as far as I understand IDNs application to TLDs.
+
+I don't see value in K-9 supporting the defederation of email like this. I also don't see Thunderbird on its own as a good enough reason to ignore that. I suspect Thunderbird is lack of validation not choice to support this. So it's not a feature to have parity with, more exploitation  of a design flaw.
+
+But we shouldn't crash.
+---
+Comment#2:
+We use Java's `URI` class for `storeUri`. Temporarily we set the hostname part to "mail.b.2" which the `URI` class doesn't like. For hostnames it only accepts the following format (minus the trailing dot):
+
+```java
+// hostname      = domainlabel [ "." ] | 1*( domainlabel "." ) toplabel [ "." ]
+// domainlabel   = alphanum | alphanum *( alphanum | "-" | "_" ) alphanum
+// toplabel      = alpha | alpha *( alphanum | "-" | "_" ) alphanum
+```
+We should change `EmailAddressValidator.EMAIL_ADDRESS_PATTERN` to only accept such hostnames.
+---

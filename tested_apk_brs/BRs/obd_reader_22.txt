@@ -1,0 +1,119 @@
+App Name: Android OBD Reader
+
+Bug Report Title:
+App crashes every 2nd time stopping live data
+
+Bug Report Issue:
+Android OBD Reader crashes every second time user clicks "Stop Live Data" due to attempting to unbind an already unbound service.
+
+### DESCRIPTION
+The app doesn't properly track service binding state, causing IllegalArgumentException when trying to unbind a service that's not currently bound.
+
+### STEPS TO REPRODUCE
+1. Launch Android OBD Reader app
+2. Connect to OBD-II device (or use mock mode)
+3. Click "Start Live Data" to begin monitoring
+4. Click "Stop Live Data" → works successfully
+5. Click "Start Live Data" again
+6. Click "Stop Live Data" again
+7. App crashes with IllegalArgumentException
+
+### EXPECTED BEHAVIOR
+Users should be able to start and stop live data monitoring repeatedly without crashes. Service binding/unbinding should maintain proper state tracking.
+
+### ACTUAL BEHAVIOR
+App crashes every second time "Stop Live Data" is clicked with IllegalArgumentException: Service not registered.
+
+### ENVIRONMENT
+OBD Reader version: Debug build
+Android version: Various
+Device: Various
+
+### LOGCAT
+java.lang.IllegalArgumentException: Service not registered: pt.lighthouselabs.obd.reader.activity.MainActivity$3@41d9e930
+at pt.lighthouselabs.obd.reader.activity.MainActivity.doUnbindService(MainActivity.java:408)
+
+Crash Details:
+- Exception Type: java.lang.IllegalArgumentException
+- Error Message: Service not registered: pt.lighthouselabs.obd.reader.activity.MainActivity$3@41d9e930
+- Location: pt.lighthouselabs.obd.reader.activity.MainActivity.doUnbindService(MainActivity.java:408)
+- Called From: pt.lighthouselabs.obd.reader.activity.MainActivity.stopLiveData(MainActivity.java:296)
+
+Stack Trace:
+```
+06-16 15:10:35.019: E/AndroidRuntime(5038): FATAL EXCEPTION: main
+06-16 15:10:35.019: E/AndroidRuntime(5038): java.lang.IllegalArgumentException: Service not registered: pt.lighthouselabs.obd.reader.activity.MainActivity$3@41d9e930
+06-16 15:10:35.019: E/AndroidRuntime(5038):     at android.app.LoadedApk.forgetServiceDispatcher(LoadedApk.java:926)
+06-16 15:10:35.019: E/AndroidRuntime(5038):     at android.app.ContextImpl.unbindService(ContextImpl.java:1761)
+06-16 15:10:35.019: E/AndroidRuntime(5038):     at android.content.ContextWrapper.unbindService(ContextWrapper.java:491)
+06-16 15:10:35.019: E/AndroidRuntime(5038):     at pt.lighthouselabs.obd.reader.activity.MainActivity.doUnbindService(MainActivity.java:408)
+06-16 15:10:35.019: E/AndroidRuntime(5038):     at pt.lighthouselabs.obd.reader.activity.MainActivity.stopLiveData(MainActivity.java:296)
+06-16 15:10:35.019: E/AndroidRuntime(5038):     at pt.lighthouselabs.obd.reader.activity.MainActivity.onOptionsItemSelected(MainActivity.java:259)
+06-16 15:10:35.019: E/AndroidRuntime(5038):     at android.app.Activity.onMenuItemSelected(Activity.java:2608)
+06-16 15:10:35.019: E/AndroidRuntime(5038):     at com.android.internal.policy.impl.PhoneWindow.onMenuItemSelected(PhoneWindow.java:1104)
+06-16 15:10:35.019: E/AndroidRuntime(5038):     at com.android.internal.view.menu.MenuBuilder.dispatchMenuItemSelected(MenuBuilder.java:735)
+06-16 15:10:35.019: E/AndroidRuntime(5038):     at com.android.internal.view.menu.MenuItemImpl.invoke(MenuItemImpl.java:149)
+06-16 15:10:35.019: E/AndroidRuntime(5038):     at com.android.internal.view.menu.MenuBuilder.performItemAction(MenuBuilder.java:874)
+06-16 15:10:35.019: E/AndroidRuntime(5038):     at com.android.internal.view.menu.ListMenuPresenter.onItemClick(ListMenuPresenter.java:178)
+06-16 15:10:35.019: E/AndroidRuntime(5038):     at android.widget.AdapterView.performItemClick(AdapterView.java:301)
+06-16 15:10:35.019: E/AndroidRuntime(5038):     at android.widget.AbsListView.performItemClick(AbsListView.java:1525)
+06-16 15:10:35.019: E/AndroidRuntime(5038):     at android.widget.AbsListView$PerformClick.run(AbsListView.java:3297)
+06-16 15:10:35.019: E/AndroidRuntime(5038):     at android.widget.AbsListView$1.run(AbsListView.java:4348)
+06-16 15:10:35.019: E/AndroidRuntime(5038):     at android.os.Handler.handleCallback(Handler.java:725)
+06-16 15:10:35.019: E/AndroidRuntime(5038):     at android.os.Handler.dispatchMessage(Handler.java:92)
+06-16 15:10:35.019: E/AndroidRuntime(5038):     at android.os.Looper.loop(Looper.java:137)
+06-16 15:10:35.019: E/AndroidRuntime(5038):     at android.app.ActivityThread.main(ActivityThread.java:5306)
+06-16 15:10:35.019: E/AndroidRuntime(5038):     at java.lang.reflect.Method.invokeNative(Native Method)
+06-16 15:10:35.019: E/AndroidRuntime(5038):     at java.lang.reflect.Method.invoke(Method.java:511)
+06-16 15:10:35.019: E/AndroidRuntime(5038):     at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:1102)
+06-16 15:10:35.019: E/AndroidRuntime(5038):     at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:869)
+06-16 15:10:35.019: E/AndroidRuntime(5038):     at dalvik.system.NativeStart.main(Native Method)
+```
+
+Technical Analysis:
+The problem is in the service binding logic at MainActivity.java:408 (doUnbindService method). The typical incorrect pattern:
+
+```java
+// Problematic code:
+void doUnbindService() {
+    unbindService(mConnection); // Crashes if already unbound!
+}
+```
+
+The correct pattern should track binding state:
+```java
+private boolean mIsBound = false;
+
+void doBindService() {
+    bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+    mIsBound = true;
+}
+
+void doUnbindService() {
+    if (mIsBound) {
+        unbindService(mConnection);
+        mIsBound = false;
+    }
+}
+```
+
+The fix should:
+1. Add a boolean flag to track service binding state
+2. Check the flag before attempting to unbind
+3. Properly set/reset the flag during bind/unbind operations
+4. Handle edge cases like activity lifecycle events (onPause, onDestroy)
+
+Impact:
+- Severity: High - Complete app crash
+- Frequency: 50% of stop operations (every 2nd attempt)
+- Affected Component: Live data monitoring, service management
+- User Impact: Users cannot reliably control OBD data monitoring; crash disrupts driving experience and data collection
+
+Resolution:
+Fixed in commit 415e3d8 by spapas on July 28, 2014, and merged via PR #33 on July 29, 2014. The fix refactored the service binding code to properly track binding state. Issue closed by maintainer pires and included in milestone 2.0.
+
+Related PRs:
+- PR #30: Add MockOdbGatewayService
+- PR #33: Fix #22 and refactor service binding code (merge commit c285943)
+
+Note: This repository was archived on November 10, 2017, and is now read-only.

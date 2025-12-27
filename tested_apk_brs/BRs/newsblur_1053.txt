@@ -1,0 +1,40 @@
+App Name: NewsBlur
+
+Bug Report Title:
+App crashes with IllegalArgumentException when using invalid custom server URL
+
+Bug Report Issue:
+NewsBlur crashes when user tries to login/register with an invalid custom server address format.
+
+### DESCRIPTION
+The app doesn't validate custom server URL format before making API requests, causing IllegalArgumentException for malformed URLs.
+
+### STEPS TO REPRODUCE
+1. Launch NewsBlur app
+3. Click "I have a custom server"
+4. Input invalid server address (e.g., "xx" or "x214w22k71g60836m2mfwk0x2cec")
+5. Type any username (e.g., "t")
+6. Type any password (e.g., "t")
+7. Click "register" or "login"
+8. App crashes with IllegalArgumentException
+
+### EXPECTED BEHAVIOR
+The app should validate server URL format and show error message: "Invalid server address. Please enter a valid URL."
+
+### ACTUAL BEHAVIOR
+App crashes with IllegalArgumentException: unexpected url: x214w22k71g60836m2mfwk0x2cec/api/login
+Crash occurs in okhttp3.Request$Builder.url() at line 143.
+
+### ENVIRONMENT
+NewsBlur version: v6.1.0
+Android version: 6.0.1
+Device: Nexus 5 (hammerhead)
+
+Crash Details:
+- Exception: java.lang.IllegalArgumentException
+- Location: okhttp3.Request$Builder.url(Request.java:143)
+- Caused by: Invalid custom server URL format
+- The crash occurs in the login async task when trying to make an API request
+
+Android Version: 6.0.1
+Device: hammerhead (Nexus 5)

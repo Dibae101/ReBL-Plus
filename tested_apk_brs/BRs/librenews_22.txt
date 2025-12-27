@@ -1,0 +1,91 @@
+App Name: LibreNews
+
+Bug Report Title:
+App crashes when refreshing with invalid server address
+
+Bug Report Issue:
+LibreNews crashes with ArrayIndexOutOfBoundsException when user refreshes after setting an invalid server address.
+
+### DESCRIPTION
+The app tries to access the first element of an empty array without checking if the array has elements, causing a crash when no flashes are available.
+
+### STEPS TO REPRODUCE
+1. Launch LibreNews app
+2. Navigate to Settings
+3. Disable "Automatically refresh"
+4. Change server address to an invalid one (e.g., "xxyyzz")
+5. Click the "Refresh" button
+6. App crashes with ArrayIndexOutOfBoundsException
+
+### EXPECTED BEHAVIOR
+The app should show an error message like "Unable to connect to server" or "Invalid server address" instead of crashing.
+
+### ACTUAL BEHAVIOR
+App crashes with ArrayIndexOutOfBoundsException: length=0; index=0 at FlashManager.convertFlashesToOutputString().
+
+### ENVIRONMENT
+LibreNews version: v1.4
+Android version: 6.0, 6.0.1
+Device: Android Studio Emulator, Nexus 5
+
+Crash Details:
+- Exception Type: java.lang.ArrayIndexOutOfBoundsException
+- Error Message: length=0; index=0
+- Location: app.librenews.io.librenews.controllers.FlashManager.convertFlashesToOutputString(FlashManager.java:184)
+- Device: Reproduced on Android Studio Emulator (x86, Android 6.0) and Nexus 5 Phone (Android 6.0.1)
+
+Stack Trace:
+```
+java.lang.ArrayIndexOutOfBoundsException: length=0; index=0
+    at app.librenews.io.librenews.controllers.FlashManager.convertFlashesToOutputString(FlashManager.java:184)
+    at app.librenews.io.librenews.controllers.FlashManager.writeFlashesToStorage(FlashManager.java:152)
+    at app.librenews.io.librenews.controllers.FlashManager.clearPushedFlashes(FlashManager.java:200)
+    at app.librenews.io.librenews.controllers.FlashManager.refresh(FlashManager.java:256)
+    at app.librenews.io.librenews.views.MainFlashActivity$1.onClick(MainFlashActivity.java:67)
+    at android.view.View.performClick(View.java:5198)
+    at android.view.View$PerformClick.run(View.java:21147)
+    at android.os.Handler.handleCallback(Handler.java:739)
+    at android.os.Handler.dispatchMessage(Handler.java:95)
+    at android.os.Looper.loop(Looper.java:148)
+    at android.app.ActivityThread.main(ActivityThread.java:5417)
+    at java.lang.reflect.Method.invoke(Native Method)
+    at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:726)
+    at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:616)
+```
+
+Related Log Output:
+```
+11-01 14:56:58.359 12058 12058 I System.out: LibreNews Debug: Unable to load flashes from storage: No flash storage file exists or is empty.
+11-01 14:56:58.360 12058 12058 W System.err: java.io.FileNotFoundException: No flash storage file exists or is empty.
+11-01 14:56:58.360 12058 12058 W System.err:    at app.librenews.io.librenews.controllers.FlashManager.loadFlashesFromStorage(FlashManager.java:140)
+11-01 14:56:58.360 12058 12058 W System.err:    at app.librenews.io.librenews.controllers.FlashManager.getLatestPushedFlashes(FlashManager.java:191)
+11-01 14:56:58.360 12058 12058 W System.err:    at app.librenews.io.librenews.controllers.FlashManager.refresh(FlashManager.java:251)
+```
+
+Technical Analysis:
+The issue occurs in the following call chain:
+1. MainFlashActivity.onClick() triggers refresh
+2. FlashManager.refresh() is called
+3. clearPushedFlashes() is invoked
+4. writeFlashesToStorage() attempts to write empty flash list
+5. convertFlashesToOutputString() crashes when accessing empty array at index 0
+
+The bug is at FlashManager.java line 184 where the code assumes the array has at least one element. The variable `min` can be 0 when there are no flashes, resulting in an empty array.
+
+Proposed Solution (from issue discussion):
+1. Add explicit check for empty array before accessing index 0:
+   ```java
+   if (array.length > 0) {
+       // access array[0]
+   }
+   ```
+
+2. Alternative solution suggested by Ran-Li-007: Remove lines 180-182 in FlashManager.java to prevent execution of the loop when array is empty.
+
+Impact:
+- Severity: High - Complete app crash
+- Frequency: 100% when refreshing with invalid server on first launch
+- Affected Component: FlashManager, refresh functionality
+- User Impact: App becomes unusable after entering invalid server configuration, users cannot recover without reinstalling
+
+Note: This repository was archived on December 24, 2021, and is now read-only. The issue remains open and unfixed.

@@ -1,0 +1,48 @@
+App Name: AnyMemo
+
+Bug Report Title:
+App crashes when accessing DB default settings
+
+Bug Report Issue:
+AnyMemo crashes every time when user tries to access the "DB default settings" screen through the Misc menu.
+
+### DESCRIPTION
+A regression bug that causes 100% reproducible crash when navigating to database default settings.
+
+### STEPS TO REPRODUCE
+1. Open AnyMemo app
+2. Tap the menu button
+3. Select "Misc" from the menu
+4. Tap "DB default settings"
+5. App crashes immediately
+
+### EXPECTED BEHAVIOR
+The "DB default settings" screen should open, showing database configuration options.
+
+### ACTUAL BEHAVIOR
+App crashes every time with "Unfortunately, AnyMemo has stopped" error.
+
+### ENVIRONMENT
+AnyMemo version: 9 beta 4
+Android version: Various
+Device: Various
+
+Crash Details:
+- Trigger: Opening "DB default settings" from Misc menu
+- Frequency: Every time (100% crash rate)
+- Type: Regression bug (worked in previous version)
+- Priority: High
+
+Root Cause:
+According to developer investigation, this was a regression issue introduced in the beta 4 release. The exact cause was identified and fixed by the developer.
+
+Status:
+Fixed in subsequent release after identification.
+
+Notes:
+- The issue was confirmed fixed in Comment #6 by the reporter
+- The "Load default" button on the "DB default settings" page is intentional - it has the same effect as the discard button and helps reduce code complexity
+- This was a critical bug as it completely blocked access to database default settings functionality
+
+Android Version: Not specified
+Device: Not specified

@@ -1,0 +1,55 @@
+App Name: Notepad (Banderlabs)
+
+Bug Report Title:
+App crashes when sending note via long-press menu
+
+Bug Report Issue:
+Notepad crashes when user selects "Send note" option after long-pressing on a note in the list.
+
+### DESCRIPTION
+The app crashes when trying to share a note through the context menu, likely due to improper intent creation or missing null checks.
+
+### STEPS TO REPRODUCE
+1. Open Notepad app
+2. Ensure at least one note is saved
+3. Long-press (long tap) on a note in the note list
+4. Context menu appears
+5. Select "Send note" option
+6. App crashes immediately
+
+### EXPECTED BEHAVIOR
+The app should:
+- Launch Android share intent chooser
+- Allow user to select app to share with (Email, SMS, etc.)
+- Successfully share note content
+- Return to note list without crashing
+
+### ACTUAL BEHAVIOR
+App crashes immediately when "Send note" is selected from long-press context menu. Likely NullPointerException or improper intent creation.
+
+### ENVIRONMENT
+Notepad version: Debug build
+Android version: 4.2.x (CyanogenMod 10.1)
+Device: Samsung Galaxy Ace 2 (GT-I8160)
+
+Crash Details:
+- Trigger: Selecting "Send note" after long-pressing a note
+- Likely cause: NullPointerException or improper intent creation when trying to share the note
+- The crash suggests issues with:
+  - Intent creation for sharing functionality
+  - Note content retrieval before sharing
+  - Missing null checks when preparing share data
+
+Technical Details:
+The send/share functionality is a common Android feature that uses the ACTION_SEND intent. The crash likely occurs when:
+- The note content is not properly retrieved before creating the share intent
+- The intent extras are not properly set
+- Required permissions or data are missing
+
+Android Version: CyanogenMod 10.1 (Android 4.2.x)
+Device: Samsung Galaxy Ace 2 (GT-I8160)
+
+Notes:
+- The issue was reported on CyanogenMod 10.1, an unofficial ROM
+- However, the crash is likely a general bug not specific to the ROM
+- The summary from the reporter indicates this is easily reproducible

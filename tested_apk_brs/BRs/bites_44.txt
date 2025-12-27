@@ -1,0 +1,199 @@
+App Name: Bites (Brewing Timer)
+
+Bug Report Title:
+App crashes when no method step number is entered
+
+Bug Report Issue:
+Bites crashes when user tries to add a method step without entering a step number value.
+
+### DESCRIPTION
+The app doesn't validate the step number input field, causing NumberFormatException when the field is left empty.
+
+### STEPS TO REPRODUCE
+1. Launch Bites brewing timer app
+2. Navigate to the Methods section
+3. Create a new brewing method or edit existing one
+4. Tap to add a new step to the method
+5. Leave the "step number" field empty (don't enter any value)
+6. Try to save or proceed
+7. App crashes with NumberFormatException
+
+### EXPECTED BEHAVIOR
+The app should show an error message like "Please enter a step number" or automatically assign a sequential step number.
+
+### ACTUAL BEHAVIOR
+App crashes when trying to parse empty step number field, making the methods feature unusable.
+
+### ENVIRONMENT
+Bites version: 1.0
+Android version: Various
+Device: Various
+6. Click "Save" or "Add Step" or any button that processes the step
+7. Observe the app crashes immediately
+
+Expected Behavior:
+- If the step number field is empty, the app should display an error message
+- Message should inform user: "Please enter a step number"
+- The step should not be saved until a valid number is entered
+- Alternatively, the app could auto-assign the next sequential step number
+- The "Save" or "Add" button could be disabled until required fields are filled
+- Input validation should prevent the crash
+
+Actual Behavior:
+- App crashes immediately when attempting to save/add a step without a step number
+- No error message is shown to guide the user
+- The app terminates unexpectedly
+- User loses any unsaved data in the method being created/edited
+- No graceful error handling or recovery
+
+Crash Details:
+- Exception Type: Likely NumberFormatException or NullPointerException
+- Symptom: Immediate crash when saving/adding method step with empty step number
+- Location: Methods section, step creation/editing functionality
+- Reported Date: December 28, 2009
+- Reporter: Massive Elephant (from char m)
+- Priority: Critical
+- Status: Accepted
+- Frequency: 100% reproducible when step number field is left empty
+
+Technical Analysis:
+
+**Input Validation Failure**:
+The app is missing basic input validation on the step number field. This is a common programming error where developers assume users will always provide valid input.
+
+**Probable Exception Types**:
+
+1. **NumberFormatException**:
+```java
+// When stepNumberText is empty string ""
+int stepNumber = Integer.parseInt(""); // Throws NumberFormatException
+```
+
+2. **NullPointerException**:
+```java
+// If getText() returns null (unlikely but possible)
+String stepNumberText = stepNumberEditText.getText().toString();
+int stepNumber = Integer.parseInt(stepNumberText); // NPE if stepNumberText is null
+```
+
+**Defense Against Invalid Input**:
+The app should implement multiple layers of validation:
+
+1. **UI Level**: Use TextInputLayout with error messages
+```java
+TextInputLayout stepNumberLayout = findViewById(R.id.step_number_layout);
+if (stepNumberText.isEmpty()) {
+    stepNumberLayout.setError("Step number is required");
+    return;
+}
+```
+
+2. **Input Type Restriction**: Set EditText input type to numeric only
+```xml
+<EditText
+    android:id="@+id/step_number_input"
+    android:inputType="number"
+    android:hint="Step number" />
+```
+
+3. **Runtime Validation**: Check and parse safely
+```java
+if (TextUtils.isEmpty(stepNumberText)) {
+    showError("Please enter a step number");
+    return;
+}
+
+try {
+    int stepNumber = Integer.parseInt(stepNumberText);
+    if (stepNumber <= 0) {
+        showError("Step number must be positive");
+        return;
+    }
+    // Proceed with valid input
+} catch (NumberFormatException e) {
+    showError("Please enter a valid number");
+    return;
+}
+```
+
+**Impact on User Experience**:
+- Users creating brewing recipes lose all progress on crash
+- Critical functionality (method creation) is broken
+- No guidance provided to user about what went wrong
+- App appears unstable and unreliable
+
+Impact:
+- Severity: Critical - Core functionality completely broken
+- Priority: Critical (as marked in issue tracker)
+- Frequency: 100% when step number is omitted
+- Affected Component: Methods section, step creation/editing
+- User Impact: Cannot create or edit brewing methods without entering step numbers, app crashes
+- Data Loss: Any unsaved method data is lost on crash
+- Workaround: Always enter a step number (but users may not realize this requirement)
+
+Use Case Context:
+Bites is a brewing timer application for Android, likely used for coffee, tea, or beer brewing. The "methods" feature allows users to define step-by-step brewing procedures with specific timings. Step numbers are used to order and identify each step in the brewing process (e.g., Step 1: Heat water, Step 2: Add coffee grounds, Step 3: Steep for 4 minutes, etc.). The crash prevents users from creating or modifying brewing recipes.
+
+Resolution:
+Status marked as "Accepted" on December 28, 2009, indicating the development team acknowledged the bug. However, no fix information or closing date is provided in the archived issue.
+
+Recommended Fix:
+1. Add input validation before parsing step number
+2. Display user-friendly error message when field is empty
+3. Consider auto-generating step numbers sequentially
+4. Set EditText inputType to "number" to restrict to numeric input
+5. Add Try-Catch block around Integer.parseInt() for safety
+6. Optionally make step number field optional and auto-assign values
+
+File to Modify (estimated):
+- Likely a file related to method/step management, such as:
+  - MethodEditorActivity.java
+  - StepInputFragment.java
+  - BrewingMethodManager.java
+
+Code Fix Example:
+```java
+// Before saving/adding a step
+String stepNumberText = stepNumberEditText.getText().toString().trim();
+
+// Validate input
+if (TextUtils.isEmpty(stepNumberText)) {
+    Toast.makeText(this, "Please enter a step number", Toast.LENGTH_SHORT).show();
+    stepNumberEditText.requestFocus();
+    return;
+}
+
+// Parse safely
+int stepNumber;
+try {
+    stepNumber = Integer.parseInt(stepNumberText);
+    if (stepNumber <= 0) {
+        Toast.makeText(this, "Step number must be greater than 0", Toast.LENGTH_SHORT).show();
+        return;
+    }
+} catch (NumberFormatException e) {
+    Toast.makeText(this, "Please enter a valid number", Toast.LENGTH_SHORT).show();
+    return;
+}
+
+// Proceed with valid step number
+saveStep(stepNumber, ...);
+```
+
+Alternative Solutions:
+1. **Auto-increment step numbers**: Automatically assign the next available step number
+2. **Make field optional**: Allow users to omit step numbers and assign them automatically
+3. **Pre-fill with default**: Initialize the field with the next sequential number
+4. **Disable save button**: Keep "Save" disabled until all required fields are valid
+
+Best Practices:
+- Always validate user input before processing
+- Use try-catch blocks for parsing operations
+- Provide clear, actionable error messages
+- Set appropriate input types on EditText fields
+- Never assume users will provide valid input
+
+Related Issues:
+This is a common pattern of input validation bugs in early Android applications (2009 era) before modern input validation libraries and best practices were widely adopted.
+
+Note: Bites is a Google Code project that was archived. The project appears to be a brewing timer utility for various types of brewing activities. Google Code was shut down in 2016, and all projects were archived.

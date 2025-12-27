@@ -1,8 +1,7 @@
 **/env
-Automation/tmp
-.DS_Store
 Automation/.env
 env/
 __pycache__/
 .DS_Store
-.DS_Store
+Automation/.DS_Store
+**/tmp

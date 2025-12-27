@@ -1,0 +1,200 @@
+App Name: Materialistic - Hacker News Reader
+
+Bug Report Title:
+App crashes with NullPointerException during swipe gesture after save
+
+Bug Report Issue:
+Materialistic crashes when user saves an item and immediately performs a left swipe gesture, due to race condition with null peeking text.
+
+### DESCRIPTION
+When "Swipe left to" is set to "None", performing a swipe immediately after saving causes NPE in drawPeekingText() which tries to call length() on null string.
+
+### STEPS TO REPRODUCE
+1. Launch Materialistic app
+2. Click on Hamburger icon
+3. Go to Settings → List display options
+4. Set "Swipe left to" option to "None"
+5. Return to main story list
+6. Use RIGHT hand to long-press any item → open context menu
+7. Click "Save" from context menu
+8. IMMEDIATELY (within ~100ms) use LEFT hand to swipe left on any item
+9. App crashes with NullPointerException
+
+Note: Timing is critical - swipe must happen during/immediately after save operation.
+
+### EXPECTED BEHAVIOR
+When "Swipe left to" is set to "None", swiping should do nothing and show no visual feedback.
+
+### ACTUAL BEHAVIOR
+App crashes with NullPointerException in PeekabooTouchHelperCallback.drawPeekingText() at line 66 when trying to get length() of null peeking text.
+
+### ENVIRONMENT
+Materialistic version: Various
+Android version: Various
+Device: Various
+
+Actual Behavior:
+- App crashes immediately when the swipe gesture occurs right after a save operation
+- NullPointerException is thrown in drawPeekingText() method
+- The crash occurs during the Canvas drawing phase
+- RecyclerView onDraw() fails while rendering the swipe animation
+- The entire UI thread crashes, requiring app restart
+
+Crash Details:
+```
+java.lang.NullPointerException: 
+Attempt to invoke virtual method 'int java.lang.String.length()' on a null object reference
+    at io.github.hidroh.materialistic.widget.PeekabooTouchHelperCallback.drawPeekingText(PeekabooTouchHelperCallback.java:66)
+    at io.github.hidroh.materialistic.widget.PeekabooTouchHelperCallback.onChildDraw(PeekabooTouchHelperCallback.java:57)
+    at android.support.v7.widget.helper.ItemTouchHelper$Callback.onDraw(ItemTouchHelper.java:1957)
+    at android.support.v7.widget.helper.ItemTouchHelper.onDraw(ItemTouchHelper.java:547)
+    at android.support.v7.widget.RecyclerView.onDraw(RecyclerView.java:4078)
+    at android.view.View.draw(View.java:16178)
+    at android.support.v7.widget.RecyclerView.draw(RecyclerView.java:4013)
+    at android.view.View.updateDisplayListIfDirty(View.java:15174)
+    at android.view.ViewGroup.recreateChildDisplayList(ViewGroup.java:3593)
+    at android.view.ViewGroup.dispatchGetDisplayList(ViewGroup.java:3573)
+    at android.view.View.updateDisplayListIfDirty(View.java:15134)
+    at android.view.ViewGroup.recreateChildDisplayList(ViewGroup.java:3593)
+    at android.view.ViewGroup.dispatchGetDisplayList(ViewGroup.java:3573)
+    at android.view.View.updateDisplayListIfDirty(View.java:15134)
+    at android.view.ThreadedRenderer.updateViewTreeDisplayList(ThreadedRenderer.java:281)
+    at android.view.ThreadedRenderer.updateRootDisplayList(ThreadedRenderer.java:287)
+    at android.view.ThreadedRenderer.draw(ThreadedRenderer.java:322)
+    at android.view.ViewRootImpl.draw(ViewRootImpl.java:2615)
+    at android.view.ViewRootImpl.performDraw(ViewRootImpl.java:2434)
+    at android.view.ViewRootImpl.performTraversals(ViewRootImpl.java:2067)
+    at android.view.ViewRootImpl.doTraversal(ViewRootImpl.java:1107)
+    at android.view.ViewRootImpl$TraversalRunnable.run(ViewRootImpl.java:6013)
+    at android.view.Choreographer$CallbackRecord.run(Choreographer.java:858)
+    at android.view.Choreographer.doCallbacks(Choreographer.java:670)
+    at android.view.Choreographer.doFrame(Choreographer.java:606)
+    at android.view.Choreographer$FrameDisplayEventReceiver.run(Choreographer.java:844)
+    at android.os.Handler.handleCallback(Handler.java:739)
+    at android.os.Handler.dispatchMessage(Handler.java:95)
+    at android.os.Looper.loop(Looper.java:148)
+    at android.app.ActivityThread.main(ActivityThread.java:5417)
+    at java.lang.reflect.Method.invoke(Native Method)
+    at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:726)
+    at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:616)
+```
+
+- Exception Type: NullPointerException
+- Error Message: "Attempt to invoke virtual method 'int java.lang.String.length()' on a null object reference"
+- Location: PeekabooTouchHelperCallback.java line 66 (drawPeekingText method)
+- Trigger: Race condition between save operation and swipe gesture
+- Thread: Main UI thread (during view rendering)
+- Frequency: Timing-dependent, requires precise coordination between save and swipe actions
+
+Technical Analysis:
+
+**The Race Condition**:
+The bug is a classic timing-sensitive race condition involving:
+1. Configuration state: "Swipe left to" = "None" → peekText = null
+2. Save action: Updates RecyclerView state, invalidates views
+3. Swipe gesture: Triggers ItemTouchHelper callbacks during view redraw
+4. Drawing phase: Attempts to render peeking text but receives null
+
+**Why the Timing Matters**:
+- The save operation triggers view invalidation and redrawing
+- If a swipe gesture starts during this redraw phase, the ItemTouchHelper intercepts it
+- The swipe handler calls onChildDraw() even though swipe action is disabled
+- drawPeekingText() is called but the text is null because swipe is set to "None"
+
+**The Specific Problem in drawPeekingText()**:
+```java
+private void drawPeekingText(Canvas c, RecyclerView.ViewHolder viewHolder, float dX) {
+    String peekText = getPeekingText(); 
+    // When "Swipe left to" is "None", getPeekingText() returns null
+    
+    int textLength = peekText.length(); // CRASH HERE - NullPointerException
+    
+    // Draw the text on canvas...
+}
+```
+
+**Missing Null Check**:
+The method should validate the peeking text before using it:
+```java
+private void drawPeekingText(Canvas c, RecyclerView.ViewHolder viewHolder, float dX) {
+    String peekText = getPeekingText();
+    
+    // FIX: Add null check
+    if (peekText == null || peekText.isEmpty()) {
+        return; // No text to draw, skip rendering
+    }
+    
+    int textLength = peekText.length(); // Now safe
+    // Continue with drawing...
+}
+```
+
+**Alternative Fix - Check in onChildDraw()**:
+```java
+@Override
+public void onChildDraw(Canvas c, RecyclerView recyclerView, 
+                        RecyclerView.ViewHolder viewHolder, 
+                        float dX, float dY, int actionState, boolean isCurrentlyActive) {
+    // ... existing drawing code ...
+    
+    // Only draw peeking text if it exists
+    if (getPeekingText() != null) {
+        drawPeekingText(c, viewHolder, dX);
+    }
+}
+```
+
+**Why This Bug Is Difficult to Reproduce**:
+- Requires specific configuration: "Swipe left to" must be "None"
+- Requires precise timing: swipe must occur during/immediately after save
+- Requires specific hand coordination: right hand for menu, left for swipe
+- The window for triggering is very small (< 100ms typically)
+
+Impact:
+- Severity: Medium - Requires specific configuration and timing to trigger
+- Frequency: Low - Timing-dependent race condition, not easily triggered in normal usage
+- Affected Component: PeekabooTouchHelperCallback, RecyclerView swipe gesture handling
+- User Impact: App crash during list interaction, requires restart
+- Affected Configuration: Only when "Swipe left to" is set to "None"
+- Thread Impact: Crashes main UI thread, freezes entire app
+
+Use Case Context:
+Materialistic is a Hacker News reader app. Users browse stories in a list and can swipe left/right on items for quick actions (save, share, etc.). The "Swipe left to" preference allows users to configure what action happens on left swipe. Setting it to "None" disables the action but still allows the gesture to be detected. The peek text shows what action will occur during the swipe.
+
+Resolution:
+Issue remains open (reported March 9, 2018, still open as of December 23, 2025).
+
+Recommended Fix:
+Add null check in drawPeekingText() method:
+```java
+private void drawPeekingText(Canvas c, RecyclerView.ViewHolder viewHolder, float dX) {
+    String peekText = getPeekingText();
+    
+    // Add null/empty check
+    if (peekText == null || peekText.isEmpty()) {
+        return;
+    }
+    
+    int textLength = peekText.length();
+    // ... rest of drawing code ...
+}
+```
+
+File to Modify:
+- io/github/hidroh/materialistic/widget/PeekabooTouchHelperCallback.java
+
+Alternative Solutions:
+1. **Disable swipe detection entirely when action is "None"**: Override ItemTouchHelper to not call onChildDraw() when swipe is disabled
+2. **Return empty string instead of null**: Modify getPeekingText() to return "" instead of null
+3. **Check before calling drawPeekingText()**: Add null check in onChildDraw() before calling drawPeekingText()
+4. **Use TextUtils.isEmpty()**: Use Android's built-in null-safe string checking
+
+Best Practice:
+Always validate strings before calling methods that don't accept null values, especially in performance-critical drawing code that runs on the UI thread.
+
+Related Patterns:
+- Defensive programming: Always check for null before dereferencing
+- Race condition handling: Validate state consistency during multi-threaded operations
+- Canvas drawing: Never assume text is non-null during rendering
+
+Note: Materialistic is an open-source Material Design Hacker News client for Android, known for its clean interface and customizable list interactions.

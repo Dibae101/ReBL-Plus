@@ -1,0 +1,117 @@
+App Name: FlashCards (ASU CodeDevils)
+
+Bug Report Title:
+App crashes when creating a new course
+
+Bug Report Issue:
+FlashCards app crashes on fresh installation when user tries to create a new course due to incorrect view type casting.
+
+### DESCRIPTION
+The app incorrectly casts an EditText to TextInputLayout (or vice versa), causing a ClassCastException during course creation.
+
+### STEPS TO REPRODUCE
+1. Launch FlashCards app
+3. Login using any email address
+4. Navigate to add new course option
+5. Enter course name in the text field
+6. Click submit/save button
+7. App crashes with ClassCastException
+
+### EXPECTED BEHAVIOR
+The new course should be created and saved successfully after entering the course name.
+
+### ACTUAL BEHAVIOR
+App crashes with ClassCastException because code tries to cast EditText to TextInputLayout (or vice versa), which are incompatible types.
+
+### ENVIRONMENT
+FlashCards version: commit 1ce0e98
+Android version: Various
+Device: Various
+
+### NOTE
+TextInputLayout is a wrapper/container for EditText, not a subclass or superclass, so direct casting is impossible.
+2. User clicks submit/save
+3. The app reads the entered text correctly
+4. The new course is created and saved
+5. User is navigated to the course view or course list
+6. No crash occurs
+
+Actual Behavior:
+The app crashes with a ClassCastException when attempting to submit the new course. The user cannot create any courses, making the app unusable for its primary purpose on fresh installs.
+
+Crash Details:
+- Exception Type: java.lang.ClassCastException
+- Error Message: Cannot cast android.widget.EditText to android.support.design.widget.TextInputLayout (or vice versa)
+- Location: Course creation code when attempting to retrieve text input
+- Affected Version: Commit 1ce0e98
+- Device: Nexus 6P
+- Android Version: 8.0.0 (Oreo)
+- Frequency: 100% on fresh installs when creating first course
+
+Stack Trace:
+[Not provided in issue, but typical ClassCastException stack trace would show:]
+```
+java.lang.ClassCastException: android.widget.EditText cannot be cast to android.support.design.widget.TextInputLayout
+    at edu.asu.codedevils.flashcards.CourseActivity.onSubmit(CourseActivity.java:XX)
+    at edu.asu.codedevils.flashcards.CourseActivity.access$000(CourseActivity.java:XX)
+    at edu.asu.codedevils.flashcards.CourseActivity$1.onClick(CourseActivity.java:XX)
+    at android.view.View.performClick(View.java:XXXX)
+    [... more stack trace ...]
+```
+
+Technical Analysis:
+This is a common mistake when working with Material Design's TextInputLayout. Developers sometimes forget that:
+
+1. **TextInputLayout is a ViewGroup** that contains an EditText child
+2. **EditText is the actual input field** where users type
+3. The XML structure is typically:
+```xml
+<com.google.android.material.textfield.TextInputLayout
+    android:id="@+id/course_input_layout"
+    ...>
+    
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/course_edit_text"
+        ... />
+        
+</com.google.android.material.textfield.TextInputLayout>
+```
+
+Common causes of this bug:
+1. Confusion about which ID refers to which view type
+2. Copy-paste errors from code examples
+3. Refactoring from plain EditText to TextInputLayout without updating all references
+4. Misunderstanding the Material Design component hierarchy
+
+The fix requires:
+1. Identify which view ID corresponds to which type (EditText vs TextInputLayout)
+2. Update all findViewById() calls to cast to the correct type
+3. If getting text from EditText wrapped in TextInputLayout, use:
+   - `inputLayout.getEditText().getText().toString()`
+   - Or find the EditText child directly by its own ID
+
+Impact:
+- Severity: Critical - Core functionality completely broken
+- Frequency: 100% on fresh installs when creating first course
+- Affected Component: Course creation, user onboarding
+- User Impact: New users cannot create any courses, rendering the app completely useless
+- First-run Experience: Terrible - app crashes immediately when trying to use main feature
+
+Fresh Install Context:
+The bug specifically affects fresh installs, suggesting:
+- It may not occur when courses already exist (different code path?)
+- First-time users are most affected
+- The crash occurs during initial data setup
+- This is a critical onboarding failure
+
+Resolution:
+Fixed by stephanieMiranda on September 15, 2017 (22 days after initial report).
+The fix corrected the bad cast from EditText to TextInputLayout.
+Issue closed as completed after verification.
+
+Developer Note:
+As stated by the resolver: "The issue was a bad cast from EditText to TextInputLayout. This issue is now resolved."
+
+Labels: bug
+
+Note: FlashCards is a student project from ASU CodeDevils, a coding club at Arizona State University. The app is designed to help students create and study flashcards for their courses.

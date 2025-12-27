@@ -11,6 +11,12 @@ We need to dwn
 3. Navigate to project directory:
    cd /Users/darshan/Desktop/Papers/ReBL
 
+## check available emulator
+~/Library/Android/sdk/emulator/emulator -list-avds
+
+## start Emulator:
+~/Library/Android/sdk/emulator/emulator -avd Pixel &
+
 ## Install APK to Emulator
 
 # Check if emulator is connected (should show emulator-5554):

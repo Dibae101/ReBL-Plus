@@ -1,0 +1,36 @@
+App Name: Material Files (MaterialFiles)
+
+Bug Report Title:
+FTP server restarts after being stopped when the app is closed/killed
+
+Bug Report Issue:
+After stopping the built-in FTP server in Material Files and then closing/killing the app, the FTP server starts again on its own without the user re-enabling it.  ￼
+
+DESCRIPTION
+
+If the user starts the FTP server, stops it, and then closes/kills the app, the FTP server should remain stopped. Instead, it restarts automatically.  ￼
+
+STEPS TO REPRODUCE
+	1.	Open Material Files and grant file access permissions (“Allow”) if prompted.  ￼
+	2.	Open the app menu → tap FTP server.  ￼
+	3.	Tap Start server.  ￼
+	4.	Tap Stop server.  ￼
+	5.  Open the Recent apps / Overview screen (Android “square” button or gesture).
+	6.  Find Material Files in the recent apps list.
+	7.  Swipe the Material Files card away (left/right or up, depending on Android UI) to dismiss it.
+	8.  Confirm Material Files is no longer visible in the Recent apps list.
+	9.  The FTP server will remain running
+
+EXPECTED BEHAVIOR
+
+After the user stops the FTP server and closes/kills the app, the FTP server should remain stopped until the user manually starts it again.  ￼
+
+ACTUAL BEHAVIOR
+
+After closing/killing the app, the FTP server restarts by itself.  ￼
+
+ENVIRONMENT
+	•	Material Files version: 1.0.0-beta.11 (12)  ￼
+	•	Android version: 6.0  ￼
+	•	Device: LG-H735AR  ￼
+	•	(Reported alongside) F-Droid version: 1.7.1  ￼

@@ -31,7 +31,7 @@ try:
     print("\nTesting Gemini 2.0 Flash model...")
     model = genai.GenerativeModel('gemini-2.0-flash-exp')
     response = model.generate_content("Say 'Hello' in one word")
-    print(f"✅ Gemini 2.0 Flash response: {response.text.strip()}")
+    print(f"Gemini 2.0 Flash response: {response.text.strip()}")
 except Exception as e:
     print(f"Gemini 2.0 Flash test failed: {e}")
 

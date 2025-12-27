@@ -96,15 +96,15 @@ cd "$(dirname "$0")/Automation"
 source ../env/bin/activate
 
 echo "[5/6] Installing  APK..."
-$ADB -s "$DEVICE_SERIAL" install -r APKs/AIMSICD_debug.apk
+$ADB -s "$DEVICE_SERIAL" install -r APKs/olam_debug.apk
 echo ""
 
 echo "[6/6] Running bug reproduction..."
 echo ""
-echo "Command: python3 reproduction.py $DEVICE_PORT BRs/aimsicd_816.txt"
+echo "Command: python3 reproduction.py $DEVICE_PORT BRs/olam_2.txt"
 echo "========================================"
 echo ""
 
-python3 reproduction.py "$DEVICE_PORT" BRs/aimsicd_816.txt
+python3 reproduction.py "$DEVICE_PORT" BRs/olam_2.txt
 echo "  Execution Complete"
 
