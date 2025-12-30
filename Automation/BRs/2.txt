@@ -1,0 +1,40 @@
+App Name: FamilyFinance
+
+Bug Report Title: App crashes when changing report view to percent values
+
+Issue Description:
+When the user changes the appearance of the report in the "report" section from "view value" to "use percent value", the application crashes due to a NullPointerException. This prevents users from viewing their report data as percentages and disrupts the app experience.
+
+Steps to Reproduce:
+1. Launch the FamilyFinance app.
+2. Click the "report" option.
+3. Scroll to the right side to "incomes by articles" or "expenses by articles (pie chart)".
+4. Click the eye icon.
+5. Change the view from "view values" to "use percent values".
+6. The app crashes and stops working (bug: crash occurs when switching to percent values).
+
+Expected Behavior:
+- The app should switch the report view to percent values and display the report data accordingly, without crashing.
+
+Actual Behavior:
+- The app crashes with a NullPointerException:
+  java.lang.NullPointerException: Attempt to invoke virtual method 'void com.github.mikephil.charting.data.PieData.setDrawValues(boolean)' on a null object reference
+  at io.github.zwieback.familyfinance.business.chart.fragment.PieChartFragment.onApplyDisplay(PieChartFragment.java:160)
+  ...
+
+Environment:
+- App version: (not specified)
+- Device: Oppo Neo 7
+- OS: Android 6.1
+- Reproducible: Always
+
+Root Cause (from issue discussion):
+- The app does not properly handle the case where PieData is null when switching the report view, leading to a NullPointerException.
+
+Fix/Resolution:
+- The issue was fixed in commit d365188d7c7b9d9eb0021e73e0c6dc37aba79a3f.
+
+References:
+- Original issue: https://github.com/zwieback/FamilyFinance/issues/1
+- Fix commit: https://github.com/zwieback/FamilyFinance/commit/4d1e8446b45d0e425d321255ccf61ec028d6ebd6
+- BR reference JSON: https://github.com/SageSELab/AndroR2/blob/main/metadata/2.json

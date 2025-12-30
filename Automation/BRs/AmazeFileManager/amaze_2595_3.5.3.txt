@@ -1,0 +1,41 @@
+App Name: Amaze File Manager
+
+Bug Report Title:
+New file dialog allows spaces at the end and beginning
+
+Bug Report Issue:
+Amaze File Manager does not trim whitespace when creating or renaming files, causing the app to treat files with leading/trailing spaces as different file types. This affects thumbnail display and opening modes.
+
+### DESCRIPTION
+When creating a new file or renaming an existing file, the app does not remove leading or trailing spaces from the filename. This causes Amaze to incorrectly identify the file type, resulting in wrong thumbnails and incorrect file opening behavior.
+
+### STEPS TO REPRODUCE
+1. Open Amaze File Manager app
+2. Navigate to any directory
+3. Tap the "+" button to create a new file
+4. Enter a filename with spaces at the beginning or end (e.g., "  myfile.txt  " or "document.pdf  ")
+5. Confirm the file creation
+6. Observe that the file is created with the spaces included in the name
+7. Notice that the thumbnail/icon displayed may be incorrect for the file type
+8. Attempt to open the file and observe incorrect opening behavior
+
+### EXPECTED BEHAVIOR
+The app should automatically trim leading and trailing whitespace from filenames during creation or renaming operations. Files should be identified and opened correctly based on their actual extension, regardless of any spaces the user may have accidentally typed.
+
+### ACTUAL BEHAVIOR
+The app accepts filenames with leading and trailing spaces without trimming them. This causes:
+- Incorrect file type detection
+- Wrong thumbnails being displayed
+- Files not opening with the correct application
+- Confusion for users who accidentally add spaces
+
+### ENVIRONMENT
+Amaze File Manager version: 3.5.3
+Android version: Various
+Device: Multiple devices
+
+### ROOT CAUSE
+The function `GeneralDialogCreation.showNameDialog()` does not call `trim()` on user input before processing the filename for creation or renaming operations.
+
+### FIX
+Apply `trim()` to all filename inputs in the dialog creation and renaming workflows to remove leading and trailing whitespace automatically.

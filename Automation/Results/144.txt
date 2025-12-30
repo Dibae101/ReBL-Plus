@@ -1,0 +1,87 @@
+[1/5] Starting ADB server...
+[2/5] Checking for devices...
+Device found: emulator-5554
+[3/5] Waiting for device to be ready...
+Device is ready (port: 5554)
+[4/5] Activating Python environment...
+[5/6] Installing  APK...
+Performing Streamed Install
+Success
+
+/Users/darshan/Desktop/Papers/ReBL/env/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+An error occurred: module 'importlib.metadata' has no attribute 'packages_distributions'
+/Users/darshan/Desktop/Papers/ReBL/env/lib/python3.9/site-packages/google/api_core/_python_version_support.py:252: FutureWarning: You are using a Python version (3.9.6) past its end of life. Google will update google.api_core with critical bug fixes on a best-effort basis, but not with any other fixes or features. Please upgrade to the latest Python version, or at least Python 3.10, and then update google.api_core.
+  warnings.warn(message, FutureWarning)
+*Prompt: [].
+*Current Screen Information:  #Current Activity: com.android.launcher3.Launcher.  # UI Information:click has the following group(s):1#.[{'TextView': 'QKSMS'}];2#.search_plate:[{'TextView': 'com.android.quicksearchbox:id/search_widget_text'}, {'ImageView': 'com.android.quicksearchbox:id/search_icon'}];3#.page_indicator:[{'ImageView': 'Apps list'}];4#.['com.android.launcher3:id/layout'];5#.[{'TextView': 'Camera'}, {'TextView': 'WebView Browser Tester'}, {'TextView': 'Messaging'}, {'TextView': 'Phone'}];.
+models/gemini-2.5-pro
+###############################################
+
+*GPT message: Suggestion:
+```json
+[
+  {"action": "click", "feature": "QKSMS"}
+]
+```
+
+###############################################
+{'action': 'click', 'feature': 'QKSMS'}
+*Prompt: ["Successfully execute {'action': 'click', 'feature': 'QKSMS'}"].
+*Current Screen Information:  #Current Activity: feature.main.MainActivity.  # UI Information:set_text has the following group(s):1#.toolbar:['Search inbox…', {'EditText': 'com.moez.QKSMS:id/toolbarSearch'}, {'NAF': '[0,63][147,210]'}];click has the following group(s):1#.[{'FrameLayout': 'com.moez.QKSMS:id/avatar1'}, '123', 'Dec 5', 'You: Hey'];2#.compose:[{'ImageButton': 'Start new conversation'}];3#.snackbarButton:['CHANGE'];Other Widgets with Text in This Page has the following group(s):1#.Love texting again;2#.Make QKSMS your default SMS app;.
+models/gemini-2.5-pro
+###############################################
+
+*GPT message: Suggestion:
+```json
+[
+  {"action": "click", "feature": "Start new conversation"}
+]
+```
+
+###############################################
+{'action': 'click', 'feature': 'Start new conversation'}
+*Prompt: ["Successfully execute {'action': 'click', 'feature': 'Start new conversation'}"].
+*Current Screen Information:  #Current Activity: feature.compose.ComposeActivity.  # UI Information:set_text has the following group(s):1#.toolbar:['Type a name or number', {'ImageButton': 'Navigate up'}];.
+models/gemini-2.5-pro
+###############################################
+
+*GPT message: Suggestion:
+```json
+[
+  {"action": "set_text", "feature": "Type a name or number", "input_text": "1"}
+]
+```
+
+###############################################
+{'action': 'set_text', 'feature': 'Type a name or number', 'input_text': '1'}
+*Prompt: ["Successfully execute {'action': 'set_text', 'feature': 'Type a name or number', 'input_text': '1'}"].
+*Current Screen Information:  #Current Activity: feature.compose.ComposeActivity.  # UI Information:set_text has the following group(s):1#.toolbar:['1', {'ImageButton': 'Navigate up'}];click has the following group(s):1#.['com.moez.QKSMS:id/primary'];2#.avatar:[{'FrameLayout': 'com.moez.QKSMS:id/avatar'}];Other Widgets with Text in This Page has the following group(s):1#.1;.
+models/gemini-2.5-pro
+###############################################
+
+*GPT message: Suggestion:
+```json
+[
+  {"action": "click", "feature": "com.moez.QKSMS:id/primary"}
+]
+```
+
+###############################################
+{'action': 'click', 'feature': 'com.moez.QKSMS:id/primary'}
+*Prompt: ["Successfully execute {'action': 'click', 'feature': 'com.moez.QKSMS:id/primary'}"].
+*Current Screen Information:  #Current Activity: feature.compose.ComposeActivity.  # UI Information:set_text has the following group(s):1#.toolbar:['1', {'FrameLayout': 'com.moez.QKSMS:id/avatar'}, {'RelativeLayout': 'com.moez.QKSMS:id/container'}, {'ImageButton': 'Navigate up'}, '1'];click has the following group(s):1#.['com.moez.QKSMS:id/primary'];2#.avatar:[{'FrameLayout': 'com.moez.QKSMS:id/avatar'}];Other Widgets with Text in This Page has the following group(s):1#.1;2#.This is the start of your conversation. Say something nice!;.
+models/gemini-2.5-pro
+###############################################
+
+*GPT message: Suggestion:
+```json
+[
+  {"result": "success", "reason": "The bug report states that after searching for and selecting a contact, the search text remains in the recipient field. The current screen shows the text '1' (the search query) is still present in the toolbar, which acts as the recipient field, along with the selected contact's avatar. This matches the described buggy behavior.", "bugreport": "## Bug Report: Search text not cleared after contact selection\n\n**Issue:** When creating a new message, the search text entered in the recipient field is not cleared after a contact is selected from the search results, leading to a cluttered UI.\n\n**Steps to Reproduce:**\n1. Open the QKSMS app.\n2. Tap the 'Start new conversation' button.\n3. In the 'Type a name or number' field, enter '1' to search for a contact.\n4. Select the first contact from the suggestion list.\n\n**Expected Behavior:**\nAfter selecting the contact, the search text '1' should be cleared from the recipient field, leaving only the selected contact's chip.\n\n**Actual Behavior:**\nThe recipient field displays both the selected contact's chip and the search text '1', confirming the bug."}
+]
+```
+
+###############################################
+!!!xxx!!!. Execution time: 64.645601 seconds
+!!!Response Times: 5. Total Commands: 5
+  Execution Complete

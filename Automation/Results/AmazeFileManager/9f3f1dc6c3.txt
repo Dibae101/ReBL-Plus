@@ -1,0 +1,8 @@
+~/Library/Android/sdk/platform-tools/adb -s emulator-5554 install  ./Automation/APKs/AmazeFileManager/9f3f1dc6c3.apk 
+Performing Streamed Install
+adb: failed to install ./Automation/APKs/AmazeFileManager/9f3f1dc6c3.apk: Failure [INSTALL_FAILED_TEST_ONLY: installPackageLI]
+
+could not install the apk.
+
+It is a debug app, used -t The -t flag allows installation of test-only APKs (debug builds)
+The app didn't open.

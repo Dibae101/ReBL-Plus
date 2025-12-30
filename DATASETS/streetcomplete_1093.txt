@@ -1,0 +1,35 @@
+App Name: StreetComplete
+
+Bug Report Title: Cursor jumps before housenumber when adding letter
+
+Issue Description:
+When entering a housenumber that includes a letter (e.g., "10a") in the housenumber task, the cursor unexpectedly jumps to the beginning of the input field after typing the number and pressing the letter button. As a result, the letter is inserted before the number (e.g., "a10" instead of "10a").
+
+Steps to Reproduce:
+1. Select the housenumber task in StreetComplete.
+2. Enter a housenumber, e.g., type "10".
+3. Press the letter button to add a letter (e.g., "a").
+4. Observe the cursor position and the resulting input.
+5. The cursor jumps to the beginning of the input field, so the letter is inserted before the number (e.g., "a10").
+
+
+Expected Behavior:
+- The cursor should remain at the end of the input field so that new input is appended to the end (e.g., "10a").
+
+Actual Behavior:
+- The cursor jumps to the beginning of the input field, so the letter is inserted before the number (e.g., "a10").
+
+Environment:
+- App version: 5.2
+- Android version: 6.0.1
+- Reproducible: Always (also occurred in older versions)
+
+Root Cause (from issue discussion):
+- Not specified in the issue, but likely related to input field or keyboard handling logic.
+
+Fix/Resolution:
+- The issue was fixed in commit 35880e3bc7b482dcf44ebf6398eb0226064d9ad6.
+
+References:
+- Original issue: https://github.com/streetcomplete/StreetComplete/issues/1093
+- Fix commit: https://github.com/streetcomplete/StreetComplete/commit/35880e3bc7b482dcf44ebf6398eb0226064d9ad6

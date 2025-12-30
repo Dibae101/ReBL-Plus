@@ -1,0 +1,44 @@
+App Name: QKSMS
+
+Bug Report Title:
+Notification Setting not saved when Sound set to none
+
+Bug Report Issue:
+When attempting to set the notification sound to "None" in QKSMS settings, the change is not saved. The app reverts to the previously selected notification sound instead of saving the "None" selection.
+
+### DESCRIPTION
+Users are unable to disable notification sounds in QKSMS. When navigating to the notification settings and selecting "None" as the notification sound, the app fails to save this preference. Upon returning to the notification settings screen, the previous sound setting is still displayed, and notifications continue to play the old sound instead of being silent.
+
+### STEPS TO REPRODUCE
+1. Open QKSMS app
+2. Navigate to Settings (General)
+3. Tap on "Notifications"
+4. Tap on "Sound" option
+5. From the sound picker dialog, select "None"
+6. Press "OK" to confirm
+7. Return to the notifications settings screen
+8. Observe that the Sound setting still shows the previous selection, not "None"
+
+### EXPECTED BEHAVIOR
+When "None" is selected as the notification sound:
+- The selection should be saved to the app's preferences
+- The notifications settings screen should display "Sound: None"
+- New message notifications should not play any sound
+- The setting should persist across app restarts
+
+### ACTUAL BEHAVIOR
+The "None" selection is not saved. The notification sound setting reverts to the previously selected sound. The app continues to play notification sounds even though the user attempted to disable them. The setting is not persisted, and each attempt to set the sound to "None" fails.
+
+### ENVIRONMENT
+QKSMS version: 3.1.3
+Android version: 6.0.1
+Device: Not specified
+
+### ROOT CAUSE
+The app likely has an issue in the settings save logic where a null or empty value for the notification sound (representing "None") is not being properly handled or stored. The preference save operation may be checking for a non-null/non-empty value before saving, or there may be a bug in how the "None" selection is represented in the code versus how it's saved to SharedPreferences.
+
+### FIX
+Update the notification sound preference saving logic to properly handle the "None" selection. Ensure that when "None" is selected (likely represented as null or empty string), this value is correctly stored in SharedPreferences and retrieved when displaying the current setting.
+
+### FIXED IN
+Version 3.2.2 - Fix applied in commit b05e9b0

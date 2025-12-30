@@ -1,0 +1,49 @@
+App Name: QKSMS
+
+Bug Report Title:
+Screen flashes white at startup when using night mode
+
+Bug Report Issue:
+When opening QKSMS with night mode enabled, the app displays a brief white screen before rendering the dark-themed UI. This jarring white flash is particularly noticeable when transitioning from a dark launcher screen, creating a poor user experience.
+
+### DESCRIPTION
+Users who have night mode set to "always on" experience a disruptive white flash when launching the app. Instead of immediately showing a dark background consistent with the night mode theme, the app first displays a blank white screen for a brief moment before the actual dark UI is rendered. This is especially jarring when coming from a dark launcher or home screen, as the bright white flash creates an uncomfortable visual transition (dark launcher → bright white flash → dark app).
+
+### STEPS TO REPRODUCE
+1. Open QKSMS app
+2. Navigate to Settings
+3. Set Night mode to "always on"
+4. Use the back button to exit/close the app completely
+5. Open the app again from the launcher
+6. Observe the initial screen that appears
+
+### EXPECTED BEHAVIOR
+When night mode is enabled, the app should display a dark or black initial screen from the moment it launches. The background should remain consistent with the night mode theme throughout the entire startup process, providing a smooth visual transition from the launcher to the app without any bright flashes.
+
+### ACTUAL BEHAVIOR
+When the app first opens with night mode enabled:
+- A blank white screen is displayed briefly during startup
+- This white screen appears before the UI is fully rendered
+- The sequence is: dark launcher screen → full white initial screen → dark night mode screen
+- The white flash is jarring and uncomfortable, especially in low-light conditions
+- The issue is more noticeable in QKSMS than other messaging apps because the app takes slightly longer to launch/render
+
+### ENVIRONMENT
+QKSMS version: 3.3.1
+Android version: Android 6.0.1 (Marshmallow)
+Device: Samsung Note 4 (stock ROM)
+
+### ROOT CAUSE
+The app's window background in the theme/manifest is set to white (or default light color) for the initial launch screen. Android shows this initial screen/splash screen before any app code executes, and it doesn't dynamically adapt based on the app's night mode setting. The white background is defined in the app's theme and is shown before the app can check and apply the night mode preference.
+
+### TECHNICAL LIMITATION
+According to the developer, it's not possible to dynamically change the initial screen based on runtime settings because this screen is shown before any code from the app is executed. A potential workaround would be to minimize startup time so the white flash is less noticeable.
+
+### FIX
+Changed the default window background to dark in the app theme (commit ea55af6 in version 3.4.3). While this fixes the issue for users with night mode always on, it doesn't dynamically adapt for automatic night mode settings. The ideal solution would be to reduce app startup time to minimize the visibility of the initial screen.
+
+### RELATED ISSUES
+Issue #1272 - Addresses slow app launch/render time
+
+### FIXED IN
+Version 3.4.3 - Commit ea55af6

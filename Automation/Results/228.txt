@@ -1,0 +1,89 @@
+[1/5] Starting ADB server...
+[2/5] Checking for devices...
+Device found: emulator-5554
+[3/5] Waiting for device to be ready...
+Device is ready (port: 5554)
+[4/5] Activating Python environment...
+[5/6] Installing  APK...
+Performing Streamed Install
+adb: failed to stat APKs/228.apk: No such file or directory
+
+/Users/darshan/Desktop/Papers/ReBL/env/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+An error occurred: module 'importlib.metadata' has no attribute 'packages_distributions'
+/Users/darshan/Desktop/Papers/ReBL/env/lib/python3.9/site-packages/google/api_core/_python_version_support.py:252: FutureWarning: You are using a Python version (3.9.6) past its end of life. Google will update google.api_core with critical bug fixes on a best-effort basis, but not with any other fixes or features. Please upgrade to the latest Python version, or at least Python 3.10, and then update google.api_core.
+  warnings.warn(message, FutureWarning)
+*Prompt: [].
+*Current Screen Information:  #Current Activity: com.android.launcher3.Launcher.  # UI Information:click has the following group(s):1#.[{'NAF': '[21,95][1059,1489]'}];2#.search_plate:[{'TextView': 'com.android.quicksearchbox:id/search_widget_text'}, {'ImageView': 'com.android.quicksearchbox:id/search_icon'}];3#.page_indicator:[{'ImageView': 'Apps list'}];4#.['com.android.launcher3:id/layout'];5#.[{'TextView': 'Camera'}, {'TextView': 'WebView Browser Tester'}, {'TextView': 'Messaging'}, {'TextView': 'Phone'}];.
+models/gemini-2.5-pro
+###############################################
+
+*GPT message: Suggestion: [{'action': 'click', 'feature': 'Apps list'}]
+
+###############################################
+{'action': 'click', 'feature': 'Apps list'}
+*Prompt: ["Successfully execute {'action': 'click', 'feature': 'Apps list'}"].
+*Current Screen Information:  #Current Activity: com.android.launcher3.Launcher.  # UI Information:set_text has the following group(s):1#.search_container:['  Search Apps', {'EditText': 'com.android.launcher3:id/search_box_input'}];scrollable has the following group(s):1#.apps_list_view:[{'TextView': 'Music'}, {'TextView': 'Messaging'}, {'TextView': 'Memento Calendar'}, {'TextView': 'Materialistic'}, {'TextView': 'Markor'}, {'TextView': 'LibreNews'}, {'TextView': 'Leaks'}, {'TextView': 'K-9 Mail'}, {'TextView': 'GnuCash'}, {'TextView': 'Gestures Builder'}, {'TextView': 'Gallery'}, {'TextView': 'Files'}, {'TextView': 'FastAdapter'}, {'TextView': 'Family Finance'}, {'TextView': 'F-Droid'}, {'TextView': 'Email'}, {'TextView': 'Downloads'}, {'TextView': 'Dev Tools'}, {'TextView': 'Custom Locale'}, {'TextView': 'Contacts'}, {'TextView': 'Clock'}, {'TextView': 'Camera'}, {'TextView': 'Calendar'}, {'TextView': 'Calculator'}, {'TextView': 'c:geo'}, {'TextView': 'Bites'}, {'TextView': 'Birthdroid'}, {'TextView': 'API Demos'}, {'TextView': 'Anuto TD'}, {'TextView': 'A Time Tracker'}];.
+models/gemini-2.5-pro
+###############################################
+
+*GPT message: Suggestion: [{'action': 'click', 'feature': 'GnuCash'}]
+
+###############################################
+{'action': 'click', 'feature': 'GnuCash'}
+*Prompt: ["Successfully execute {'action': 'click', 'feature': 'GnuCash'}"].
+*Current Screen Information:  #Current Activity: org.gnucash.android.ui.account.AccountsActivity.  # UI Information:click has the following group(s):1#.toolbar:[{'TextView': 'Search'}, {'ImageButton': 'Navigation drawer opened'}, 'Accounts'];2#.['RECENT'];3#.['ALL'];4#.['FAVORITES'];5#.[{'ImageView': 'org.gnucash.android:id/options_menu'}, {'ImageView': 'org.gnucash.android:id/favorite_status'}, {'ImageView': 'org.gnucash.android:id/create_transaction'}, 'Ach', '$0.00'];6#.[{'ImageView': 'org.gnucash.android:id/options_menu'}, {'ImageView': 'org.gnucash.android:id/favorite_status'}, 'Assets', '1 sub-account', '-$90,000.00'];7#.[{'ImageView': 'org.gnucash.android:id/options_menu'}, {'ImageView': 'org.gnucash.android:id/favorite_status'}, 'Equity', '1 sub-account', '$0.00'];8#.[{'ImageView': 'org.gnucash.android:id/options_menu'}, {'ImageView': 'org.gnucash.android:id/favorite_status'}, 'Expenses', '25 sub-accounts', '$90,000.00'];9#.[{'ImageView': 'org.gnucash.android:id/options_menu'}, {'ImageView': 'org.gnucash.android:id/favorite_status'}, 'Income', '5 sub-accounts', '$0.00'];10#.[{'ImageView': 'org.gnucash.android:id/options_menu'}, {'ImageView': 'org.gnucash.android:id/favorite_status'}, 'Liabilities', '1 sub-account', '$0.00'];11#.[{'ImageView': 'org.gnucash.android:id/options_menu'}, {'ImageView': 'org.gnucash.android:id/favorite_status'}, {'ImageView': 'org.gnucash.android:id/create_transaction'}, 'Test Acc'];12#.fab_create_account:[{'ImageButton': 'org.gnucash.android:id/fab_create_account'}];.
+models/gemini-2.5-pro
+###############################################
+
+*GPT message: Suggestion: [{'action': 'click', 'feature': 'org.gnucash.android:id/fab_create_account'}]
+
+###############################################
+{'action': 'click', 'feature': 'org.gnucash.android:id/fab_create_account'}
+*Prompt: ["Successfully execute {'action': 'click', 'feature': 'org.gnucash.android:id/fab_create_account'}"].
+*Current Screen Information:  #Current Activity: org.gnucash.android.ui.common.FormActivity.  # UI Information:set_text has the following group(s):1#.[{'EditText': 'org.gnucash.android:id/input_account_name'}];2#.[{'EditText': 'org.gnucash.android:id/input_account_description'}];click has the following group(s):1#.toolbar:[{'TextView': 'Save'}, {'ImageButton': 'Navigate up'}, 'Create Account'];2#.input_color_picker:[{'QuickContactBadge': 'org.gnucash.android:id/input_color_picker'}];3#.suggestions_strip:[{'TextView': 'No suggestion'}, 'disabled', {'TextView': 'No suggestion'}, 'disabled', {'TextView': 'No suggestion'}, 'disabled'];4#.suggestions_strip_voice_key:[{'ImageButton': 'Voice input'}];scrollable has the following group(s):1#.input_currency_spinner:[{'Spinner': 'org.gnucash.android:id/input_currency_spinner'}, 'IRR - Iranian Rial'];2#.input_account_type_spinner:[{'Spinner': 'org.gnucash.android:id/input_account_type_spinner'}, 'CASH'];Other Widgets with Text in This Page has the following group(s):1#.Account name;2#.CURRENCY;3#.ACCOUNT COLOR & TYPE;4#.Account description;.
+models/gemini-2.5-pro
+###############################################
+
+*GPT message: Suggestion: [{'action': 'set_text', 'feature': 'org.gnucash.android:id/input_account_name', 'input_text': 'Test Account'}]
+
+###############################################
+{'action': 'set_text', 'feature': 'org.gnucash.android:id/input_account_name', 'input_text': 'Test Account'}
+*Prompt: ["Successfully execute {'action': 'set_text', 'feature': 'org.gnucash.android:id/input_account_name', 'input_text': 'Test Account'}"].
+*Current Screen Information:  #Current Activity: org.gnucash.android.ui.common.FormActivity.  # UI Information:set_text has the following group(s):1#.['Test Account', {'EditText': 'org.gnucash.android:id/input_account_name'}];2#.[{'EditText': 'org.gnucash.android:id/input_account_description'}];click has the following group(s):1#.toolbar:[{'TextView': 'Save'}, {'ImageButton': 'Navigate up'}, 'Create Account'];2#.input_color_picker:[{'QuickContactBadge': 'org.gnucash.android:id/input_color_picker'}];3#.suggestions_strip:[{'TextView': 'Accounting'}, {'TextView': 'Account'}, {'TextView': 'Accounts'}];4#.suggestions_strip_voice_key:[{'ImageButton': 'Voice input'}];scrollable has the following group(s):1#.input_currency_spinner:[{'Spinner': 'org.gnucash.android:id/input_currency_spinner'}, 'IRR - Iranian Rial'];2#.input_account_type_spinner:[{'Spinner': 'org.gnucash.android:id/input_account_type_spinner'}, 'CASH'];Other Widgets with Text in This Page has the following group(s):1#.Account name;2#.CURRENCY;3#.ACCOUNT COLOR & TYPE;4#.Account description;.
+models/gemini-2.5-pro
+###############################################
+
+*GPT message: Suggestion: [{'action': 'click', 'feature': 'Save'}]
+
+###############################################
+{'action': 'click', 'feature': 'Save'}
+*Prompt: ["Successfully execute {'action': 'click', 'feature': 'Save'}"].
+*Current Screen Information:  #Current Activity: org.gnucash.android.ui.account.AccountsActivity.  # UI Information:click has the following group(s):1#.toolbar:[{'TextView': 'Search'}, {'ImageButton': 'Navigation drawer opened'}, 'Accounts'];2#.['RECENT'];3#.['ALL'];4#.['FAVORITES'];5#.[{'ImageView': 'org.gnucash.android:id/options_menu'}, {'ImageView': 'org.gnucash.android:id/favorite_status'}, 'Ach', '$0.00'];6#.[{'ImageView': 'org.gnucash.android:id/options_menu'}, {'ImageView': 'org.gnucash.android:id/favorite_status'}, 'Assets', '1 sub-account', '-$90,000.00'];7#.[{'ImageView': 'org.gnucash.android:id/options_menu'}, {'ImageView': 'org.gnucash.android:id/favorite_status'}, 'Equity', '1 sub-account', '$0.00'];8#.[{'ImageView': 'org.gnucash.android:id/options_menu'}, {'ImageView': 'org.gnucash.android:id/favorite_status'}, 'Expenses', '25 sub-accounts', '$90,000.00'];9#.[{'ImageView': 'org.gnucash.android:id/options_menu'}, {'ImageView': 'org.gnucash.android:id/favorite_status'}, 'Income', '5 sub-accounts', '$0.00'];10#.[{'ImageView': 'org.gnucash.android:id/options_menu'}, {'ImageView': 'org.gnucash.android:id/favorite_status'}, 'Liabilities', '1 sub-account', '$0.00'];11#.[{'ImageView': 'org.gnucash.android:id/options_menu'}, {'ImageView': 'org.gnucash.android:id/favorite_status'}, {'ImageView': 'org.gnucash.android:id/create_transaction'}, 'Test Acc'];12#.fab_create_account:[{'ImageButton': 'org.gnucash.android:id/fab_create_account'}];.
+models/gemini-2.5-pro
+###############################################
+
+*GPT message: Suggestion: [{'action': 'click', 'feature': 'Test Acc'}]
+
+###############################################
+{'action': 'click', 'feature': 'Test Acc'}
+*Prompt: ["Successfully execute {'action': 'click', 'feature': 'Test Acc'}"].
+*Current Screen Information:  #Current Activity: org.gnucash.android.ui.transaction.TransactionsActivity.  # UI Information:click has the following group(s):1#.['SUB-ACCOUNTS'];2#.['TRANSACTIONS'];3#.fab_create_transaction:[{'ImageButton': 'org.gnucash.android:id/fab_create_transaction'}];spinner has the following group(s):1#.toolbar:[{'ImageView': 'More options'}, {'TextView': 'Favorite'}, {'Spinner': 'org.gnucash.android:id/toolbar_spinner'}, {'ImageButton': 'Navigation drawer opened'}, 'Test Acc'];Other Widgets with Text in This Page has the following group(s):1#.No transactions to display;.
+models/gemini-2.5-pro
+###############################################
+
+*GPT message: Suggestion: [{'action': 'click', 'feature': 'org.gnucash.android:id/fab_create_transaction'}]
+
+###############################################
+{'action': 'click', 'feature': 'org.gnucash.android:id/fab_create_transaction'}
+*Prompt: ["Successfully execute {'action': 'click', 'feature': 'org.gnucash.android:id/fab_create_transaction'}"].
+*Current Screen Information:  #Current Activity: org.gnucash.android.ui.common.FormActivity.  # UI Information:set_text has the following group(s):1#.['Description', {'EditText': 'org.gnucash.android:id/input_transaction_name'}];2#.['Receive Receive', {'Switch': 'org.gnucash.android:id/input_transaction_type'}, {'ImageView': 'org.gnucash.android:id/btn_split_editor'}, 'Amount', {'EditText': 'org.gnucash.android:id/input_transaction_amount'}, '﷼﷼'];3#.['Add note', {'EditText': 'org.gnucash.android:id/input_description'}];click has the following group(s):1#.suggestions_strip:[{'TextView': 'No suggestion'}, 'disabled', {'TextView': 'No suggestion'}, 'disabled', {'TextView': 'No suggestion'}, 'disabled'];2#.suggestions_strip_voice_key:[{'ImageButton': 'Voice input'}];3#.toolbar:[{'TextView': 'Save'}, {'ImageButton': 'Navigate up'}, 'New transaction'];4#.['1:17:12 PM', 'Dec 30, 2025'];scrollable has the following group(s):1#.input_transfer_account_spinner:[{'Spinner': 'org.gnucash.android:id/input_transfer_account_spinner'}, 'Ach'];.
+models/gemini-2.5-pro
+###############################################
+
+*GPT message: Suggestion: [{'result': 'success', 'reason': "The bug is successfully reproduced. On the 'New transaction' screen, the Iranian Rial currency symbol is displayed twice ('﷼﷼') next to the amount input field, which matches the bug report's description of a doubled currency symbol.", 'bugreport': "Title: Persian currency symbol (IRR) is doubled in New Transaction screen.\n\nSteps to Reproduce:\n1. Launch the GnuCash app.\n2. Click the floating action button with resource ID 'org.gnucash.android:id/fab_create_account' to create a new account.\n3. In the 'Create Account' screen, enter 'Test Account' into the 'Account name' field (resource ID 'org.gnucash.android:id/input_account_name'). The currency is already set to 'IRR - Iranian Rial'.\n4. Click the 'Save' button.\n5. On the 'Accounts' screen, click on the newly created 'Test Acc' account.\n6. On the account details screen, click the floating action button with resource ID 'org.gnucash.android:id/fab_create_transaction' to create a new transaction.\n\nExpected Behavior:\nA single Iranian Rial currency symbol ('﷼') should be displayed next to the amount field.\n\nActual Behavior:\nOn the 'New transaction' screen, two consecutive Iranian Rial currency symbols ('﷼﷼') are displayed next to the 'Amount' input field."}]
+
+###############################################
+!!!xxx!!!. Execution time: 118.847849 seconds
+!!!Response Times: 8. Total Commands: 8
+  Execution Complete

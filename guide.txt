@@ -23,10 +23,10 @@ We need to dwn
 ~/Library/Android/sdk/platform-tools/adb devices
 
 # Uninstall old version (if exists):
-~/Library/Android/sdk/platform-tools/adb -s emulator-5554 uninstall com.dozingcatsoftware.asciicam
+~/Library/Android/sdk/platform-tools/adb -s emulator-5554 uninstall org.osmdroid
 
 # Install the APK:
-~/Library/Android/sdk/platform-tools/adb -s emulator-5554 install Automation/APKs/ascii-cam-1.2.3.apk
+~/Library/Android/sdk/platform-tools/adb -s emulator-5554 install Automation/APKs/apk.apk
 
 # Verify installed version:
 ~/Library/Android/sdk/platform-tools/adb -s emulator-5554 shell dumpsys package com.dozingcatsoftware.asciicam | grep versionName

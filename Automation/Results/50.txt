@@ -1,0 +1,54 @@
+1/5] Starting ADB server...
+[2/5] Checking for devices...
+Device found: emulator-5554
+[3/5] Waiting for device to be ready...
+Device is ready (port: 5554)
+[4/5] Activating Python environment...
+[5/6] Installing  APK...
+Performing Streamed Install
+Success
+
+/Users/darshan/Desktop/Papers/ReBL/env/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+An error occurred: module 'importlib.metadata' has no attribute 'packages_distributions'
+/Users/darshan/Desktop/Papers/ReBL/env/lib/python3.9/site-packages/google/api_core/_python_version_support.py:252: FutureWarning: You are using a Python version (3.9.6) past its end of life. Google will update google.api_core with critical bug fixes on a best-effort basis, but not with any other fixes or features. Please upgrade to the latest Python version, or at least Python 3.10, and then update google.api_core.
+  warnings.warn(message, FutureWarning)
+*Prompt: [].
+*Current Screen Information:  #Current Activity: com.android.launcher3.Launcher.  # UI Information:click has the following group(s):1#.[{'TextView': 'Aegis'}, {'TextView': 'Weather'}, {'TextView': 'OpenFoodFacts'}, {'TextView': 'Omni Notes'}, {'TextView': 'Firefox Focus'}];2#.search_plate:[{'TextView': 'com.android.quicksearchbox:id/search_widget_text'}, {'ImageView': 'com.android.quicksearchbox:id/search_icon'}];3#.page_indicator:[{'ImageView': 'Apps list'}];4#.['com.android.launcher3:id/layout'];5#.[{'TextView': 'Camera'}, {'TextView': 'WebView Browser Tester'}, {'TextView': 'Messaging'}, {'TextView': 'Phone'}];.
+models/gemini-2.5-pro
+###############################################
+
+*GPT message: Suggestion: [{'action': 'click', 'feature': 'Apps list'}]
+
+###############################################
+{'action': 'click', 'feature': 'Apps list'}
+*Prompt: ["Successfully execute {'action': 'click', 'feature': 'Apps list'}"].
+*Current Screen Information:  #Current Activity: com.android.launcher3.Launcher.  # UI Information:set_text has the following group(s):1#.search_container:['  Search Apps', {'EditText': 'com.android.launcher3:id/search_box_input'}];scrollable has the following group(s):1#.apps_list_view:[{'TextView': 'Markor'}, {'TextView': 'LibreNews'}, {'TextView': 'Leaks'}, {'TextView': 'Kiwix'}, {'TextView': 'K-9 Mail'}, {'TextView': 'Gestures Builder'}, {'TextView': 'Gallery'}, {'TextView': 'Firefox Focus'}, {'TextView': 'Files'}, {'TextView': 'FastAdapter'}, {'TextView': 'Family Finance'}, {'TextView': 'F-Droid'}, {'TextView': 'Email'}, {'TextView': 'Downloads'}, {'TextView': 'Dev Tools'}, {'TextView': 'Custom Locale'}, {'TextView': 'Contacts'}, {'TextView': 'Clock'}, {'TextView': 'Camera'}, {'TextView': 'Calendar'}, {'TextView': 'Calculator'}, {'TextView': 'c:geo'}, {'TextView': 'Bites'}, {'TextView': 'Birthdroid'}, {'TextView': 'Berkeley Mobile'}, {'TextView': 'API Demos'}, {'TextView': 'Anuto TD'}, {'TextView': 'AnkiDroid'}, {'TextView': 'Aegis'}, {'TextView': 'A Time Tracker'}];.
+models/gemini-2.5-pro
+###############################################
+
+*GPT message: Suggestion: [{'action': 'click', 'feature': 'Berkeley Mobile'}]
+
+###############################################
+{'action': 'click', 'feature': 'Berkeley Mobile'}
+*Prompt: ["Successfully execute {'action': 'click', 'feature': 'Berkeley Mobile'}"].
+*Current Screen Information:  #Current Activity: com.asuc.asucmobile.main.MainActivity.  # UI Information:click has the following group(s):1#.toolbar:[{'NAF': '[0,63][147,210]'}, 'Berkeley Mobile'];2#.['Berkeley Mobile'];3#.['BearTransit'];4#.['Food'];5#.['Libraries'];6#.['Gyms'];7#.['Resources'];.
+models/gemini-2.5-pro
+###############################################
+
+*GPT message: Suggestion: [{'action': 'click', 'feature': 'Gyms'}]
+
+###############################################
+{'action': 'click', 'feature': 'Gyms'}
+*Prompt: ["Successfully execute {'action': 'click', 'feature': 'Gyms'}"].
+*Current Screen Information:  #Current Activity: .Launcher.  # UI Information:click has the following group(s):1#.['Open app again'];Other Widgets with Text in This Page has the following group(s):1#.Berkeley Mobile has stopped;.
+models/gemini-2.5-pro
+###############################################
+
+*GPT message: Suggestion: [{'result': 'success', 'reason': 'The app crashed as expected after clicking on the "Gyms" button. The crash dialog "Berkeley Mobile has stopped" is visible on the screen, confirming the bug described in the report.', 'bugreport': 'Title: App crashes upon opening the Gyms page\n\nSteps to Reproduce:\n1. Launch the "Berkeley Mobile" application from the app list.\n2. On the main screen, tap on the "Gyms" option.\n\nExpected Behavior:\nThe Gyms page should load and display information about the gyms.\n\nActual Behavior:\nThe application immediately crashes, and a system dialog with the message "Berkeley Mobile has stopped" is displayed.'}]
+
+###############################################
+!!!xxx!!!. Execution time: 47.555325 seconds
+!!!Response Times: 4. Total Commands: 4
+  Execution Complete
+  

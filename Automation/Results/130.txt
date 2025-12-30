@@ -1,0 +1,54 @@
+[1/5] Starting ADB server...
+[2/5] Checking for devices...
+Device found: emulator-5554
+[3/5] Waiting for device to be ready...
+Device is ready (port: 5554)
+[4/5] Activating Python environment...
+[5/6] Installing  APK...
+Performing Streamed Install
+Success
+
+/Users/darshan/Desktop/Papers/ReBL/env/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+An error occurred: module 'importlib.metadata' has no attribute 'packages_distributions'
+/Users/darshan/Desktop/Papers/ReBL/env/lib/python3.9/site-packages/google/api_core/_python_version_support.py:252: FutureWarning: You are using a Python version (3.9.6) past its end of life. Google will update google.api_core with critical bug fixes on a best-effort basis, but not with any other fixes or features. Please upgrade to the latest Python version, or at least Python 3.10, and then update google.api_core.
+  warnings.warn(message, FutureWarning)
+*Prompt: [].
+*Current Screen Information:  #Current Activity: com.android.launcher3.Launcher.  # UI Information:set_text has the following group(s):1#.search_container:['  Search Apps', {'EditText': 'com.android.launcher3:id/search_box_input'}];scrollable has the following group(s):1#.apps_list_view:[{'TextView': 'Olam'}, {'TextView': 'ODK Collect'}, {'TextView': 'Notepad'}, {'TextView': 'NewsBlur'}, {'TextView': 'Music'}, {'TextView': 'Messaging'}, {'TextView': 'Memento Calendar'}, {'TextView': 'Materialistic'}, {'TextView': 'Markor'}, {'TextView': 'LibreNews'}, {'TextView': 'Leaks'}, {'TextView': 'K-9 Mail'}, {'TextView': 'Gestures Builder'}, {'TextView': 'Gallery'}, {'TextView': 'Files'}, {'TextView': 'FastAdapter'}, {'TextView': 'F-Droid'}, {'TextView': 'Email'}, {'TextView': 'Downloads'}, {'TextView': 'Dev Tools'}, {'TextView': 'Custom Locale'}, {'TextView': 'Contacts'}, {'TextView': 'Clock'}, {'TextView': 'Camera'}, {'TextView': 'Calendar'}, {'TextView': 'Calculator'}, {'TextView': 'Bites'}, {'TextView': 'Birthdroid'}, {'TextView': 'API Demos'}, {'TextView': 'andOTP (dev)'}];.
+models/gemini-2.5-pro
+###############################################
+
+*GPT message: Suggestion: [{'action': 'click', 'feature': 'andOTP (dev)'}]
+
+###############################################
+{'action': 'click', 'feature': 'andOTP (dev)'}
+*Prompt: ["Successfully execute {'action': 'click', 'feature': 'andOTP (dev)'}"].
+*Current Screen Information:  #Current Activity: org.shadowice.flocke.andotp.Activities.IntroScreenActivity.  # UI Information:click has the following group(s):1#.mi_button_next:[{'ImageButton': 'Next'}];Other Widgets with Text in This Page has the following group(s):1#.Let's get started;2#.Welcome to andOTP, this wizard will guide you through the initial setup. Please pay attention and read carefully otherwise you could lose data! 
+
+Don't worry, you can still change any of the options later in the Settings.;.
+models/gemini-2.5-pro
+###############################################
+
+*GPT message: Suggestion: [{'action': 'click', 'feature': 'Next'}]
+
+###############################################
+{'action': 'click', 'feature': 'Next'}
+*Prompt: ["Successfully execute {'action': 'click', 'feature': 'Next'}"].
+*Current Screen Information:  #Current Activity: org.shadowice.flocke.andotp.Activities.IntroScreenActivity.  # UI Information:click has the following group(s):1#.mi_button_back:[{'ImageButton': 'Back'}];2#.mi_button_next:[{'ImageButton': 'Next'}];scrollable has the following group(s):1#.introEncryptionSelection:[{'Spinner': 'org.shadowice.flocke.andotp.dev:id/introEncryptionSelection'}, 'Password / PIN'];Other Widgets with Text in This Page has the following group(s):1#.Database encryption;2#.To ensure the security of your accounts andOTP only stores them in encrypted data files. Here you can choose which method of encryption will be used.;3#.This method will encrypt your data with a key generated from a password or PIN. The main advantage here is that this will work with external backup solutions (like Titanium) and is much less failure-prone than the KeyStore. However, you will have to enter your credentials every time you start andOTP.;.
+models/gemini-2.5-pro
+###############################################
+
+*GPT message: Suggestion: [{'action': 'click', 'feature': 'Next'}]
+
+###############################################
+{'action': 'click', 'feature': 'Next'}
+*Prompt: Just a reminder, we are repeating the following steps Repeating sequence detected: , [{'action': 'click', 'feature': 'Next'}]. If the bug report doesn' require repeated steps, it seems like we're trapped into a loop. If you belive we are in the right track, maybe try different text for set_text. If there are more other widgets, maybe try a different path. 
+*Current Screen Information:  #Current Activity: org.shadowice.flocke.andotp.Activities.IntroScreenActivity.  # UI Information:set_text has the following group(s):1#.[{'ImageButton': 'org.shadowice.flocke.andotp.dev:id/text_input_password_toggle'}, 'Enter new password', {'EditText': 'org.shadowice.flocke.andotp.dev:id/introPasswordEdit'}];2#.introPasswordConfirm:['Confirm password', {'EditText': 'org.shadowice.flocke.andotp.dev:id/introPasswordConfirm'}];click has the following group(s):1#.mi_button_back:[{'ImageButton': 'Back'}];2#.mi_button_next:[{'ImageButton': 'Next'}];scrollable has the following group(s):1#.introAuthSelection:[{'Spinner': 'org.shadowice.flocke.andotp.dev:id/introAuthSelection'}, 'Password'];Other Widgets with Text in This Page has the following group(s):1#.Authentication;2#.Here you can setup an authentication to lock andOTP. Since you have chosen Android KeyStore as encryption method this is optional.;3#.Please set a password to continue!;.
+models/gemini-2.5-pro
+###############################################
+
+*GPT message: Suggestion: [{'result': 'success', 'reason': 'The bug is successfully reproduced. After selecting the default "Password / PIN" on the second slide and proceeding to the third, the screen incorrectly displays the text "Since you have chosen Android KeyStore as encryption method this is optional", which matches the buggy behavior described in the bug report.', 'bugreport': "Bug Report: Onboarding issues: Third 'Let's get started' slide shows the wrong encryption method\n\nSteps to Reproduce:\n1. Launch the 'andOTP (dev)' application.\n2. On the initial 'Let's get started' screen, click the 'Next' button.\n3. On the 'Database encryption' screen, leave the default 'Password / PIN' option selected in the spinner.\n4. Click the 'Next' button to proceed.\n\nExpected Behavior:\nThe text on the third screen should reflect that 'Password / PIN' was chosen and that a password is required.\n\nActual Behavior:\nThe third screen displays the text: 'Since you have chosen Android KeyStore as encryption method this is optional', which is incorrect and contradicts the selection from the previous step."}]
+
+###############################################
+!!!xxx!!!. Execution time: 49.260901 seconds
+!!!Response Times: 4. Total Commands: 4

@@ -1,0 +1,35 @@
+App Name: Anuto TD (android-anuto)
+
+Bug Report Title: Negative credits possible when placing towers
+
+Issue Description:
+Players are able to drag and drop defense towers onto the field even when they do not have enough credits, resulting in negative credit values. This allows unlimited placement of towers, which breaks the intended game balance and progression.
+
+Steps to Reproduce:
+1. Start any game in Anuto TD.
+2. Click on the icon marked "500" (or any tower icon).
+3. Drag the icon to a grey square to place the tower.
+4. Repeat the process, placing towers even after credits reach zero.
+5. Observe that credits can go below zero (e.g., -100, -500, etc.), allowing unlimited tower placement (bug: negative credits are possible).
+
+Expected Behavior:
+- The game should prevent players from placing towers if they do not have enough credits. Credits should never go below zero.
+
+Actual Behavior:
+- Players can continue to place towers even with insufficient credits, resulting in negative credit values.
+
+Environment:
+- App version: 0.2-1 (F-Droid)
+- Android version: 6.0.1 (also reported on 4.4.4)
+- Reproducible: Always
+
+Root Cause (from issue discussion):
+- The game does not check for sufficient credits before allowing tower placement, or does not block the action when credits are insufficient.
+
+Fix/Resolution:
+- The issue was fixed in commit a6fc9f9d531a6ee4f301eab486d3fd1537efa5d8.
+
+References:
+- Original issue: https://github.com/mjaun/android-anuto/issues/68
+- Fix commit: https://github.com/mjaun/android-anuto/commit/a6fc9f9d531a6ee4f301eab486d3fd1537efa5d8
+- BR reference JSON: https://github.com/SageSELab/AndroR2/blob/main/metadata/191.json

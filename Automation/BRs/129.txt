@@ -1,0 +1,58 @@
+App Name: andOTP
+
+Bug Report Title:
+App crashes if incorrect secret is entered
+
+Bug Report Issue:
+When creating a new OTP entry and entering an invalid Base32 secret (e.g., "test"), the andOTP app crashes with an IllegalArgumentException instead of displaying an appropriate error message to the user.
+
+### DESCRIPTION
+When manually adding a new two-factor authentication entry in andOTP, entering an incorrectly formatted secret key causes the application to crash immediately upon attempting to save. The app fails to validate the secret format before processing it, resulting in an unhandled exception. Users should receive a user-friendly error message instead of experiencing a crash.
+
+### STEPS TO REPRODUCE
+1. Open andOTP app
+2. Tap the "+" button to create a new entry
+3. Select "Enter details" (manual entry option)
+4. Fill in the required fields (Label, Issuer, etc.)
+5. In the "Secret" field, enter an invalid Base32 string (e.g., "test")
+6. Press "Save" button
+7. App crashes immediately
+
+### EXPECTED BEHAVIOR
+When an invalid secret is entered (not a valid Base32-encoded string), the app should:
+- Display a user-friendly error message indicating that the secret is invalid
+- Explain that the secret must be a valid Base32 string
+- Allow the user to correct the input without losing other entered data
+- Not crash or close unexpectedly
+
+### ACTUAL BEHAVIOR
+The app crashes immediately with an IllegalArgumentException. The crash is caused by the Apache Commons Codec Base32 decoder throwing an exception when it encounters an invalid Base32 character or invalid padding in the secret string. No error message is shown to the user before the crash occurs.
+
+### ENVIRONMENT
+andOTP version: 0.7.0 (also affects 0.6.3.1 from F-Droid)
+Android version: Android 9 (emulator and actual devices)
+App source: Built from sources / F-Droid
+Custom ROM: Emulator
+
+### LOGCAT
+```
+org.shadowice.flocke.andotp.dev E/AndroidRuntime: FATAL EXCEPTION: main
+    Process: org.shadowice.flocke.andotp.dev, PID: 3414
+    java.lang.IllegalArgumentException: Last encoded character (before the paddings if any) is a valid base 32 alphabet but not a possible value. Expected the discarded bits to be zero.
+        at org.apache.commons.codec.binary.Base32.validateCharacter(Base32.java:577)
+        at org.apache.commons.codec.binary.Base32.decode(Base32.java:404)
+        at org.apache.commons.codec.binary.BaseNCodec.decode(BaseNCodec.java:482)
+        at org.apache.commons.codec.binary.BaseNCodec.decode(BaseNCodec.java:465)
+        at org.shadowice.flocke.andotp.Database.Entry.<init>(Entry.java:90)
+        at org.shadowice.flocke.andotp.Dialogs.ManualEntryDialog$7.onClick(ManualEntryDialog.java:210)
+```
+
+### ROOT CAUSE
+The Entry constructor (Entry.java:90) attempts to decode the Base32 secret without validating its format first. The IllegalArgumentException thrown by the Apache Commons Codec Base32 decoder is not caught, causing the app to crash. The ManualEntryDialog does not validate the secret input before attempting to create the Entry object.
+
+### FIX
+Add input validation in the ManualEntryDialog before creating the Entry object:
+1. Validate that the secret is a valid Base32 string
+2. Wrap the Entry creation in a try-catch block to handle IllegalArgumentException
+3. Display an appropriate error message to the user if validation fails
+4. Keep the dialog open and allow the user to correct the input

@@ -1,0 +1,34 @@
+App Name: Memento Calendar
+
+Bug Report Title: Birthday Year checkbox state not preserved in Select Date dialog
+
+Issue Description:
+When adding a new birthday and unchecking the "Birthday Year" checkbox, the checkbox state is not preserved when reopening the Select Date dialog. This leads to confusion, as the year list is shown even though the checkbox remains unchecked.
+
+Steps to Reproduce:
+1. Press the Add button to add a new birthday.
+2. Press the EditText Birthday field to open the Select Date dialog.
+3. Uncheck the checkbox labeled "Birthday Year".
+4. Press Finish to save and close the dialog.
+5. Press the EditText Birthday field again to reopen the Select Date dialog.
+6. Observe that the Birthday Year list is shown, but the checkbox remains unchecked (bug: the checkbox state is not preserved and the year list is visible).
+
+Expected Behavior:
+- The "Birthday Year" checkbox should remain checked when reopening the dialog, and the year list should only be shown if the checkbox is checked.
+
+Actual Behavior:
+- The checkbox remains unchecked, but the year list is still shown, indicating the state is not preserved correctly.
+
+Environment:
+- App version: (not specified, but issue reported in 2016)
+- Reproducible: Always
+
+Root Cause (from issue discussion):
+- The dialog does not correctly restore the state of the "Birthday Year" checkbox and associated year list visibility.
+
+Fix/Resolution:
+- The issue was fixed and will be available in the next release (see PR #15).
+
+References:
+- Original issue: https://github.com/alexstyl/Memento-Calendar/issues/7
+- Fix PR: https://github.com/alexstyl/Memento-Calendar/pull/15

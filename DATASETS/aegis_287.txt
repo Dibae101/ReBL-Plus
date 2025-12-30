@@ -1,0 +1,56 @@
+App Name: Aegis Authenticator
+
+Bug Report Title:
+Language setting doesn't work
+
+Bug Report Issue:
+When attempting to change the app language setting from the system default to a different language (e.g., English), the app does not apply the selected language. After restarting the app, it continues to display in the system default language instead of the user-selected language.
+
+### DESCRIPTION
+Users are unable to override the system language setting within the Aegis app. When selecting a specific language in the app's language settings (such as English when the OS is set to French), the app fails to apply the selected language preference. The app continues to display text in the system default language even after restarting the application.
+
+### STEPS TO REPRODUCE
+1. Open Aegis Authenticator app
+2. Ensure the device OS is set to a language other than English (e.g., French)
+3. Navigate to Settings
+4. Locate and tap on Language settings
+5. Select "English" as the preferred language
+6. Restart/close and reopen Aegis app
+7. Observe the language displayed in the app
+
+### EXPECTED BEHAVIOR
+When a user selects a specific language in the app settings:
+- The app should apply the selected language immediately or after restart
+- All UI text, menus, and messages should display in the selected language
+- The app should maintain the language preference across app restarts
+- The in-app language setting should override the system language
+
+### ACTUAL BEHAVIOR
+The app ignores the language setting and continues to display in the system default language:
+- Selecting a different language in settings has no effect
+- After restarting the app, text still appears in the system language (e.g., French)
+- The language preference is not applied or persisted
+- Users cannot change the app language independently of the system language
+
+### ENVIRONMENT
+Aegis version: 1.1.1
+Android version: 7.0
+Device: Honor 5C
+Vault encrypted: Yes
+App source: Google Play
+
+### ROOT CAUSE
+The locale setting implementation on Android 7.0 is not working correctly. The app's method of applying locale changes is incompatible with Android 7.0's locale management system. This is specifically an issue with how Android 7.0 handles programmatic locale changes.
+
+### IMPACT
+Users on Android 7.0 devices cannot use the app in their preferred language if it differs from their system language. This affects usability and accessibility for multilingual users or those learning a new language.
+
+### FIX
+Fixed the locale setting implementation to properly work on Android 7.0. The fix was implemented in PR #288 to correctly apply and persist language settings on Android 7.0 devices.
+
+### FIXED IN
+Version 1.1.3 - Released to Google Play Store on January 20, 2020
+
+### RELATED ISSUES
+Similar issue reported in SimpleMobileTools/Simple-Contacts#574
+Follow-up issue: #1015 (Language setting still does not work)
