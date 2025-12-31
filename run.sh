@@ -96,10 +96,10 @@ cd "$(dirname "$0")/Automation"
 source ../env/bin/activate
 
 echo "[5/6] Installing  APK..."
-$ADB -s "$DEVICE_SERIAL" install -t -r APKs/50.apk
+$ADB -s "$DEVICE_SERIAL" install -t -r APKs/AmazeFileManager/b7c9c81.apk
 echo ""
 
 
-python3 reproduction.py "$DEVICE_PORT" BRs/50.txt
+python3 reproduction.py "$DEVICE_PORT" BRs/AmazeFileManager/b7c9c81.txt
 echo "  Execution Complete"
 

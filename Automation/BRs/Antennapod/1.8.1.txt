@@ -1,0 +1,38 @@
+App Name: AntennaPod
+
+Bug Report Title: Download filter "Cancel" & "Confirm" buttons are invisible in Light/System theme
+
+Issue ID: 3977
+
+Issue Description:
+When using the Light or System theme in AntennaPod, the "Cancel" and "Confirm" buttons in the Include/Exclude download filter settings are invisible, making it difficult for users to interact with these options. The buttons are visible when the app is switched to Dark mode.
+
+Environment:
+- App Version: 1.8.1 (from F-Droid and Google Play/beta)
+- Device: Pixel 2 XL (example)
+- OS: Android 10 (March 5)
+- Reproducible: Yes (any/new install)
+
+Steps to Reproduce:
+1. Open AntennaPod.
+2. Select any podcast.
+3. Go to Settings (gear icon).
+4. Go to Auto Download Settings > Episode Filter.
+5. Observe the Include/Exclude download filter settings.
+6. Note that the "Cancel" and "Confirm" buttons are invisible if the theme is set to Light or System.
+7. Switch to Dark mode (Settings > User Interface > Select Theme > Dark mode).
+8. Observe that the buttons are now visible.
+
+Expected Behavior:
+The "Cancel" and "Confirm" buttons should be visible in all themes, including Light and System.
+
+Observed Behavior:
+The buttons are invisible in Light or System theme, but visible in Dark mode.
+
+Root Cause (if known):
+The button background colors were not set to use default colors, causing them to blend with the background in Light/System themes. Fixed by using default colors for button backgrounds.
+
+References:
+- Original issue: https://github.com/AntennaPod/AntennaPod/issues/3977
+- Fixed by: https://github.com/AntennaPod/AntennaPod/pull/3981
+- Reported by: @rulnick

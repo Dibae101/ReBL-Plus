@@ -17,6 +17,8 @@ We need to dwn
 ## start Emulator:
 ~/Library/Android/sdk/emulator/emulator -avd Pixel &
 
+~/Library/Android/sdk/emulator/emulator -avd Medium_Phone &
+
 ## Install APK to Emulator
 
 # Check if emulator is connected (should show emulator-5554):

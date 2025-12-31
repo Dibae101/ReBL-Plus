@@ -1,0 +1,38 @@
+App Name: Thunderbird for Android (K-9 Mail)
+
+Bug Report Title: Message bodies for remote search results aren't downloaded automatically
+
+Issue ID: 5292
+
+Issue Description:
+When performing a remote search on an IMAP account, the body of a message fetched from the server is not downloaded automatically when the message is opened for viewing. Instead, the message body is empty and a "Download complete message" button is displayed, requiring manual intervention to view the content.
+
+Environment:
+- App Version: 5.734-SNAPSHOT
+- Account Type: IMAP
+- Reproducible: Yes
+
+Steps to Reproduce:
+1. Set up an IMAP account in Thunderbird for Android (K-9 Mail).
+2. Go to Settings > [Account] > Search and enable server search.
+3. Open an IMAP folder (message list screen).
+4. Tap the magnifying glass to start a local search.
+5. Tap the magnifying glass with the cloud icon to perform a server search.
+6. Wait for the search to complete.
+7. Open a search result message that was fetched from the server (doesn't show a preview).
+8. Observe that the message body is empty and a "Download complete message" button is shown.
+
+Expected Behavior:
+The message body should be downloaded automatically when a search result message is opened for viewing.
+
+Observed Behavior:
+The message body is not downloaded automatically. Instead, the user must tap the "Download complete message" button to retrieve the content.
+
+Root Cause (if known):
+A storage refactoring caused either the Flag.X_DOWNLOADED_PARTIAL or Flag.X_DOWNLOADED_FULL to always be set, preventing the automatic download logic in MessageLoaderHelper from triggering. This used to work before the refactoring.
+
+References:
+- Original issue: https://github.com/thunderbird/thunderbird-android/issues/5292
+- Fixed by: https://github.com/thunderbird/thunderbird-android/pull/5293
+- Related issue: https://github.com/thunderbird/thunderbird-android/issues/4412
+- Reported by: @cketti

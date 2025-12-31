@@ -1,0 +1,39 @@
+App Name: Memento Calendar
+
+Bug Report Title: User image is not uploading when taken from device camera; image quality is poor
+
+Issue Description:
+When adding a new event and setting a profile picture using the device camera, the image is not uploaded and does not appear in the contact image area. Additionally, the quality of the captured image is very poor. This affects the usability of the app for users who want to add profile pictures to their contacts.
+
+Steps to Reproduce:
+1. Open the app and click the "+" button to add a new event.
+2. Click on the user image (blue area with white user icon) to add a contact image.
+3. Select the camera option.
+4. If prompted, click "grant permission" and then "allow" for camera access.
+5. Wait for any popups and click "no thanks" if shown. Dismiss any side window that appears.
+6. Take a picture using the device camera and click "accept".
+7. Observe that the image is not set as the contact profile image (bug: image not uploaded and quality is poor).
+
+Expected Behavior:
+- The image taken from the camera should be uploaded and displayed as the contact profile image, with reasonable quality.
+
+Actual Behavior:
+- The image is not uploaded and does not appear in the contact image area. The quality of the captured image is also very poor.
+
+Environment:
+- App version: v11.2
+- Device: Samsung J7 Prime
+- OS: Android 7.0 Nougat
+- Reproducible: Always
+
+Root Cause (from issue discussion):
+- The app does not properly handle images taken from the camera, resulting in upload failure and poor image quality.
+
+Fix/Resolution:
+- The issue was fixed in PR #188 ("Fix for poor quality and issues with taking photos").
+
+References:
+- Original issue: https://github.com/alexstyl/Memento-Calendar/issues/168
+- Fix PR: https://github.com/alexstyl/Memento-Calendar/pull/188
+- AndroR2 metadata: https://github.com/SageSELab/AndroR2/blob/main/metadata/51.json
+- Bug recording: https://youtu.be/VNzcpiORv1E
