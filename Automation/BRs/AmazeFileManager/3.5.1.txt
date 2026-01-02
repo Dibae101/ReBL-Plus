@@ -1,0 +1,34 @@
+App Name: Amaze File Manager
+
+Bug Report Title: Spaces turn to "%20" when renaming files
+
+Issue ID: 2113
+
+Issue Description:
+When renaming a file in Amaze File Manager and adding spaces to the new name, the spaces are replaced with "%20" in the resulting filename. This is unexpected, as users expect spaces to remain as spaces in file names, not be URL-encoded.
+
+Environment:
+- App Version: (not specified, but issue reported on recent versions)
+- Device: (not specified)
+- OS: (not specified)
+- Reproducible: Yes
+
+Steps to Reproduce:
+1. Open Amaze File Manager.
+2. Select any file that does not have spaces in its name.
+3. Rename the file, adding spaces to the new name (e.g., "My File.txt").
+4. Observe the resulting filename.
+
+Expected Behavior:
+The file should be renamed with spaces in the name (e.g., "My File.txt").
+
+Observed Behavior:
+The spaces in the new filename are replaced with "%20" (e.g., "My%20File.txt").
+
+Root Cause (if known):
+The rename functionality was incorrectly encoding spaces as "%20" instead of leaving them as spaces. The fix ensures spaces are preserved in file names.
+
+References:
+- Original issue: https://github.com/TeamAmaze/AmazeFileManager/issues/2113
+- Fixed by: https://github.com/TeamAmaze/AmazeFileManager/pull/2130
+- Reported by: @EmmanuelMess

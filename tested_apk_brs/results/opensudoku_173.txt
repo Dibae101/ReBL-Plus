@@ -1,0 +1,15 @@
+Test_ID: 22
+Timestamp: N/A
+APK_Name: OpenSudoku APK
+BR_File: BRs/opensudoku_173.txt
+App_Name: OpenSudoku
+Package_Name: cz.romario.opensudoku
+Issue_Number: 173
+Status: PASS / REPRODUCED
+Duration_Seconds: 199.217573
+Total_Commands: 11
+GPT_Responses: 11
+Bug_Reproduced: Yes
+Failure_Reason: N/A
+Log_File: N/A
+Remarks: Crash reproduced by opening OpenSudoku → Easy → long-press first puzzle → Edit note → Cancel → long-press same puzzle → Delete puzzle → confirm OK → rotate device to landscape (left); app showed “OpenSudoku has stopped” with “Open app again”.

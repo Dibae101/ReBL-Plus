@@ -1,0 +1,19 @@
+Test_ID: 13
+Timestamp: N/A
+APK_Name: Materialistic APK
+BR_File: BRs/materialistic_1067.txt
+App_Name: Materialistic
+Package_Name: io.github.hidroh.materialistic
+Issue_Number: 1067
+Status: PARTIAL / UNCONFIRMED
+Duration_Seconds: 248.186729
+Total_Commands: 18
+GPT_Responses: 17
+Bug_Reproduced: Not Confirmed
+Failure_Reason: No crash confirmation observed (no “Materialistic has stopped” / crash dialog / launcher return captured after the final “Save + swipe” attempt; UI stayed on the context menu).
+Log_File: N/A
+Remarks:
+Settings path completed successfully: Drawer → Settings → List → “Swipe left to” → set to “None” → back to Top Stories.
+Trigger attempt: long-press story → context menu “Save” → immediate left swipe on story item.
+However, the UI did not exit the context menu and no crash screen was captured, so we cannot claim reproduction from this run output alone.
+The model’s “success” conclusion appears to be inferred from the bug description rather than verified by an on-device crash signal in the provided trace.

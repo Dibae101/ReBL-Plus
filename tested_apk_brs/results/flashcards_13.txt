@@ -1,0 +1,15 @@
+Test_ID: 7
+Timestamp: N/A
+APK_Name: ASU_FlashCardApp APK
+BR_File: BRs/flashcards_13.txt
+App_Name: ASU_FlashCardApp (FlashCards)
+Package_Name: com.example.terin.asu_flashcardapp
+Issue_Number: 13
+Status: PASS
+Duration_Seconds: 78.029778
+Total_Commands: 7
+GPT_Responses: 7
+Bug_Reproduced: Yes
+Failure_Reason: N/A
+Log_File: N/A
+Remarks: Crash reproduced: Login (test@example.com) → CREATE NEW → enter “My New Course” → tap “CREATE COURSE” → app force closes (“ASU_FlashCardApp has stopped”) and shows “Open app again”.

@@ -1,0 +1,31 @@
+Test_ID: 16
+Timestamp: N/A
+APK_Name: NewsBlur APK
+BR_File: BRs/newsblur_1053.txt
+App_Name: NewsBlur
+Package_Name: com.newsblur
+Issue_Number: 1053
+Status: PASS / REPRODUCED
+Duration_Seconds: 200.637858
+Total_Commands: 15
+GPT_Responses: 15
+Bug_Reproduced: Yes
+Failure_Reason: N/A
+Log_File: N/A
+Crash_Indicator: “NewsBlur has stopped” (system dialog with “Open app again”)
+Trigger_Summary:
+App crashes when attempting to log in using a malformed/invalid custom server URL.
+Steps_Executed:
+Open Apps list from launcher and launch NewsBlur
+Tap I need to register (checked for custom server option)
+Tap I need to log in! to return to login screen
+Tap I have a custom server
+Set custom server value to xx
+Set username to t
+Set password to t
+Tap Press to log in.
+App crashes and shows “NewsBlur has stopped”
+Expected_Behavior:
+App should validate the server URL and show an error (e.g., “Invalid server address”) without crashing.
+Actual_Behavior:
+App crashes immediately after tapping log in with the invalid custom server value (xx), showing “NewsBlur has stopped.”

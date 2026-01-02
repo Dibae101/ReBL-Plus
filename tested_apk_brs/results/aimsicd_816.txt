@@ -1,0 +1,14 @@
+Test_ID: 1
+Timestamp: N/A
+BR_File: BRs/aimsicd_816.txt
+App_Name: AIMSICD
+Package_Name: com.secupwn.aimsicd
+Issue_Number: 816
+Status: FAIL
+Duration_Seconds: 307.815833
+Total_Commands: 23
+GPT_Responses: 23
+Bug_Reproduced: No
+Failure_Reason: The required UI element “Request OpenCellID API Key” was not found in Settings after multiple scroll attempts and exploring other visible options, so the reproduction steps could not be completed.
+Log_File: N/A
+Remarks: App installed successfully and navigated to Settings, but the target option was missing/unsupported in this build or device environment; reproduction could not proceed.

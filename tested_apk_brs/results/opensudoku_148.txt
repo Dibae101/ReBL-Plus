@@ -1,0 +1,15 @@
+Test_ID: 21
+Timestamp: N/A
+APK_Name: OpenSudoku APK
+BR_File: BRs/opensudoku_148.txt
+App_Name: OpenSudoku
+Package_Name: cz.romario.opensudoku
+Issue_Number: 148
+Status: PASS / REPRODUCED
+Duration_Seconds: 87.706084
+Total_Commands: 5
+GPT_Responses: 5
+Bug_Reproduced: Yes
+Failure_Reason: N/A
+Log_File: N/A
+Remarks: Crash reproduced by opening OpenSudoku → selecting Easy → opening any puzzle from the list → interacting with the game board (swipe/tap); app showed “OpenSudoku has stopped” with “Open app again”.

@@ -1,0 +1,15 @@
+Test_ID: 20
+Timestamp: N/A
+APK_Name: Olam APK
+BR_File: BRs/olam_2.txt
+App_Name: Olam
+Package_Name: com.olam
+Issue_Number: 2
+Status: PASS / REPRODUCED
+Duration_Seconds: 61.904777
+Total_Commands: 5
+GPT_Responses: 5
+Bug_Reproduced: Yes
+Failure_Reason: N/A
+Log_File: N/A
+Remarks: Crash reproduced by opening Olam → typing “word’s” in the search field → tapping the Search button (com.olam:id/imageButton); app showed “Olam has stopped” with “Open app again”.

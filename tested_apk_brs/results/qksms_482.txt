@@ -1,0 +1,15 @@
+Test_ID: 23
+Timestamp: N/A
+APK_Name: QKSMS APK
+BR_File: BRs/qksms_482.txt
+App_Name: QKSMS
+Package_Name: com.moez.QKSMS
+Issue_Number: 482
+Status: PASS / REPRODUCED
+Duration_Seconds: 61.683317
+Total_Commands: 5
+GPT_Responses: 5
+Bug_Reproduced: Yes
+Failure_Reason: N/A
+Log_File: N/A
+Remarks: Crash reproduced by opening QKSMS → open an existing conversation (e.g., “123”) → More options → Delete conversations; app showed “QKSMS has stopped” with “Open app again”.

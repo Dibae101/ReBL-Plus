@@ -1,0 +1,34 @@
+App Name: Amaze File Manager
+
+Bug Report Title: Navigation drawer doesn't preserve selected item on orientation change
+
+Issue ID: 1982
+
+Issue Description:
+When a user selects an item in the navigation drawer (such as a bookmark or FTP location) and then rotates the device (changes screen orientation), the selected item in the navigation drawer is not preserved. Instead, the selection resets to the path of the second tab (if it's a bookmark) or defaults to internal storage. This causes confusion and disrupts navigation.
+
+Environment:
+- App Version: (not specified, but issue reported on recent versions)
+- Device: OnePlus 6T
+- OS: Android 10
+- Reproducible: Yes
+
+Steps to Reproduce:
+1. Open Amaze File Manager.
+2. Open the navigation drawer and select any item (e.g., a bookmark or FTP location).
+3. Rotate the device to change the screen orientation.
+4. Observe the selected item in the navigation drawer.
+
+Expected Behavior:
+The navigation drawer should preserve the exact item selected, regardless of orientation change.
+
+Observed Behavior:
+After rotating the device, the selected item resets to the path of the second tab (if it's a bookmark) or to internal storage, rather than preserving the user's selection.
+
+Root Cause (if known):
+The navigation drawer selection was not persisted across orientation changes. The fix ensures the selected item is locked and restored correctly after rotation.
+
+References:
+- Original issue: https://github.com/TeamAmaze/AmazeFileManager/issues/1982
+- Fixed by: https://github.com/TeamAmaze/AmazeFileManager/pull/1983
+- Reported by: @VishalNehra

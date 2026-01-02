@@ -1,0 +1,25 @@
+Test_ID: 14
+Timestamp: N/A
+APK_Name: Memento Calendar APK
+BR_File: BRs/memento_169.txt
+App_Name: Memento Calendar
+Package_Name: com.alexstyl.specialdates
+Issue_Number: 169
+Status: FAIL / NOT REPRODUCED
+Duration_Seconds: 608.457818
+Total_Commands: 25
+GPT_Responses: 25
+Bug_Reproduced: No
+Failure_Reason: Could not reach the required invalid date state (e.g., Feb 30/31) because the date-picker wheels were not exposed in the UI dump; swipe actions produced no observable state change, and after pressing SET the app returned normally to AddBirthdayActivity with a normal date (e.g., “December 24, 2025”) instead of crashing.
+Log_File: N/A
+Reproduction_Attempt_Steps_Executed (high level):
+Launcher → Memento Calendar
+Tap + (add) → AddBirthdayActivity
+Tap Birthday to open date picker
+Tap Include year? (attempted toggle)
+Multiple “blind” swipes (left/right/up) to try setting an invalid date per BR methods
+Tap SET to confirm date
+Returned to AddBirthdayActivity without crash; date shown remained valid (e.g., “December 24 / December 24, 2025”)
+Remarks:
+This run contains no crash indicator (no “has stopped”, no launcher return).
+The failure is specifically due to non-observable date changes (picker internals not represented in the UI info), making it impossible to verify or reliably set the invalid date required by the bug report.

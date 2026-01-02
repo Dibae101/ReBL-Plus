@@ -1,0 +1,36 @@
+App Name: Amaze File Manager
+
+Bug Report Title: Search Result Title disappears after screen rotation
+
+Issue ID: 1978
+
+Issue Description:
+When performing a search in Amaze File Manager, the search result title at the top of the screen disappears if the device is rotated (screen orientation changes). This makes it unclear to the user what the current view represents after rotation.
+
+Environment:
+- App Version: 3.4.3
+- Device: Samsung A10s (example)
+- OS: Android 10
+- Rooted: No
+- Reproducible: Yes
+
+Steps to Reproduce:
+1. Open Amaze File Manager.
+2. Tap the Search button.
+3. Search for any file or folder.
+4. Rotate the device to change the screen orientation.
+5. Observe that the search result title fails to reappear.
+
+Expected Behavior:
+The search result title should remain visible after screen rotation, clearly indicating the current view.
+
+Observed Behavior:
+The search result title disappears after screen rotation, making the view ambiguous.
+
+Root Cause (if known):
+The search result title was not properly restored after orientation change. The fix ensures the title is preserved and reappears after rotation.
+
+References:
+- Original issue: https://github.com/TeamAmaze/AmazeFileManager/issues/1978
+- Fixed by: https://github.com/TeamAmaze/AmazeFileManager/pull/2007
+- Reported by: @Soroyesodiq

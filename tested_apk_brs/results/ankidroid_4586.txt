@@ -1,0 +1,14 @@
+Test_ID: 2
+Timestamp: N/A
+BR_File: BRs/ankidroid_4586.txt
+App_Name: AnkiDroid
+Package_Name: com.ichi2.anki
+Issue_Number: 4586
+Status: PASS
+Duration_Seconds: 89.104505
+Total_Commands: 9
+GPT_Responses: 9
+Bug_Reproduced: Yes
+Failure_Reason: N/A
+Log_File: N/A
+Remarks: Crash reproduced after Add note → Attach media → Add image → CAMERA; crash report dialog appeared (AnkiDroidCrashReportDialog) with toast “AnkiDroid has encountered a problem; a report is being generated…”.

@@ -1,0 +1,15 @@
+Test_ID: 8
+Timestamp: N/A
+APK_Name: K-9 Mail APK
+BR_File: BRs/k9_3255.txt
+App_Name: K-9 Mail
+Package_Name: com.fsck.k9
+Issue_Number: 3255
+Status: PASS
+Duration_Seconds: 53.848609
+Total_Commands: 6
+GPT_Responses: 5
+Bug_Reproduced: Yes
+Failure_Reason: N/A
+Log_File: N/A
+Remarks: Crash reproduced during account setup: Welcome → Next → enter email foo@b.2 + password password123 → Next → app force closes (“K-9 Mail has stopped”) and returns to launcher (“Open app again”).

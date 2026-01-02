@@ -1,0 +1,13 @@
+Timestamp: N/A
+BR_File: BRs/anymemo_18.txt
+App_Name: AnyMemo Free
+Package_Name: org.liberty.android.fantastischmemo
+Issue_Number: 18
+Status: PASS
+Duration_Seconds: 46.68634
+Total_Commands: 5
+GPT_Responses: 5
+Bug_Reproduced: Yes
+Failure_Reason: N/A
+Log_File: N/A
+Remarks: Crash reproduced by opening AnyMemo → Misc → DB default settings; app showed “AnyMemo has stopped” with “Open app again”.

@@ -1,0 +1,62 @@
+[1/5] Starting ADB server...
+[2/5] Checking for devices...
+Device found: emulator-5554
+[3/5] Waiting for device to be ready...
+Device is ready (port: 5554)
+[4/5] Activating Python environment...
+[5/6] Installing  APK...
+Performing Streamed Install
+Success
+
+/Users/darshan/Desktop/Papers/ReBL/env/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+An error occurred: module 'importlib.metadata' has no attribute 'packages_distributions'
+/Users/darshan/Desktop/Papers/ReBL/env/lib/python3.9/site-packages/google/api_core/_python_version_support.py:252: FutureWarning: You are using a Python version (3.9.6) past its end of life. Google will update google.api_core with critical bug fixes on a best-effort basis, but not with any other fixes or features. Please upgrade to the latest Python version, or at least Python 3.10, and then update google.api_core.
+  warnings.warn(message, FutureWarning)
+*Prompt: [].
+*Current Screen Information:  #Current Activity: .NexusLauncherActivity.  # UI Information:click has the following group(s):1#.scrim_view:[{'View': 'Apps list'}];2#.['com.google.android.apps.nexuslauncher:id/universal_smartspace_container'];3#.smartspace_content:[{'TextView': 'Thursday, Jan 1'}];4#.[{'TextView': 'Amaze'}];5#.[{'TextView': 'Chrome'}, {'TextView': 'Play Store'}, {'TextView': 'Messages'}];6#.search_container_all_apps:[{'View': 'Voice search'}, {'FrameLayout': 'Search'}];.
+models/gemini-2.5-pro
+###############################################
+
+*GPT message: Suggestion: [{'action': 'click', 'feature': 'Amaze'}]
+
+###############################################
+{'action': 'click', 'feature': 'Amaze'}
+*Prompt: ["Successfully execute {'action': 'click', 'feature': 'Amaze'}"].
+*Current Screen Information:  #Current Activity: .activities.MainActivity.  # UI Information:click has the following group(s):1#.fabs_menu:[{'ImageButton': 'com.amaze.filemanager:id/sd_main_fab'}];2#.[{'ImageButton': 'Navigate up'}];3#.[{'ImageView': 'More options'}, {'TextView': 'Home'}, {'TextView': 'Search'}];4#.['com.amaze.filemanager:id/second'];5#.[{'ImageView': 'com.amaze.filemanager:id/generic_icon'}];6#.properties:[{'ImageButton': 'com.amaze.filemanager:id/properties'}];Other Widgets with Text in This Page has the following group(s):1#.Amaze;2#./storage/emulated/0/Download;3#.1 folders and 0 files;4#.Folders;5#.leakcanary-com.amaze.filemanager.debug;6#.January 1 | 6:31 PM;.
+models/gemini-2.5-pro
+###############################################
+
+*GPT message: Suggestion: [{'action': 'click', 'feature': 'Search'}]
+
+###############################################
+{'action': 'click', 'feature': 'Search'}
+*Prompt: ["Successfully execute {'action': 'click', 'feature': 'Search'}"].
+*Current Screen Information:  #Current Activity: .activities.MainActivity.  # UI Information:set_text has the following group(s):1#.search_view:[{'ImageButton': 'com.amaze.filemanager:id/search_close_btn'}, 'Type to search…', {'EditText': 'com.amaze.filemanager:id/search_edit_text'}, {'ImageButton': 'com.amaze.filemanager:id/img_view_back'}];click has the following group(s):1#.['Search'];2#.['Sticker Keyboard'];3#.['GIF Keyboard'];4#.['Clipboard'];5#.['More features'];6#.['Close features menu'];7#.key_pos_header_voice:[{'FrameLayout': 'Voice input'}];8#.key_pos_0_0:[{'FrameLayout': 'q'}, '1'];9#.key_pos_0_1:[{'FrameLayout': 'w'}, '2'];10#.key_pos_0_2:[{'FrameLayout': 'e'}, '3'];11#.key_pos_0_3:[{'FrameLayout': 'r'}, '4'];12#.key_pos_0_4:[{'FrameLayout': 't'}, '5'];13#.key_pos_0_5:[{'FrameLayout': 'y'}, '6'];14#.key_pos_0_6:[{'FrameLayout': 'u'}, '7'];15#.key_pos_0_7:[{'FrameLayout': 'i'}, '8'];16#.key_pos_0_8:[{'FrameLayout': 'o'}, '9'];17#.key_pos_0_9:[{'FrameLayout': 'p'}, '0'];18#.['a'];19#.key_pos_1_1:[{'FrameLayout': 's'}];20#.key_pos_1_2:[{'FrameLayout': 'd'}];21#.key_pos_1_3:[{'FrameLayout': 'f'}];22#.key_pos_1_4:[{'FrameLayout': 'g'}];23#.key_pos_1_5:[{'FrameLayout': 'h'}];24#.key_pos_1_6:[{'FrameLayout': 'j'}];25#.key_pos_1_7:[{'FrameLayout': 'k'}];26#.['l'];27#.key_pos_shift:[{'FrameLayout': 'Shift'}];28#.key_pos_2_1:[{'FrameLayout': 'z'}];29#.key_pos_2_2:[{'FrameLayout': 'x'}];30#.key_pos_2_3:[{'FrameLayout': 'c'}];31#.key_pos_2_4:[{'FrameLayout': 'v'}];32#.key_pos_2_5:[{'FrameLayout': 'b'}];33#.key_pos_2_6:[{'FrameLayout': 'n'}];34#.key_pos_2_7:[{'FrameLayout': 'm'}];35#.key_pos_del:[{'FrameLayout': 'Delete'}];36#.key_pos_switch_to_symbol:[{'FrameLayout': 'Symbol keyboard'}];37#.key_pos_bottom_symbol_1:[{'FrameLayout': ','}];38#.key_pos_switch_to_next_language:[{'FrameLayout': 'Emoji button'}];39#.['Space'];40#.key_pos_bottom_symbol_2:[{'FrameLayout': '.'}];41#.['Search'];42#.fabs_overlay_layout:[{'RelativeLayout': 'com.amaze.filemanager:id/fabs_overlay_layout'}];43#.fabs_menu:[{'ImageButton': 'com.amaze.filemanager:id/sd_main_fab'}];44#.[{'ImageButton': 'Navigate up'}];45#.[{'ImageView': 'More options'}, {'TextView': 'Home'}, {'TextView': 'Search'}];46#.['com.amaze.filemanager:id/second'];47#.[{'ImageView': 'com.amaze.filemanager:id/generic_icon'}];48#.properties:[{'ImageButton': 'com.amaze.filemanager:id/properties'}];Other Widgets with Text in This Page has the following group(s):1#.Amaze;2#./storage/emulated/0/Download;3#.1 folders and 0 files;4#.Folders;5#.leakcanary-com.amaze.filemanager.debug;6#.January 1 | 6:31 PM;.
+models/gemini-2.5-pro
+###############################################
+
+*GPT message: Suggestion: [{'action': 'set_text', 'feature': 'Type to search…', 'input_text': 'test'}]
+
+###############################################
+{'action': 'set_text', 'feature': 'Type to search…', 'input_text': 'test'}
+*Prompt: ["Successfully execute {'action': 'set_text', 'feature': 'Type to search…', 'input_text': 'test'}"].
+*Current Screen Information:  #Current Activity: .activities.MainActivity.  # UI Information:set_text has the following group(s):1#.search_view:[{'ImageButton': 'com.amaze.filemanager:id/search_close_btn'}, 'test', {'EditText': 'com.amaze.filemanager:id/search_edit_text'}, {'ImageButton': 'com.amaze.filemanager:id/img_view_back'}];click has the following group(s):1#.['test'];2#.['rest'];3#.['testing'];4#.['Open features menu'];5#.key_pos_header_voice:[{'FrameLayout': 'Voice input'}];6#.key_pos_0_0:[{'FrameLayout': 'q'}, '1'];7#.key_pos_0_1:[{'FrameLayout': 'w'}, '2'];8#.key_pos_0_2:[{'FrameLayout': 'e'}, '3'];9#.key_pos_0_3:[{'FrameLayout': 'r'}, '4'];10#.key_pos_0_4:[{'FrameLayout': 't'}, '5'];11#.key_pos_0_5:[{'FrameLayout': 'y'}, '6'];12#.key_pos_0_6:[{'FrameLayout': 'u'}, '7'];13#.key_pos_0_7:[{'FrameLayout': 'i'}, '8'];14#.key_pos_0_8:[{'FrameLayout': 'o'}, '9'];15#.key_pos_0_9:[{'FrameLayout': 'p'}, '0'];16#.['a'];17#.key_pos_1_1:[{'FrameLayout': 's'}];18#.key_pos_1_2:[{'FrameLayout': 'd'}];19#.key_pos_1_3:[{'FrameLayout': 'f'}];20#.key_pos_1_4:[{'FrameLayout': 'g'}];21#.key_pos_1_5:[{'FrameLayout': 'h'}];22#.key_pos_1_6:[{'FrameLayout': 'j'}];23#.key_pos_1_7:[{'FrameLayout': 'k'}];24#.['l'];25#.key_pos_shift:[{'FrameLayout': 'Shift'}];26#.key_pos_2_1:[{'FrameLayout': 'z'}];27#.key_pos_2_2:[{'FrameLayout': 'x'}];28#.key_pos_2_3:[{'FrameLayout': 'c'}];29#.key_pos_2_4:[{'FrameLayout': 'v'}];30#.key_pos_2_5:[{'FrameLayout': 'b'}];31#.key_pos_2_6:[{'FrameLayout': 'n'}];32#.key_pos_2_7:[{'FrameLayout': 'm'}];33#.key_pos_del:[{'FrameLayout': 'Delete'}];34#.key_pos_switch_to_symbol:[{'FrameLayout': 'Symbol keyboard'}];35#.key_pos_bottom_symbol_1:[{'FrameLayout': ','}];36#.key_pos_switch_to_next_language:[{'FrameLayout': 'Emoji button'}];37#.['Space'];38#.key_pos_bottom_symbol_2:[{'FrameLayout': '.'}];39#.['Search'];40#.fabs_overlay_layout:[{'RelativeLayout': 'com.amaze.filemanager:id/fabs_overlay_layout'}];41#.fabs_menu:[{'ImageButton': 'com.amaze.filemanager:id/sd_main_fab'}];42#.[{'ImageButton': 'Navigate up'}];43#.[{'ImageView': 'More options'}, {'TextView': 'Home'}, {'TextView': 'Search'}];44#.['com.amaze.filemanager:id/second'];45#.[{'ImageView': 'com.amaze.filemanager:id/generic_icon'}];46#.properties:[{'ImageButton': 'com.amaze.filemanager:id/properties'}];Other Widgets with Text in This Page has the following group(s):1#.Amaze;2#./storage/emulated/0/Download;3#.1 folders and 0 files;4#.Folders;5#.leakcanary-com.amaze.filemanager.debug;6#.January 1 | 6:31 PM;.
+models/gemini-2.5-pro
+###############################################
+
+*GPT message: Suggestion: [{'action': 'orientation', 'to_direction': 'left'}]
+
+###############################################
+{'action': 'orientation', 'to_direction': 'left'}
+*Prompt: ["Successfully execute {'action': 'orientation', 'to_direction': 'left'}"].
+*Current Screen Information:  #Current Activity: .activities.MainActivity.  # UI Information:set_text has the following group(s):1#.inputExtractEditText:['test', {'EditText': 'android:id/inputExtractEditText'}];click has the following group(s):1#.inputExtractAccessories:['Search'];2#.['test'];3#.['text'];4#.['rest'];5#.['Open features menu'];6#.key_pos_header_voice:[{'FrameLayout': 'Voice input'}];7#.key_pos_0_0:[{'FrameLayout': 'q'}, '1'];8#.key_pos_0_1:[{'FrameLayout': 'w'}, '2'];9#.key_pos_0_2:[{'FrameLayout': 'e'}, '3'];10#.key_pos_0_3:[{'FrameLayout': 'r'}, '4'];11#.key_pos_0_4:[{'FrameLayout': 't'}, '5'];12#.key_pos_0_5:[{'FrameLayout': 'y'}, '6'];13#.key_pos_0_6:[{'FrameLayout': 'u'}, '7'];14#.key_pos_0_7:[{'FrameLayout': 'i'}, '8'];15#.key_pos_0_8:[{'FrameLayout': 'o'}, '9'];16#.key_pos_0_9:[{'FrameLayout': 'p'}, '0'];17#.['a'];18#.key_pos_1_1:[{'FrameLayout': 's'}];19#.key_pos_1_2:[{'FrameLayout': 'd'}];20#.key_pos_1_3:[{'FrameLayout': 'f'}];21#.key_pos_1_4:[{'FrameLayout': 'g'}];22#.key_pos_1_5:[{'FrameLayout': 'h'}];23#.key_pos_1_6:[{'FrameLayout': 'j'}];24#.key_pos_1_7:[{'FrameLayout': 'k'}];25#.['l'];26#.key_pos_shift:[{'FrameLayout': 'Shift'}];27#.key_pos_2_1:[{'FrameLayout': 'z'}];28#.key_pos_2_2:[{'FrameLayout': 'x'}];29#.key_pos_2_3:[{'FrameLayout': 'c'}];30#.key_pos_2_4:[{'FrameLayout': 'v'}];31#.key_pos_2_5:[{'FrameLayout': 'b'}];32#.key_pos_2_6:[{'FrameLayout': 'n'}];33#.key_pos_2_7:[{'FrameLayout': 'm'}];34#.key_pos_del:[{'FrameLayout': 'Delete'}];35#.key_pos_switch_to_symbol:[{'FrameLayout': 'Symbol keyboard'}];36#.key_pos_bottom_symbol_1:[{'FrameLayout': ','}];37#.key_pos_switch_to_next_language:[{'FrameLayout': 'Emoji button'}];38#.['Space'];39#.key_pos_bottom_symbol_2:[{'FrameLayout': '.'}];40#.['Search'];.
+models/gemini-2.5-pro
+###############################################
+
+*GPT message: Suggestion: [{'result': 'success', 'reason': "The bug report states that the search result title disappears after screen rotation. Before rotating the screen, the title 'Home' was visible in the toolbar. After rotating the screen to landscape mode, the UI information confirms that the toolbar containing the title 'Home' is no longer present. This matches the buggy behavior described in the report.", 'bugreport': 'Bug Report: Search Result Title Disappears After Screen Rotation\n\nSteps to Reproduce:\n1. Launch the Amaze File Manager application.\n2. Tap on the "Search" icon in the toolbar.\n3. Enter text (e.g., "test") into the search input field.\n4. Change the device orientation from portrait to landscape.\n\nObserved Behavior:\nThe toolbar containing the screen title disappears after the orientation change.\n\nExpected Behavior:\nThe toolbar and title should remain visible after the orientation change.'}]
+
+###############################################
+!!!xxx!!!. Execution time: 68.462544 seconds
+!!!Response Times: 5. Total Commands: 5
+darshan@MacBookAir ReBL % 

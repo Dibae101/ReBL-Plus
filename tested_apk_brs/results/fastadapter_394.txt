@@ -1,0 +1,15 @@
+Test_ID: 6
+Timestamp: N/A
+APK_Name: FastAdapter APK
+BR_File: BRs/fastadapter_394.txt
+App_Name: FastAdapter Sample App
+Package_Name: com.mikepenz.fastadapter.app
+Issue_Number: 394
+Status: PASS
+Duration_Seconds: 73.324218
+Total_Commands: 7
+GPT_Responses: 7
+Bug_Reproduced: Yes
+Failure_Reason: N/A
+Log_File: N/A
+Remarks: Crash reproduced: Open app → Open navigation drawer → tap “GenericItem Sample” → app force closes (“FastAdapter has stopped”) and returns to Launcher.

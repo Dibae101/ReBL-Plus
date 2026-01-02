@@ -1,0 +1,15 @@
+Test_ID: 10
+Timestamp: N/A
+APK_Name: LibreNews APK
+BR_File: BRs/librenews_23.txt
+App_Name: LibreNews
+Package_Name: app.librenews.io.librenews
+Issue_Number: 23
+Status: PASS
+Duration_Seconds: 86.07746
+Total_Commands: 8
+GPT_Responses: 8
+Bug_Reproduced: Yes
+Failure_Reason: N/A
+Log_File: N/A
+Remarks: Crash reproduced when toggling Automatically refresh OFF after navigating via INFO → GO TO LIBRENEWS and returning. Flow: Launcher → LibreNews → GO TO LIBRENEWS → toggle Automatically refresh ON → INFO → GO TO LIBRENEWS → Back → toggle Automatically refresh OFF → app force closes (“LibreNews has stopped”) and returns to launcher (“Open app again”).

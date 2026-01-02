@@ -1,0 +1,15 @@
+Test_ID: 5
+Timestamp: N/A
+APK_Name: Bites APK
+BR_File: BRs/bites_44.txt
+App_Name: Bites (Brewing Timer)
+Package_Name: caldwell.ben.bites
+Issue_Number: 44
+Status: PASS
+Duration_Seconds: 80.791745
+Total_Commands: 7
+GPT_Responses: 7
+Bug_Reproduced: Yes
+Failure_Reason: N/A
+Log_File: N/A
+Remarks: Crash reproduced in Method section: insert new method → leave “Step number” empty → tap OK → app force closes (“Bites has stopped”).

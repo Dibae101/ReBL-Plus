@@ -1,0 +1,15 @@
+Test_ID: 18
+Timestamp: N/A
+APK_Name: Android OBD-II Reader APK
+BR_File: BRs/obd_reader_22.txt
+App_Name: Android OBD-II Reader
+Package_Name: pt.lighthouselabs.obd.reader
+Issue_Number: 22
+Status: PASS / REPRODUCED
+Duration_Seconds: 129.759805
+Total_Commands: 11
+GPT_Responses: 8
+Bug_Reproduced: Yes
+Failure_Reason: N/A
+Log_File: N/A
+Remarks: Crash reproduced by launching Android OBD-II Reader → More options → Start Live Data → More options → Stop Live Data → repeating Start Live Data and Stop Live Data a second time; app showed “Android OBD-II Reader has stopped” with “Open app again” (toast observed: “BT is disabled, will use Mock service instead”).

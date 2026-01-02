@@ -1,0 +1,30 @@
+    Test_ID: 15
+Timestamp: N/A
+APK_Name: microMathematics Plus APK
+BR_File: BRs/micromathematics_39.txt
+App_Name: μMath+ (microMathematics Plus)
+Package_Name: com.mkulesh.micromath.plus
+Issue_Number: 39
+Status: PASS / REPRODUCED
+Duration_Seconds: 99.221848
+Total_Commands: 7
+GPT_Responses: 7
+Bug_Reproduced: Yes
+Failure_Reason: N/A
+Log_File: N/A
+Crash_Indicator: “microMathematics Plus has stopped” (system dialog with “Open app again”)
+Trigger_Summary:
+Entering an excessively large value in Document settings → Significant digits in result and confirming the change causes the app to crash.
+Steps_Executed:
+Launch μMath+ (microMathematics Plus) from the app launcher
+Open More options from the toolbar
+Select Document settings
+Locate Significant digits in result
+Enter a very large number (123456789012) into the input field
+Press the + (increase) button
+Tap OK to apply settings
+App crashes immediately
+Expected_Behavior:
+The app should validate the input and either reject excessively large values or clamp them to a safe maximum, displaying an error message instead of crashing.
+Actual_Behavior:
+The app crashes immediately after confirming the large value, returning to the launcher with the message “microMathematics Plus has stopped.”

@@ -7,7 +7,7 @@ The new edit times screen, which uses side-by-side vertically scrolling lists fo
 
 Steps to Reproduce:
 1. Click the menu.
-2. Click "add activity".
+2. Click "add activity", and add activity.
 3. Long-press a task with time values.
 4. Scroll the popup menu (if necessary) and select "show times".
 5. Tap a time range to edit.

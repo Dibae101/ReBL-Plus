@@ -1,0 +1,15 @@
+Test_ID: 24
+Timestamp: N/A
+APK_Name: F-Droid APK
+BR_File: BRs/fdroid_1821.txt
+App_Name: F-Droid
+Package_Name: org.fdroid.fdroid
+Issue_Number: 1821
+Status: FAIL / NOT REPRODUCED
+Duration_Seconds: 523.603004
+Total_Commands: 26
+GPT_Responses: 30
+Bug_Reproduced: No
+Failure_Reason: Blocked — Settings page not scrollable in this run. All attempts to scroll/swipe/scroll End, orientation changes, and leaving/re-entering Settings failed to reveal the required Display → Theme (or Anti-Features) preference dialog, so the prerequisite step (“open PreferenceDialogFragmentCompat then rotate”) could not be reached.
+Log_File: N/A
+Remarks: Reached F-Droid → Settings successfully, but UI automation could not scroll the preferences list (UI content stayed the same across multiple scroll/swipe/orientation attempts).
