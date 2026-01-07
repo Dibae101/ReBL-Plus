@@ -1,0 +1,30 @@
+App Name: Firefox Focus for Android
+
+Bug Report Title: When interchanging app's languages the app's homescreen is not updated with correct translation
+
+Issue ID: 4583
+
+Issue Description:
+When changing the app's language from the settings, the homescreen does not update the text below the Firefox Focus logo to the selected language. The translation only appears after closing and reopening the app. The same issue occurs with the "Search suggestions" dialog box for certain languages (e.g., Aragones, Español (Mexico), Italian).
+
+Steps to Reproduce:
+1. Open Firefox Focus App
+2. Go to Menu > Settings > General > Language.
+3. Choose a different language.
+4. Return to the app's homescreen.
+5. The text below the Firefox Focus logo (and in the "Search suggestions" dialog) should be immediately translated to the chosen language.
+
+Expected Behavior:
+The text below the Firefox Focus logo (and in the "Search suggestions" dialog) should be immediately translated to the chosen language.
+
+Observed Behavior:
+The text remains in the previous language. Only after closing and reopening the app does the translation appear.
+
+Root Cause (if known):
+Not specified in the issue. The problem is likely due to the UI not refreshing the translation after a language change until the app restarts.
+
+References:
+- Original issue: https://github.com/mozilla-mobile/focus-android/issues/4583
+- Fixed by: https://github.com/mozilla-mobile/focus-android/pull/4589
+- Duplicate of: https://github.com/mozilla-mobile/focus-android/issues/4517
+- Reported by: @Diana-Rus

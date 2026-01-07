@@ -1,0 +1,67 @@
+App Name: osmdroid
+
+Bug Report Title:
+The app stops and forces to exit when opening some features
+
+Bug Report Issue:
+The osmdroid demo app crashes and becomes unresponsive (ANR - Application Not Responding) when accessing certain Layout features from the "More Samples" menu, specifically "Map in a view Pager" and "Map in a recycler / cardview Layout". The app forces the user to exit.
+
+### DESCRIPTION
+When navigating through the osmdroid demo app's sample features, accessing specific layout examples causes the application to crash with a NullPointerException (NPE) leading to an Application Not Responding (ANR) error. The app becomes completely unresponsive and the system prompts the user to force close the application.
+
+### STEPS TO REPRODUCE
+1. Open osmdroid demo app
+2. Click on "More Samples" from the main menu
+3. Navigate through the intro screens (click "next" 6 times)
+4. Click on "Layout" option
+5. Click on "Map in a view Pager"
+6. App crashes and becomes unresponsive
+7. Alternative: After step 4, click on "Map in a recycler / cardview Layout" - same crash occurs
+
+### EXPECTED BEHAVIOR
+The "Map in a view Pager" and "Map in a recycler / cardview Layout" samples should open and display the map properly within the ViewPager or RecyclerView/CardView layout without crashing. The user should be able to interact with the map and navigate through the sample demonstration.
+
+### ACTUAL BEHAVIOR
+The app immediately crashes when attempting to open these layout samples. An ANR (Application Not Responding) dialog appears, forcing the user to close the app. The app becomes completely unresponsive and cannot continue functioning.
+
+### ENVIRONMENT
+osmdroid version: 6.0.1
+Android version: Marshmallow 6.0.1 (mmb29m)
+Device: Xiaomi Redmi 4X
+CPU: Octa-core Max 1.9 GHz
+RAM: 2 GB
+
+### VIDEO DEMONSTRATION
+https://youtu.be/00JaNXery5E
+
+### ROOT CAUSE
+NullPointerException causing ANR in BaseSampleFragment. When using concepts like ViewPager, the fragments are accessed even when they are not fully created. The MapView is accessed in onResume() and onPause() lifecycle methods before it has been initialized, causing a NPE.
+
+The issue occurs because:
+- When the MapView is used in ViewPager/RecyclerView, fragments may be accessed before full creation
+- onResume() and onPause() methods in BaseSampleFragment call mMapView.onResume() and mMapView.onPause() without null checks
+- If mMapView is null (not yet created), this causes a NullPointerException
+
+### FIX
+Add null checks in BaseSampleFragment's onResume() and onPause() methods:
+```java
+@Override 
+public void onPause(){ 
+    if (mMapView != null) {
+        mMapView.onPause(); 
+    }
+    super.onPause(); 
+}
+
+@Override 
+public void onResume(){ 
+    super.onResume(); 
+    if (mMapView != null) {
+        mMapView.onResume(); 
+    }
+}
+```
+
+### RELATED ISSUES
+Similar to issue #1033
+Fixed by PR #1034

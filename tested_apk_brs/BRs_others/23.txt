@@ -1,0 +1,35 @@
+App Name: Privacy Friendly Weather
+
+Bug Report Title: App crashes when rotating 'The First Location' screen from portrait to landscape
+
+Issue Description:
+When the user reaches the 'The First Location' screen (where the app asks for the first location) and rotates the device from portrait to landscape orientation, the app crashes. Other screens work fine in both orientations; only this screen leads to a crash.
+
+Steps to Reproduce:
+1. Launch the Weather app.
+2. slide next from the welcome screen to the 'Add First Location' screen (do not press the skip button).
+3. On the 'Add First Location' screen, rotate the device from portrait to landscape orientation.
+4. The app crashes (bug: crash occurs on orientation change at this screen).
+
+Expected Behavior:
+- The app should manage its layout and continue working when the screen is rotated between portrait and landscape.
+
+Actual Behavior:
+- The app crashes when rotating the device on the 'Add First Location' screen.
+
+Environment:
+- App version: v2.0
+- Device: Samsung J7 Prime
+- OS: Android 7.0 Nougat
+- Reproducible: Always
+
+Root Cause (from issue discussion):
+- The layout or activity for the 'Add First Location' screen does not properly handle orientation changes, leading to a crash.
+
+Fix/Resolution:
+- The issue was fixed in commit 85661c624300beddeea2f89e09e2e10784431040.
+
+References:
+- Original issue: https://github.com/SecUSo/privacy-friendly-weather/issues/61
+- Fix commit: https://github.com/SecUSo/privacy-friendly-weather/commit/85661c624300beddeea2f89e09e2e10784431040
+- Bug recording: https://www.youtube.com/watch?v=j8DjQi2z9g4

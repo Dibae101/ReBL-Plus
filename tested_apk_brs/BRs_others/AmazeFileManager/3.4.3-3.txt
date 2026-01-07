@@ -1,0 +1,36 @@
+App Name: Amaze File Manager
+
+Bug Report Title: FTP server cannot be used without WiFi, and there is no prompt
+
+Issue ID: 1920
+
+Issue Description:
+When attempting to start the FTP server in Amaze File Manager while connected to a mobile data network (not WiFi), the "Start" button is disabled (greyed out) and there is no prompt or explanation. Users are left confused as to why the FTP server cannot be started, since the feature only works on WiFi networks.
+
+Environment:
+- App Version: v3.4.3
+- Device: Galaxy A6s
+- OS: Android 8.1.0
+- Rooted: No
+- Reproducible: Yes
+
+Steps to Reproduce:
+1. Install and open Amaze File Manager.
+2. Open the menu bar.
+3. Scroll down and select "FTP server".
+4. Attempt to start the FTP server while connected to mobile data (not WiFi).
+5. Observe that the "Start" button is disabled and no prompt is shown.
+
+Expected Behavior:
+If the user is not connected to WiFi, the app should display a prompt explaining that the FTP server requires a WiFi connection, and offer to open WiFi settings.
+
+Observed Behavior:
+The "Start" button is disabled with no prompt or explanation, leaving users confused.
+
+Root Cause (if known):
+The app did not check for network type and failed to inform users about the WiFi requirement for the FTP server. The fix displays a snackbar when there is no network connectivity, and offers to open WiFi/mobile network settings.
+
+References:
+- Original issue: https://github.com/TeamAmaze/AmazeFileManager/issues/1920
+- Fixed by: https://github.com/TeamAmaze/AmazeFileManager/pull/1931
+- Reported by: @sjl872964789

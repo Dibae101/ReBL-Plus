@@ -1,0 +1,38 @@
+App Name: Simplenote
+
+Bug Report Title:
+App crashes when clicking "Sign in with WordPress.com"
+
+Bug Report Issue:
+Simplenote crashes immediately when the user attempts to sign in using the "Sign in with WordPress.com" button on the login screen.
+
+### DESCRIPTION
+When launching the Simplenote app for the first time or after logging out, users are presented with login options. Clicking the "Sign in with WordPress.com" button causes the application to crash instantly, preventing users from authenticating and accessing their notes.
+
+### STEPS TO REPRODUCE
+1. Open Simplenote app
+2. On the welcome/login screen, locate the "Sign in with WordPress.com" button
+3. Tap on "Sign in with WordPress.com"
+4. App crashes immediately
+
+### EXPECTED BEHAVIOR
+When clicking "Sign in with WordPress.com", the app should navigate to the WordPress.com authentication page (either in a WebView or external browser), allowing the user to enter their WordPress.com credentials and successfully authenticate to access their Simplenote account.
+
+### ACTUAL BEHAVIOR
+The app crashes immediately upon tapping the "Sign in with WordPress.com" button. The crash occurs before any authentication screen is displayed. The user is unable to sign in and access their notes through the WordPress.com authentication method.
+
+### ENVIRONMENT
+Simplenote version: APK 122
+Android version: Various
+Device: Multiple devices
+
+### ROOT CAUSE
+Likely causes include:
+- Missing Intent handling for WordPress.com authentication
+- Null reference when attempting to launch authentication activity
+- Missing WebView component or browser capability
+- Uncaught exception in the authentication flow initialization
+- ActivityNotFoundException if the authentication activity is not properly declared in AndroidManifest.xml
+
+### IMPACT
+Users cannot sign in using their WordPress.com credentials, effectively blocking access to the app for users who rely on this authentication method. This is a critical bug that prevents core functionality.

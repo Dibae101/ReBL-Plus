@@ -1,0 +1,55 @@
+App Name: QKSMS
+
+Bug Report Title:
+Typing contacts in new message screen - search text not cleared after contact selection
+
+Bug Report Issue:
+When creating a new message and typing to search for a contact, the search text remains in the input field after selecting a contact. This leaves both the contact chip and the partial search text in the recipient field, creating a cluttered and confusing UI.
+
+### DESCRIPTION
+In the new message composition screen, when users type a contact's name to search and then select the contact from the suggestions, the typed search text is not cleared from the input field. Instead, both the selected contact (displayed as a chip/bubble) and the partial text that was typed remain visible in the recipient field. This creates confusion about who the message will be sent to and clutters the interface.
+
+### STEPS TO REPRODUCE
+1. Open QKSMS app
+2. Tap the "+" (plus) button to create a new message thread
+3. In the recipient field, start typing the first few letters of a contact's name (e.g., type "1")
+4. From the contact suggestions that appear, click to select any listed contact
+5. Observe the recipient field
+
+### EXPECTED BEHAVIOR
+After selecting a contact from the search results:
+- The search text should be cleared from the input field
+- Only the selected contact should appear (typically as a chip/bubble with the contact's name)
+- The input field should be ready for the user to either type another recipient or move to the message composition area
+- The interface should be clean and uncluttered
+
+### ACTUAL BEHAVIOR
+After selecting a contact:
+- The selected contact appears as a chip/bubble in the recipient field
+- The partial search text (e.g., "Joh") remains visible in the input field alongside the contact chip
+- The recipient field displays both the contact chip and the typed text
+- This creates a confusing UI where it's unclear what will happen with the remaining text
+- Additionally, users report that there doesn't seem to be a way to type a message after selecting a contact, suggesting the focus or input handling may also be affected
+
+### ENVIRONMENT
+QKSMS version: Not specified (issue reported May 2018)
+Android version: Various
+Device: Multiple devices
+
+### ROOT CAUSE
+The search/filter text in the recipient input field is not being cleared after a contact is selected from the suggestions. The code that handles contact selection likely adds the contact chip but fails to clear the text input field or reset the search query.
+
+### IMPACT
+- Creates a confusing and cluttered UI
+- May prevent users from typing messages after selecting contacts
+- Users may be unsure if the message will be sent to the intended recipient
+- Degrades the user experience for message composition
+
+### FIX
+Clear the search text from the input field after a contact is selected. Ensure that:
+1. When a contact is selected from suggestions, the text input is cleared
+2. Focus is properly managed to allow message composition
+3. The recipient field only shows the selected contact chips
+
+### FIXED IN
+Commit e717e6e - "Fix search not being cleared after contact is selected"

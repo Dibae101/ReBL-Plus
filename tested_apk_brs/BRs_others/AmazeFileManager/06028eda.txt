@@ -1,0 +1,37 @@
+App Name: Amaze File Manager
+
+Bug Report Title: The title of Settings > Color > Select Color config > Customize is missing
+
+Issue ID: 2476
+
+Issue Description:
+When navigating to Settings > Color > Select Color config > Customize in Amaze File Manager, the "Customize" title is missing from the top of the screen. This makes it unclear to the user which section they are in when customizing color preferences.
+
+Environment:
+- App Version: (not specified, but issue reported on recent versions)
+- Device: (not specified)
+- OS: (not specified)
+- Reproducible: Yes
+
+Steps to Reproduce:
+1. Open Amaze File Manager.
+2. Tap the hamburger menu (three horizontal lines) in the top left corner.
+3. Scroll down and tap on "Settings".
+4. Select "Color".
+5. Select a Color config.
+6. Tap on "Customize".
+7. Observe that the "Customize" title is missing from the top of the screen.
+
+Expected Behavior:
+The "Customize" title should be displayed at the top of the screen when in the Customize color section, clearly indicating the current context to the user.
+
+Observed Behavior:
+The title is missing, making it unclear which section is being customized.
+
+Root Cause (if known):
+The "Customize" label was not set to appear as the title when loading the customize color section. The fix ensures the label is set and uses the color accent.
+
+References:
+- Original issue: https://github.com/TeamAmaze/AmazeFileManager/issues/2476
+- Fixed by: https://github.com/TeamAmaze/AmazeFileManager/pull/2480
+- Reported by: @EmmanuelMess

@@ -1,16 +1,3 @@
-We need to dwn
-# ReBL-Plus Testing Guide
-
-## Prerequisites
-1. Start the emulator (if not already running):
-   ~/Library/Android/sdk/emulator/emulator -avd <avd_name> &
-
-2. Activate Python virtual environment:
-   source /Users/darshan/Desktop/Papers/ReBL/env/bin/activate
-
-3. Navigate to project directory:
-   cd /Users/darshan/Desktop/Papers/ReBL
-
 ## check available emulator
 ~/Library/Android/sdk/emulator/emulator -list-avds
 

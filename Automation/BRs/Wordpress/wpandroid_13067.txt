@@ -1,0 +1,37 @@
+App Name: WordPress for Android
+
+Bug Report Title:
+AppBar: copy and share icons aren't visible on the "Application log" screen while in light mode
+
+Bug Report Issue:
+The copy and share icons in the application log screen become invisible when the app is set to light mode, making these functions inaccessible to users.
+
+### DESCRIPTION
+In the Application log screen under Help & Support, the copy and share icons that should appear in the app bar (near the top right) are not visible when the app's appearance is set to Light mode. The icons appear to be rendered in a white or very light color that blends into the white background of the app bar, making them invisible and unusable. This is a theming issue where the icon colors are not properly adjusted for light mode.
+
+### STEPS TO REPRODUCE
+1. Open WordPress app
+2. Go to Profile (My Site > Account in top right)
+3. Tap on "Help & Support"
+4. Tap on "Application log"
+5. Verify that copy and share icons are visible in the app bar (top right area)
+6. Go back to the main screen
+7. Navigate to Profile > App Settings > Appearance
+8. Select "Light" mode
+9. Navigate back to Profile > Help & Support > Application log
+10. Look for the copy and share icons near the top right
+11. Observe that the icons are no longer visible
+
+### EXPECTED BEHAVIOR
+The copy and share icons should be clearly visible in the app bar of the Application log screen regardless of the selected appearance mode (light, dark, or system default). In light mode, the icons should use a dark color that contrasts well with the light background.
+
+### ACTUAL BEHAVIOR
+The copy and share icons are not visible on the Application log screen when the app is in light mode. The icons appear to be present but rendered in a color that matches or is too similar to the light background, making them invisible to users. This prevents users from accessing the copy and share functionality for application logs.
+
+### ENVIRONMENT
+WordPress for Android version: 15.9-rc-1
+Android version: 11
+Device: Pixel 3
+
+### NOTE
+This is a UI theming issue that affects the usability of the application log feature in light mode. The icons work correctly in dark mode but become invisible in light mode due to improper color theming in the app bar.

@@ -1,0 +1,38 @@
+App Name: Firefox Focus (mozilla-mobile/focus-android)
+
+Bug Report Title: App crashes when clicking notification item to delete history
+
+Issue Description:
+When the user attempts to delete browsing history by tapping the 'delete browsing history' notification item, the app crashes due to a NullPointerException in the SessionNotificationService. This occurs when the app is in the background and the notification action is triggered.
+
+Steps to Reproduce:
+1. Open any website in Firefox Focus.
+2. Press the home button to minimize the app (send it to the background).
+3. Pull down the notification shade.
+4. Tap the 'delete browsing history' text in the notification item.
+
+Expected Behavior:
+- The app should open (if needed) and delete the browsing history without crashing.
+
+Actual Behavior:
+- The app crashes with a NullPointerException. Stack trace excerpt:
+  java.lang.NullPointerException: Attempt to invoke direct method 'void org.mozilla.focus.session.VisibilityLifeCycleCallback.finishAndRemoveTaskIfInBackground()' on a null object reference
+  at org.mozilla.focus.session.VisibilityLifeCycleCallback.finishAndRemoveTaskIfInBackground(VisibilityLifeCycleCallback.java:28)
+  at org.mozilla.focus.session.SessionNotificationService.onStartCommand(SessionNotificationService.java:70)
+  ...
+
+Environment:
+- Observed on both simulator and physical device
+- Affected version: (not specified in issue, but likely 2018-era release)
+
+Root Cause (from issue discussion):
+- The crash is caused by a null reference to VisibilityLifeCycleCallback in SessionNotificationService when handling the notification action in the background.
+
+Fix/Resolution:
+- The issue was fixed by ensuring VisibilityLifeCycleCallback is properly assigned before use. See PR #2503 and commit e453566.
+
+References:
+- Original issue: https://github.com/mozilla-mobile/focus-android/issues/2499
+- Fix PR: https://github.com/mozilla-mobile/focus-android/pull/2503
+- Commit: https://github.com/ekager/focus-android/commit/e453566cc395eabafa1ffda2387f9b457623f139
+

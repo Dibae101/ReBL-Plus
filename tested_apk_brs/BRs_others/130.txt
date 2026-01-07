@@ -1,0 +1,53 @@
+App Name: andOTP
+
+Bug Report Title:
+Onboarding issues: Third "Let's get started" slide shows the wrong encryption method
+
+Bug Report Issue:
+During the initial app onboarding process, the third slide displays incorrect information about the selected encryption method. When "Password / PIN" is selected on the second slide, the third slide incorrectly shows text indicating that "Android KeyStore" was chosen. Additionally, there are confusing validation messages that contradict the displayed instructions.
+
+### DESCRIPTION
+The onboarding wizard in andOTP contains multiple UI bugs that create confusion during the initial setup process. The most critical issue is that the third slide displays text saying "Since you have chosen Android KeyStore as encryption method this is optional" even when the user has explicitly selected "Password / PIN" on the previous slide. There are also inconsistencies with validation messages and default selections that conflict with the displayed instructions.
+
+### STEPS TO REPRODUCE
+1. Open andOTP app for the first time
+2. Begin the onboarding process - read the first slide "Let's get started"
+3. On the second slide, leave the encryption method dropdown at the default "Password / PIN" (do not change it)
+4. Proceed to the third slide
+5. Observe that the text incorrectly states "Since you have chosen Android KeyStore as encryption method this is optional"
+6. Note that the dropdown on the third slide has "None" and "Device credentials" greyed out
+7. Alternative: Go back to the second slide and explicitly select "Android KeyStore"
+8. Return to the third slide
+9. Observe that a red text appears saying "Please set a password to continue" even though the instructions say it's optional for KeyStore
+
+### EXPECTED BEHAVIOR
+- The third slide should correctly display text corresponding to the encryption method selected on the second slide
+- If "Password / PIN" is selected, the text should indicate password is required
+- If "Android KeyStore" is selected, the text should indicate password is optional AND the validation message should not appear
+- The default selection on the third slide should align with what the instructions say (e.g., default to "None" when KeyStore is selected)
+- Red validation error text should only appear after the user attempts to proceed without providing required input
+
+### ACTUAL BEHAVIOR
+Multiple inconsistencies occur:
+1. Third slide shows "Android KeyStore" text when "Password / PIN" is actually selected
+2. When "Android KeyStore" is explicitly selected, validation still requires a password despite instructions saying it's optional
+3. Red error text "Please set a password to continue" appears immediately upon viewing the third slide, before the user has done anything wrong
+4. The text only updates correctly if user manually toggles between encryption methods on the second slide
+
+### ENVIRONMENT
+andOTP version: 0.6.3.1-play
+Android version: Android 8.0.0
+Device: Samsung
+App source: Google Play
+
+### ROOT CAUSE
+The UI state synchronization between the second and third onboarding slides is not properly updating when the default encryption method is used. The text on the third slide is not being updated based on the actual selected encryption method. Additionally, validation logic conflicts with the displayed instructions regarding optional vs required fields.
+
+### RELATED ISSUES
+Similar issue reported in #301 (fixed in beta)
+
+### FIX
+1. Ensure the third slide text accurately reflects the encryption method selected on the second slide
+2. Update validation logic to match instructions (make password truly optional for Android KeyStore)
+3. Default the third slide dropdown to "None" when KeyStore is selected to align with instructions
+4. Only display red validation error text after user attempts to proceed without required input

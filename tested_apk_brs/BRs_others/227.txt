@@ -1,0 +1,38 @@
+App Name: GnuCash Android
+
+Bug Report Title: New transaction is not saved correctly (sign issue)
+
+Issue Description:
+When adding a new transaction in a bank account and selecting an expense account as the transfer account, the transaction amount is incorrectly added to the account balance instead of being subtracted. This sign issue leads to incorrect account balances and confusion for users. The problem appears after a recent update and does not occur in previous versions.
+
+Steps to Reproduce:
+1. In a bank account, add a new transaction using the orange button.
+2. Type any amount (e.g., 10000 as a deposit; the sign changes and the number becomes red).
+3. Choose an account of type "expense" as the transfer account.
+4. Save the transaction.
+5. Go back to the account overview.
+6. Observe that the amount has been added to the account balance instead of subtracted (bug: sign issue in transaction saving).
+
+Expected Behavior:
+- The amount should be subtracted from the account balance when transferring to an expense account.
+
+Actual Behavior:
+- The amount is added to the account balance, resulting in an incorrect balance.
+
+Environment:
+- App version: 2.2.1
+- Device: Nexus 5X, Xiaomi Mi Max
+- OS: Android 7.1.2
+- Reproducible: Always after the update
+
+Root Cause (from issue discussion):
+- The issue is related to the handling of transaction signs and the default transaction type. It may depend on pre-existing transactions or settings, and is not always reproducible on a fresh install. The problem does not occur when using the split editor or after changing the default transaction type to Credit.
+
+Fix/Resolution:
+- The issue was fixed in commits 4c7c241e35afc7a672ec7f98e7c05c3fbf84af67, f490f9fbf0914c05382ed38a2bb70070a9513fdd, and 07a14708b010f16d09f6e12ccc7e2e2e2e2e2e2e.
+
+References:
+- Original issue: https://github.com/codinguser/gnucash-android/issues/723
+- Fix commits: https://github.com/codinguser/gnucash-android/commit/4c7c241e35afc7a672ec7f98e7c05c3fbf84af67
+  https://github.com/codinguser/gnucash-android/commit/f490f9fbf0914c05382ed38a2bb70070a9513fdd
+  https://github.com/codinguser/gnucash-android/commit/07a14708b010f16d09f6e12ccc7e2e2e2e2e2e2e

@@ -1,0 +1,66 @@
+App Name: AnkiDroid
+
+Bug Report Title:
+Can't use "<" and ">" symbols in flashcards
+
+Bug Report Issue:
+When creating flashcards in AnkiDroid with text containing "<" and ">" symbols (angle brackets), the content between these symbols is not displayed. The app interprets the brackets as HTML tags and hides the enclosed text, unlike the desktop Anki app which displays them correctly.
+
+### DESCRIPTION
+Users cannot include literal "<" and ">" characters in flashcard content when creating or editing cards in AnkiDroid. When text like "Hello <name>" is entered in a flashcard field, only "Hello" is displayed during review. The text between the angle brackets and the brackets themselves are completely hidden. Interestingly, if the same flashcard is created in the Anki desktop app or AnkiWeb and then synced to AnkiDroid, it displays correctly.
+
+### STEPS TO REPRODUCE
+1. Open AnkiDroid app
+2. Navigate to an existing deck or create a new one
+3. Tap "Add" to create a new flashcard
+4. In any field (front or back), enter text containing "<" and ">" symbols
+   - Example: "Hello <name>"
+5. Save the flashcard
+6. Review the deck or browse the flashcards
+7. Observe how the flashcard is displayed
+
+### EXPECTED BEHAVIOR
+When flashcards contain "<" and ">" symbols:
+- All text including the angle brackets should be displayed as entered
+- The content "Hello <name>" should appear as "Hello <name>" during review
+- The angle brackets should be treated as literal characters, not HTML markup
+- Behavior should match the Anki desktop application
+
+### ACTUAL BEHAVIOR
+The text between "<" and ">" symbols is completely hidden:
+- Input: "Hello <name>"
+- Displayed: "Hello" (only the text before the first "<" appears)
+- The angle brackets and everything between them is invisible
+- The app interprets the brackets as HTML tags and processes them accordingly
+- This only occurs when creating/editing cards directly in AnkiDroid
+
+### ENVIRONMENT
+AnkiDroid version: 2.9.1 (issue persists in 2.10alpha35)
+Android version: 7.0
+ACRA UUID: 23c6ee72-7f20-4b10-a38c-8b73aa6f275a
+
+### ROOT CAUSE
+AnkiDroid treats all field input as HTML and directly interprets it. When users type "<name>", the app treats it as an HTML tag. Since "name" is not a valid HTML tag, it's ignored and the content disappears. The desktop Anki app has an HTML editor with formatting tools, while AnkiDroid only provides plain text input but still processes it as HTML.
+
+### WORKAROUND
+Users can use HTML entities instead of literal angle brackets:
+- Use `&lt;` instead of `<` (lt means "less than")
+- Use `&gt;` instead of `>` (gt means "greater than")
+- Example: Type "Hello &lt;name&gt;" to display "Hello <name>"
+- Note: These must be entered without spaces
+- Alternative: Create/edit cards in Anki desktop or AnkiWeb browser version
+
+### TECHNICAL EXPLANATION
+This is not technically a bug but a limitation of AnkiDroid's current design. The app uses HTML for formatting (italics, bold, images, etc.) but lacks a visual HTML editor. The desktop app has a formatting toolbar that allows users to add formatting while automatically handling HTML encoding. AnkiDroid's plain text input is directly interpreted as HTML without any encoding of special characters.
+
+### RELATED ISSUES
+Duplicate of #1377 - Need for HTML editor in AnkiDroid
+
+### FIX REQUIREMENT
+Implementing a proper HTML editor in AnkiDroid that:
+1. Provides formatting tools (like the desktop app)
+2. Automatically encodes special HTML characters when entered as plain text
+3. Allows users to type angle brackets without them being interpreted as HTML
+4. Maintains compatibility with Anki's backend
+
+This would require significant development effort (estimated at several days minimum) to incorporate an HTML editor and ensure proper integration with the backend.

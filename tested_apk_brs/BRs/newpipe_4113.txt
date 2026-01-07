@@ -1,0 +1,61 @@
+App Name: NewPipe
+
+Bug Report Title:
+License dialog disappears after device rotation
+
+Bug Report Issue:
+When viewing the license information in the About section, the license dialog closes and disappears after rotating the device screen orientation, losing the user's reading position.
+
+### DESCRIPTION
+The license dialog in NewPipe does not persist when the device orientation changes. When users open the license dialog from the About section to read the license information and then rotate their device (from portrait to landscape or vice versa), the dialog unexpectedly closes instead of remaining open with the user's current reading position preserved. This interrupts the reading experience and forces users to reopen the dialog and find their place again.
+
+### STEPS TO REPRODUCE
+1. Open the NewPipe app
+2. Tap on the Hamburger menu icon (three horizontal lines) in the top-left corner
+3. Select "About" from the navigation menu
+4. Scroll down to the "License" section
+5. Tap on a license entry to open the license dialog
+6. Begin reading the license text
+7. Rotate the device to change screen orientation (from portrait to landscape or landscape to portrait)
+8. Observe the dialog behavior
+
+### EXPECTED BEHAVIOR
+When the device is rotated while the license dialog is open:
+- The license dialog should remain visible after orientation change
+- The user's current reading position/scroll position should be preserved
+- The dialog should adapt to the new screen orientation (portrait/landscape)
+- The content should remain accessible without requiring the user to reopen the dialog
+- Standard Android behavior for dialog persistence during configuration changes should be followed
+
+### ACTUAL BEHAVIOR
+When the device is rotated while the license dialog is open:
+- The license dialog immediately closes and disappears
+- The user is returned to the About screen
+- The reading position is lost
+- Users must reopen the license dialog and scroll back to find their previous reading position
+- This creates a poor user experience and interrupts the reading flow
+
+### ENVIRONMENT
+NewPipe version: 0.19.2 (confirmed on 0.19.8 as well)
+Android version: Not specified
+Device: Various devices affected
+
+### VISUAL DEMONSTRATION
+Screenshots provided in the original issue show:
+1. The license dialog open with text visible before rotation
+2. The About screen after rotation, showing that the dialog has closed
+
+### NOTE
+This issue also affects other dialogs in the app, such as the help popup on the "What's New" page. The same behavior occurs where dialogs close on rotation instead of persisting through orientation changes.
+
+
+Comments:
+Comment#1:
+Confirmed on version 0.19.8 as well. This affects multiple dialogs in the app.
+---
+Comment#2:
+Issue was fixed in PR #4127 - "Restore license pop-up when orientation changes"
+The fix ensures that the license dialog persists through device rotation and maintains the user's reading position.
+---
+Comment#3:
+A follow-up fix in PR #4224 addressed the same issue for the help popup on the "What's New" page, providing a unified solution for dialog persistence across the app.

@@ -1,0 +1,32 @@
+App Name: Berkeley Mobile Android
+
+Bug Report Title: Gym pages crash on load
+
+Issue Description:
+When navigating to the gyms page in the app, the page crashes within a few seconds. This prevents users from viewing gym information and disrupts the app experience.
+
+Steps to Reproduce:
+1. Open the  Berkeley Mobile app.
+2. Click on the "gyms" page/tab.
+3. Observe that the app crashes within a few seconds (bug: crash on loading gyms page).
+
+Expected Behavior:
+- The gyms page should display gym information without crashing.
+
+Actual Behavior:
+- The app crashes shortly after navigating to the gyms page.
+
+Environment:
+- App version: (not specified)
+- Android OS: 9 (from AndroR2 metadata)
+- Reproducible: Always
+
+Root Cause (from issue discussion):
+- Not specified in the issue, but likely related to data loading or UI rendering for the gyms page.
+
+Fix/Resolution:
+- (Not specified in the issue or metadata.)
+
+References:
+- Original issue: https://github.com/asuc-octo/berkeley-mobile-android/issues/82
+- AndroR2 metadata: https://github.com/SageSELab/AndroR2/blob/main/metadata/50.json

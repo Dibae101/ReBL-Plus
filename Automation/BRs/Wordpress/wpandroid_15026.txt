@@ -1,0 +1,41 @@
+App Name: WordPress for Android
+
+Bug Report Title:
+Blogging Reminders: Days of the week names are not being correctly formatted
+
+Bug Report Issue:
+When setting up blogging reminders in the WordPress app, the day selection screen shows numerical values instead of the proper day name abbreviations.
+
+### DESCRIPTION
+In the Blogging Reminders feature, when the user navigates to select days of the week for their reminder schedule, the interface displays numerical values (like "1", "2", "3", etc.) instead of the expected short day name abbreviations (like "Mon", "Tue", "Wed", etc.).
+
+### STEPS TO REPRODUCE
+1. Open WordPress app
+2. Login with credentials:
+   - Email: samarg81@gmail.com
+   - Password: Test3663#^^#
+3. On the My Site page, scroll down to navigate to Settings
+4. Select "Blogging reminders"
+5. Tap "Set reminder"
+6. Observe the days of the week selection screen
+
+### EXPECTED BEHAVIOR
+The days of the week should be displayed using their short abbreviations:
+- Mon (Monday)
+- Tue (Tuesday)
+- Wed (Wednesday)
+- Thu (Thursday)
+- Fri (Friday)
+- Sat (Saturday)
+- Sun (Sunday)
+
+### ACTUAL BEHAVIOR
+The days of the week are displayed as numerical values (1, 2, 3, 4, 5, 6, 7) instead of their proper day name abbreviations.
+
+### ENVIRONMENT
+WordPress for Android version: 17.8-rc-1
+Android version: 11
+Device: Pixel 3a
+
+### NOTE
+This is a formatting issue in the Blogging Reminders flow that affects the user experience by showing unclear numerical day representations instead of easily recognizable day names.

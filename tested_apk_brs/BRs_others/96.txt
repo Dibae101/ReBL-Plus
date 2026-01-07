@@ -1,0 +1,42 @@
+App Name: GPSTest
+
+Bug Report Title: Logging resets on portrait/landscape mode change
+
+Issue Description:
+When file logging is enabled, changing the device orientation between portrait and landscape causes a new log file to be created. This results in multiple log files for a single session, making it difficult to track continuous logging data.
+
+Steps to Reproduce:
+1. Launch GPSTest with file logging enabled.
+2. Click "Allow all the time" for location permission if prompted.
+3. Click "close" on any popups.
+4. Click the hamburger menu and go to "Settings".
+5. Scroll to the bottom and click "Logging and output".
+6. Click "NMEA" and "allow" if prompted.
+7. Click the back button twice to return to the main screen.
+8. Click the hamburger menu and select "Accuracy".
+9. Rotate the device from portrait to landscape.
+10. Observe that an information bubble states a new logging file is created (bug: logging resets on orientation change).
+
+Expected Behavior:
+- Logging should continue in the same file regardless of orientation changes.
+
+Actual Behavior:
+- A new log file is created each time the device orientation changes.
+
+Environment:
+- App version: (not specified)
+- Device: Pixel 4
+- OS: Android 10
+- Reproducible: Always
+
+Root Cause (from issue discussion):
+- The app creates a new log file on each orientation change due to how logging is handled during activity recreation.
+
+Fix/Resolution:
+- The issue was fixed by reusing the log file on orientation change. See commit af19685c439a3158b1c5d99581919349bcfd9ae9 and 4e7a653a2d8bdf8d62a26d9edb4b043bed532432.
+
+References:
+- Original issue: https://github.com/barbeau/gpstest/issues/404
+- Fix commits: https://github.com/barbeau/gpstest/commit/af19685c439a3158b1c5d99581919349bcfd9ae9
+  https://github.com/barbeau/gpstest/commit/4e7a653a2d8bdf8d62a26d9edb4b043bed532432
+- AndroR2 metadata: https://github.com/SageSELab/AndroR2/blob/main/metadata/96.json
