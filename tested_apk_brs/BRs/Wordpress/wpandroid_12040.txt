@@ -1,0 +1,40 @@
+App Name: WordPress for Android
+
+Bug Report Title:
+No Background When Paging Between Notifications
+
+Bug Report Issue:
+When paging through notifications by swiping left or right in the Notifications tab, the incoming notification screens have a transparent background instead of an opaque background, creating an inconsistent and visually jarring experience.
+
+### DESCRIPTION
+In the Notifications section of the app, when users open a notification and swipe left or right to page through multiple notifications, the screens that slide in during the paging animation have a transparent background. This creates a visual inconsistency where the underlying content is visible through the notification screen during the transition. This behavior is different from other similar features in the app, such as paging through revisions in the History section, where the background is properly opaque during transitions. The lack of a background makes the paging experience feel unpolished and can make the notification content harder to read during transitions.
+
+### STEPS TO REPRODUCE
+1. Open WordPress app
+2. Navigate to My Site page
+3. Go to the Notifications tab
+4. Tap on any notification in the list to open it
+5. Swipe left or right to page through other notifications
+6. Observe the background of the entering notification during the swipe animation
+
+### EXPECTED BEHAVIOR
+The background should be opaque when paging through notifications in the Notifications tab, similar to how it works when paging through revisions in the History section. Each notification screen should have a solid background (matching the app's theme) that:
+1. Remains visible and opaque throughout the entire paging transition
+2. Provides proper visual separation from other UI elements
+3. Ensures notification content is easily readable during transitions
+4. Creates a consistent experience with other similar paging features in the app
+
+### ACTUAL BEHAVIOR
+The background is transparent when paging through notifications in the Notifications tab. During the swipe animation when transitioning between notifications:
+1. The entering notification screen has no background or a transparent background
+2. The underlying content or previous notification is visible through the incoming screen
+3. This creates a visually jarring and unprofessional transition effect
+4. The behavior is inconsistent with paging through revisions in History, which properly shows opaque backgrounds
+
+### ENVIRONMENT
+WordPress for Android version: 14.9-rc-2
+Android version: 10.0
+Device: Google Pixel 2
+
+### NOTE
+This is a UI/styling issue where the notification detail screens lack proper background styling during the ViewPager transition animation. The issue affects the visual polish and consistency of the app's UI. The History section's revision paging feature demonstrates the correct behavior that should be replicated for notifications.

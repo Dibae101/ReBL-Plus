@@ -1,0 +1,55 @@
+App Name: WordPress for Android
+
+Bug Report Title:
+Reader: button block background doesn't display in Reader
+
+Bug Report Issue:
+When viewing a post with a button block in the Reader, the button's background color does not display, making the button appear incorrectly styled compared to how it looks in the editor, preview, and mobile web.
+
+### DESCRIPTION
+Posts containing Gutenberg button blocks are not rendered correctly in the Reader section of the app. Specifically, the background color of button blocks is missing, causing buttons to appear as plain text without their styled background. This creates a visual inconsistency where buttons look properly styled in the post editor, preview, and mobile web views, but lose their background styling when viewed in the Reader tab. This affects the visual appeal and user experience, as buttons are less prominent and may not be recognizable as interactive elements.
+
+### STEPS TO REPRODUCE
+1. Open WordPress app
+2. Create a new post with a unique identifiable title (e.g., "Button Block Test - [timestamp]")
+3. Add a paragraph block with some text
+4. Add a button block
+5. Open the block settings for the button
+6. Change the border radius (optional customization)
+7. Add a URL to the button
+8. Toggle "Open in new tab" on
+9. Publish the post
+10. Navigate to the Reader tab
+11. Go to the Following section
+12. **IMPORTANT: Find and view ONLY the specific post you just created (with the unique title), NOT any other existing posts**
+13. Compare how the button looks in the Reader vs. the editor
+14. Also compare by going to My Site → Blog Posts section and viewing the same specific post there
+15. Verify the button background rendering difference between Reader (Following) and Blog Posts views
+
+### EXPECTED BEHAVIOR
+The button block should display with its background color in the Reader, matching how it appears in:
+1. The post editor
+2. The preview mode
+3. Mobile web view
+4. The Blog Posts section
+
+The button should maintain its visual styling including background color, border radius, and other customizations to ensure a consistent experience across all viewing contexts.
+
+### ACTUAL BEHAVIOR
+When viewing the post in the Reader tab (Following section):
+1. The button block's background color does not display at all
+2. The button appears as plain text without the styled background
+3. The button styling is inconsistent compared to the editor, preview, and mobile web
+4. The button may be less noticeable or appear broken to users
+5. The visual presentation differs significantly between Reader and other viewing contexts (like Blog Posts)
+
+### ENVIRONMENT
+WordPress for Android version: 14.6-rc-2
+Android version: 10
+Device: Pixel 3
+Theme: Dark Theme
+
+### NOTE
+This is a CSS/rendering issue specific to how the Reader processes and displays Gutenberg button block HTML. The Reader component is missing the necessary styles to render button block backgrounds. Note that the Button Block HTML structure may change when the newer Buttons Block is fully implemented, requiring retesting of this fix.
+
+**TESTING REQUIREMENT**: This bug must be verified using ONLY the specific post created for this test (with button block). Do not check other existing posts, as this may lead to false positive/negative results. The comparison should be done on the same newly created post viewed in different locations: Reader (Following section) vs. Blog Posts section.

@@ -1,0 +1,44 @@
+App Name: WordPress for Android
+
+Bug Report Title:
+Activity Result not set when changing site icon
+
+Bug Report Issue:
+When changing the site icon by selecting an image from the WordPress Media Library, the activity result is not properly set, preventing the site icon from being updated and the activity log from recording the change.
+
+### DESCRIPTION
+When attempting to change a site's icon through the My Site section by selecting an image from the WordPress Media Library, the activity result callback is not properly set or returned. This causes the site icon to remain unchanged and the activity log fails to record the icon upload/change event. The issue appears to be related to how the media selection result is being handled when returning from the Media Library picker.
+
+### STEPS TO REPRODUCE
+1. Open WordPress app
+2. Go to My Site for a WordPress.com or Jetpack site
+3. Check the Activity Log to note current activities
+4. Go back to My Site
+5. Tap on the site icon at the top
+6. Acknowledge the dialog that appears
+7. Select "WP Media Library" from the screen that appears
+8. Select an image from the Media Library
+9. Observe that the site icon is not updated
+10. Go to Activity Log again
+11. Observe that no activity log entry was recorded for the image upload or site icon change
+
+### EXPECTED BEHAVIOR
+When selecting an image from the WordPress Media Library to set as the site icon:
+1. The site icon should be updated to display the selected image
+2. The Activity Log should record an entry showing the site icon was changed/uploaded
+3. The activity result should be properly returned from the Media Library picker to the calling activity
+
+### ACTUAL BEHAVIOR
+When selecting an image from the WordPress Media Library to set as the site icon:
+1. The site icon is not changed and remains as it was before
+2. Nothing happens after the image selection
+3. The Activity Log does not show any record of the attempted icon change or image upload
+4. The activity result is not properly set or returned, causing the operation to fail silently
+
+### ENVIRONMENT
+WordPress for Android version: develop
+Android version: API 29
+Device: Pixel 3 Emulator
+
+### NOTE
+This is an activity result handling issue where the media selection callback from the WordPress Media Library picker is not properly communicated back to the site icon change flow, preventing both the UI update and the activity logging from occurring.

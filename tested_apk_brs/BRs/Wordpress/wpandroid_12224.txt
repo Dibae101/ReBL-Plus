@@ -1,0 +1,40 @@
+App Name: WordPress for Android
+
+Bug Report Title:
+Prepublishing Nudges: tags added to the tag editor after the device is rotated are not saved
+
+Bug Report Issue:
+When adding tags to a post in the tag editor, any tags entered after rotating the device are not saved when exiting the tag editor, even though they remain visible in the editor.
+
+### DESCRIPTION
+In the tag editor screen during the prepublishing flow, there is a critical state management issue related to device orientation changes. Tags that are added before device rotation are properly saved, but any tags added after the device is rotated fail to persist when the user exits the tag editor. The tags appear to be added successfully (they remain visible in the tag editor), but they are not actually saved to the post. This creates a confusing user experience where users believe they have added tags, but those tags are lost upon closing the editor.
+
+### STEPS TO REPRODUCE
+1. Open WordPress app
+2. Navigate to My Site/Settings page
+3. Click on "Blog posts" or select any published post
+4. Tap on the three dots icon on the top right
+5. Select "Post settings"
+6. Tap on "Tags"
+7. Add some initial tags to the post
+8. Rotate the device/phone to change orientation (portrait to landscape or vice versa)
+9. Observe that previously entered tags remain visible after rotation
+10. Add a new tag to the list (after the device was rotated)
+11. Tap the left arrow to go back or X to close the tag editor
+12. Check if the newly added tag (added after rotation) was saved
+
+### EXPECTED BEHAVIOR
+All tags entered in the tag editor should be saved when the user exits the editor, regardless of whether they were added before or after device rotation. The tag editor should properly maintain its state through orientation changes, ensuring that:
+1. Previously entered tags remain visible after rotation (this works correctly)
+2. Tags added after rotation are properly persisted when exiting the editor
+
+### ACTUAL BEHAVIOR
+Tags added to the tag editor after the device is rotated are not saved when the user exits the editor. While these tags remain visible in the tag editor interface after being added, they are lost when the user navigates away by tapping the back arrow or X button. Only tags that were added before the device rotation are successfully saved. This results in data loss and a confusing user experience where tags appear to be added but don't persist.
+
+### ENVIRONMENT
+WordPress for Android version: 15.1-rc-1
+Android version: 10
+Device: Pixel 3
+
+### NOTE
+This is a state management issue where the tag editor activity or fragment does not properly handle the Android lifecycle event for configuration changes (orientation rotation). The issue specifically affects tags added after rotation, suggesting that the editor's state is not being properly restored or maintained after the orientation change.

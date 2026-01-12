@@ -1,0 +1,39 @@
+App Name: WordPress for Android
+
+Bug Report Title:
+Reader Improvement: Empty following illustration is showing on Likes tab
+
+Bug Report Issue:
+The wrong empty state illustration is displayed on the Likes tab in the Reader. The "empty following" illustration appears instead of an appropriate empty state illustration for the Likes section.
+
+### DESCRIPTION
+In the Reader section of the app, when navigating to the Likes tab and there are no liked posts to display, the app shows an incorrect empty state illustration. Specifically, it displays the "empty following" illustration (which is meant for the Following tab when a user is not following any blogs) instead of showing an appropriate empty state illustration for the Likes tab. This creates confusion as the illustration and message are contextually incorrect for the Likes section.
+
+### STEPS TO REPRODUCE
+1. Open WordPress app
+2. Navigate to the Reader section
+3. Go to the Likes tab
+4. Ensure there are no liked posts (or clear liked posts if any exist)
+5. Observe the empty state illustration that is displayed
+
+### EXPECTED BEHAVIOR
+When the Likes tab has no content to display, it should show either:
+1. An appropriate empty state illustration specific to the Likes feature (e.g., an illustration related to likes or favoriting content), OR
+2. A generic empty state illustration with appropriate text explaining that there are no liked posts yet, OR
+3. No illustration at all if that's the intended design for the Likes empty state
+
+The empty state should be contextually relevant to the Likes feature and provide clear messaging about why the tab is empty and potentially encourage users to like posts.
+
+### ACTUAL BEHAVIOR
+The Likes tab displays the "empty following" illustration when there are no liked posts. This illustration is incorrect because:
+1. It's meant for the Following tab, not the Likes tab
+2. The associated message and context don't make sense for the Likes feature
+3. This creates user confusion as the visual feedback is mismatched with the current tab
+
+### ENVIRONMENT
+WordPress for Android version: 15.0
+Android version: Various
+Device: Various
+
+### NOTE
+This is a UI/UX bug where the wrong empty state illustration resource is being referenced or displayed for the Likes tab. The empty view logic is likely incorrectly showing the Following tab's empty state instead of the appropriate Likes empty state.

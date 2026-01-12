@@ -1,0 +1,34 @@
+App Name: WordPress for Android
+
+Bug Report Title:
+Picking unsupported media item from device media picker
+
+Bug Report Issue:
+The device media picker allows users to select and upload unsupported media file formats (like .webp images) that WordPress does not support, resulting in media upload failures.
+
+### DESCRIPTION
+When adding media to a post using the device media picker, users can select media files in formats that WordPress does not support (such as .webp images). These unsupported files are not filtered out or greyed out in the device picker, unlike the proper filtering behavior seen in the Media section of the app. When users select these unsupported files, they appear to be added to the editor successfully, but then fail to load or upload properly. This creates a confusing user experience where the app accepts media that it cannot actually process.
+
+### STEPS TO REPRODUCE
+1. Open WordPress app
+2. Navigate to create a new Post
+3. Tap to add/upload an image in the post editor
+4. When the media picker appears, tap on the icon at the bottom left
+5. From the menu, tap on "Choose photo from device"
+6. In your phone's file browser, locate the .webp image
+7. Tap on the image to select it
+8. Observe the behavior
+
+### EXPECTED BEHAVIOR
+Users should not be presented with media item types that are unsupported by WordPress for upload. Unsupported media formats like .webp should be filtered out or shown as greyed out (disabled) in the device picker, similar to how they are correctly filtered in the Media section when using the "+" button → "Choose from device" option. This prevents users from attempting to upload incompatible media files.
+
+### ACTUAL BEHAVIOR
+In the device media picker accessed from the post editor, unsupported media formats like .webp images are displayed as selectable options without any filtering or visual indication that they are unsupported. Users can select these files, and they appear to be added to the editor/media. However, the selected media then fails to load or upload properly, causing confusion and a poor user experience.
+
+### ENVIRONMENT
+WordPress for Android version: develop
+Android version: 10
+Device: Pixel 3
+
+### NOTE
+The Media section of the app correctly filters out unsupported formats when using "+" button → "Choose from device" (showing them greyed out). This same filtering mechanism should be applied to the device picker accessed from the post editor to maintain consistency and prevent upload failures.

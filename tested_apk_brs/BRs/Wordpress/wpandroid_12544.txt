@@ -1,0 +1,44 @@
+App Name: WordPress for Android
+
+Bug Report Title:
+Reader doesn't respect the Media & Text block settings to "Crop image to fill entire column" or "Show image on right"
+
+Bug Report Issue:
+When viewing a published post with a Media & Text block in the Reader, the block settings for "Crop image to fill entire column" and "Show image on right" are not properly applied, resulting in a different display than what was configured in the editor.
+
+### DESCRIPTION
+The Reader does not respect or properly render the configuration settings applied to Media & Text blocks. Specifically, when a post is created with a Media & Text block where the "Crop image to fill entire column" option is enabled and the "Show image on right" button is tapped, these settings are not reflected when the post is viewed in the Reader. Instead, the Reader displays the content differently than how it appears in the editor and web view, ignoring the block's display settings.
+
+### STEPS TO REPRODUCE
+1. Open WordPress app
+2. Create a new post
+3. Add a Media & Text block by clicking the add icon and selecting "Media and Text"
+4. Tap "Add image or video"
+5. Tap "Choose from Free Photo Library"
+6. Search for, select, and insert an image
+7. Tap "Show image on right" button
+8. Tap the cog icon to open block settings
+9. Turn on the "Crop image to fill entire column" option
+10. Publish the post
+11. View the published post in the Reader
+12. Observe how the Media & Text block is displayed
+
+### EXPECTED BEHAVIOR
+When viewing the post in the Reader, the Media & Text block should respect the configured settings:
+1. The image should be cropped to fill the entire column (as enabled in settings)
+2. The image should appear on the right side with text stacked above in small screen view (as configured with "Show image on right")
+3. The display should match how it appears in the web view
+
+### ACTUAL BEHAVIOR
+When viewing the post in the Reader:
+1. The image is not cropped to fill the entire column, despite this option being enabled
+2. The image is not shown on the right with text properly stacked as configured
+3. The Reader displays the Media & Text block differently than the editor and web view, ignoring the block's display settings
+
+### ENVIRONMENT
+WordPress for Android version: 15.4-rc-1
+Android version: 10
+Device: Pixel 3
+
+### NOTE
+This is a rendering issue in the Reader component where the CSS styles or block attributes for Media & Text blocks are not properly applied. The issue involves two separate problems: (1) image cropping not being applied, and (2) image positioning/text stacking not respecting the "Show image on right" setting.

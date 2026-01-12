@@ -1,0 +1,43 @@
+App Name: WordPress for Android
+
+Bug Report Title:
+Unified Login & Sign-Up: Username changer toolbar is not correctly styled
+
+Bug Report Issue:
+The username changer screen has a toolbar styling issue where the icons are rendered in white on a white background, making them invisible and preventing users from accessing toolbar functions.
+
+### DESCRIPTION
+When accessing the username changer screen during account setup or from account settings, the toolbar at the top of the screen is not correctly styled. The toolbar has a white background with white icons, causing the navigation and action icons to be invisible. This is a theming issue that affects the usability of the username changer feature, as users cannot see or interact with toolbar buttons.
+
+### STEPS TO REPRODUCE
+1. Open WordPress app
+2. Go to Profile icon
+3. Tap on Account Settings
+4. Tap on the username field to change it
+5. Observe the username changer screen that loads
+6. Notice the toolbar at the top of the screen
+7. Try to type a new username and observe if suggestions appear
+
+Alternative path (during account creation):
+1. Create a new account from the app
+2. On the Epilogue screen, tap on the username field
+3. Notice the Username changer screen
+4. Observe how the toolbar is styled
+
+### EXPECTED BEHAVIOR
+The username changer toolbar should be properly styled with visible, contrasting icons. It should either be:
+- White background with black/dark icons, OR
+- Blue background with white icons
+
+The icons for navigation (back button) and actions should be clearly visible and usable. Username suggestions should load and be displayed when the screen opens or when the user types.
+
+### ACTUAL BEHAVIOR
+The toolbar on the username changer screen has a white background with white icons, making the toolbar icons completely invisible. Users cannot see the back button or any other toolbar actions. Additionally, when the screen loads, no username suggestions are displayed, and typing a new username does not trigger any suggestions to appear.
+
+### ENVIRONMENT
+WordPress for Android version: 15.3
+Android version: Various
+Device: Various
+
+### NOTE
+This is a CSS/theming issue where the toolbar icons are not properly configured for the background color. The toolbar should have proper contrast between the background and icon colors to ensure visibility and usability. The issue also affects the username suggestions functionality which appears to not load or display properly.
