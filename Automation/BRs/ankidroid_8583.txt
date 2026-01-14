@@ -1,0 +1,31 @@
+Bug Report: AnkiDroid - No Visual Feedback When Using Answer Buttons with Gestures or Keyboard
+
+App: AnkiDroid
+Version: 2.15alpha40
+Android Version: Not specified
+Device: Not specified
+
+Issue Summary:
+When using gestures or keyboard input to answer flashcards in the reviewer, the answer buttons do not animate to provide visual feedback to the user. This is a regression from previous versions where buttons would animate when keyboard input was used. The lack of visual feedback makes it difficult for users to confirm that their action (gesture or keyboard press) has been registered by the app.
+
+Steps to Reproduce:
+1. Open AnkiDroid app
+2. Start reviewing flashcards
+3. Reveal the answer to a card
+4. Use one of the following methods to select an answer:
+   - Swipe with a gesture (e.g., swipe left for "Again", swipe right for "Good")
+   - Press a keyboard shortcut (e.g., 1, 2, 3, 4 for different answer buttons)
+5. Observe the answer buttons during the action
+
+Expected Result:
+The answer buttons should animate (visual press effect) when gestures are used or keyboard shortcuts are pressed, providing clear visual feedback to the user that their input has been registered. This animation should simulate the visual effect of physically touching the button, making it obvious which answer was selected.
+
+Actual Result:
+The answer buttons do not animate or show any visual feedback when gestures or keyboard input are used. The only feedback is the subtle 1-4 dots at the top of the screen, which is much less noticeable and can lead to uncertainty about whether the action was registered correctly or which answer was selected.
+
+Additional Notes:
+- This is a regression in version 2.15 - keyboard input previously triggered button animations in earlier versions (reference: #5683)
+- Even direct button touching shows no feedback animation (as noted by contributor)
+- The issue affects user confidence and can lead to misclicks/mis-selections
+- Related to PR #8579 which was fixing gesture functionality
+- Suggested fix involves using view.setPressed(true/false) to manually trigger button press animations for both gestures and keyboard input

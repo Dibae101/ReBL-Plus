@@ -95,8 +95,9 @@ echo "[4/5] Activating Python environment..."
 cd "$(dirname "$0")/Automation"
 source ../env/bin/activate
 
-echo "[5/6] Installing  APK..."
-$ADB -s "$DEVICE_SERIAL" install -t -r APKs/wordpress/wpandroid-15.9-rc-1-universal.apk
+# echo "[5/6] Installing  APK..."
+# $ADB -s "$DEVICE_SERIAL" install -t -r APKs/wordpress/wpandroid-15.9-rc-1-universal.apk
 
 
-python3 reproduction.py "$DEVICE_PORT" BRs/Wordpress/wpandroid_13121.txt
+python3 reproduction.py "$DEVICE_PORT" BRs/ankidroid_7730.txt
+

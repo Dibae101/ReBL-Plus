@@ -1,0 +1,38 @@
+Bug Report: AnkiDroid - Cloze Deletion Ignores Repeated Words in Type Answer
+
+App: AnkiDroid
+Version: 2.14.6
+Desktop Version (for comparison): 2.1.35
+Android Version: Not specified
+Device: Not specified
+
+Issue Summary:
+When using cloze deletions with the {{type:cloze:Field}} feature, AnkiDroid incorrectly handles repeated words within the same cloze number. If a cloze card contains multiple instances of the same word (e.g., {{c1::test}} appearing twice) along with other different words in the same cloze, AnkiDroid ignores the repeated words and only requires the user to type each unique word once. This behavior differs from Anki Desktop, which correctly requires all words to be typed including repetitions.
+
+Steps to Reproduce:
+1. Open AnkiDroid app
+2. Create a cloze note with a field named "Blanked_Text"
+3. Add content with repeated cloze deletions: "This is {{c1::test}} which is containing {{c1::test}} word twice {{c1::test2}}"
+4. Set up the template:
+   - Front Template: {{cloze:Blanked_Text}} {{type:cloze:Blanked_Text}}
+   - Back Template: {{cloze:Blanked_Text}} {{type:cloze:Blanked_Text}}
+5. Review the card
+6. Type answer as "test, test, test2" (all words including repetitions)
+7. Observe the result
+
+Expected Result:
+When there are multiple different words in the same cloze deletion, the app should accept and require all instances of repeated words to be typed. Following Anki Desktop's behavior:
+- If all cloze deletions are the same word (e.g., only "test, test, test"), require typing it only once
+- If there are different words mixed with repeated words (e.g., "test, test, test2"), require all words including repetitions: "test, test, test2"
+
+The typed answer "test, test, test2" should be marked as completely correct with a checkmark.
+
+Actual Result:
+AnkiDroid uses a Set data structure which automatically removes duplicates. When typing "test, test, test2", the app only recognizes unique values "test, test2" and marks the answer as incorrect. The first "test" is highlighted in green as correct, but the second "test" is highlighted in red as incorrect, showing that the app expected only two unique words.
+
+Additional Notes:
+- This is an Anki Ecosystem Compatibility issue - AnkiDroid behaves differently from Anki Desktop
+- Root cause: AnkiDroid uses Set<String> to store cloze answers, which automatically removes duplicates
+- Anki Desktop uses special logic: if all clozes are identical (len(uniqMatches)==1), show once; otherwise show all including duplicates
+- Fixed in PR #8325 by changing from Set<String> to ArrayList<String> and implementing Desktop's logic
+- The fix ensures AnkiDroid properly handles the edge case where repeated words appear alongside different words

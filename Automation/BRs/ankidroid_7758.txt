@@ -1,0 +1,36 @@
+Bug Report: AnkiDroid - "Card Info" String Not Translated in Card Browser Menu
+
+App: AnkiDroid
+Version: 2.14.0 (also affects 2.15alpha5)
+Android Version: Not specified
+Device: Not specified
+
+Issue Summary:
+When the app language is changed from English to another language (e.g., Japanese), the "Card info" menu item in the Card Browser's context menu remains untranslated and displays in English. However, the same string is correctly translated when it appears as the title of the Card Info screen. This is caused by a hardcoded string in the code instead of using the translatable string resource.
+
+Steps to Reproduce:
+1. Open AnkiDroid app
+2. Navigate to Settings > AnkiDroid > Language
+3. Change the language from English to another language (e.g., Japanese)
+4. Return to the main deck list
+5. Tap on the navigation menu (hamburger icon) or three dots menu
+6. Select "Card browser" to open the card browser
+7. Long tap on any card row in the list to select it
+8. Tap on "More options" (three dots menu) in the top right corner
+9. Observe the menu items, particularly the "Card info" option
+10. (Optional) Select "Card info" and observe the title of the screen that opens
+
+Expected Result:
+The "Card info" menu item should be translated into the selected language (e.g., Japanese: "カード情報"). The translation was submitted on Crowdin on November 5 and is properly reflected in the Card Info screen title. Both locations (menu item and screen title) should display the translated string consistently.
+
+Actual Result:
+The "Card info" menu item in the Card Browser's context menu remains in English as "Card info" and is not translated, even though the translation exists in the Crowdin translation file. When the Card Info screen opens, its title is correctly translated, showing an inconsistency in the app.
+
+Additional Notes:
+- The translation exists on Crowdin and is properly associated with both locations according to the screenshots on the Crowdin page
+- The Card Info screen title correctly shows the translated string
+- Only the menu item in the Card Browser context menu fails to use the translation
+- The issue is caused by a hardcoded English string in the code instead of using the translatable string resource reference
+- Fixed in PR #7759 which replaced hardcoded strings with proper string resource references
+- This is a localization/internationalization bug affecting all non-English languages
+- A lint check was added to prevent similar hardcoded string issues in the future

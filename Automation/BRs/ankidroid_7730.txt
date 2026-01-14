@@ -1,0 +1,50 @@
+Bug Report: AnkiDroid - Rebuilding Filtered Deck Un-suspends Cards (V2 Scheduler)
+
+App: AnkiDroid
+Version: Not specified
+Android Version: Not specified
+Device: Not specified
+
+Issue Summary:
+When using the Experimental V2 Scheduler, if a card is suspended while studying a Filtered Deck, the "Suspended" status is successfully applied initially. However, rebuilding the filtered deck immediately resets the card's status, un-suspending it. The card disappears from the is:suspended search, indicating its state has been reverted.
+
+Prerequisites:
+- Experimental V2 Scheduler must be enabled (Settings > Advanced > Experimental V2 scheduler)
+
+Steps to Reproduce:
+1. Open AnkiDroid app
+2. Navigate to Settings > Advanced
+3. Scroll down and enable "Experimental V2 scheduler" checkbox
+4. Tap "OK" on the confirmation dialog
+5. Return to the main Decks screen
+6. Tap the + (Plus) button in the bottom right corner
+7. Tap "Create filtered deck"
+8. Name the deck (e.g., "Filtered Deck 1") and tap "CREATE"
+9. In the filtered deck options, set "Search" to: deck:default is:due or is:new (or any valid search query)
+10. Tap "Limit to" and set it to 100 (or any number)
+11. Tap "STUDY" to build the deck and enter review mode
+12. When the first card appears (e.g., "CONCLUDE"), tap the three dots menu in the top right corner
+13. Select "Suspend card" from the menu
+14. Observe that the card disappears from view as expected
+15. Return to the main screen and open the navigation drawer/sidebar
+16. Select "Card browser"
+17. In the Card browser, search for: is:suspended
+18. Verify that the suspended card (e.g., "CONCLUDE") appears in the search results
+19. Return to the main Decks screen
+20. Long-press on "Filtered Deck 1"
+21. Select "Rebuild" from the context menu
+22. Open the Card browser again via the sidebar
+23. Search for: is:suspended
+24. Observe the search results
+
+Expected Result:
+The card should remain suspended after rebuilding the filtered deck. The is:suspended search should continue to show the suspended card (e.g., "CONCLUDE"). Rebuilding a filtered deck should simply refresh the deck contents based on the filter criteria without modifying the scheduling or suspension state of cards that were previously suspended.
+
+Actual Result:
+After rebuilding the filtered deck, the search for is:suspended returns "0 cards shown". The card (e.g., "CONCLUDE") is no longer suspended. Rebuilding the filtered deck caused the card to lose its suspended status, effectively un-suspending it without user action.
+
+Additional Notes:
+- This issue is specific to the Experimental V2 Scheduler
+- The initial suspension works correctly
+- The bug occurs specifically during the rebuild operation of a filtered deck
+- This behavior is unexpected as rebuilding should only affect which cards are included in the filtered deck, not their suspension state

@@ -1,0 +1,33 @@
+Bug Report: AnkiDroid - Samsung "My Files" App Cannot Open APKG Files
+
+App: AnkiDroid
+Version: 2.13.5
+Android Version: Android 10
+Device: Samsung Galaxy S10
+
+Issue Summary:
+When attempting to open an .apkg file (Anki deck package) using Samsung's default file manager "My Files", the app displays an error message stating "There is no app that can perform this action" instead of importing the file into AnkiDroid. This prevents Samsung users from easily importing decks using their device's native file manager.
+
+Steps to Reproduce:
+1. Download or save an .apkg file to the device
+2. Open AnkiDroid app
+3. Tap on the three dots (menu) on the top right corner
+4. Select "Import"
+5. Choose "Material Files" option
+6. Search and find any .apkg file in "My Files" app
+7. Tap on the .apkg file to open it
+
+Expected Result:
+The .apkg file should be recognized by the system and AnkiDroid should be presented as an option to open the file. Upon selection, the deck should be imported into AnkiDroid successfully.
+
+Actual Result:
+Samsung's "My Files" app displays an error dialog stating "There is no app that can perform this action." The .apkg file is not recognized as openable by AnkiDroid, and the import process fails. The system does not associate the .apkg file type with AnkiDroid, even though AnkiDroid is installed and should handle this file type.
+
+Additional Notes:
+- This issue is specific to Samsung's "My Files" app on Samsung devices
+- The error log shows: "There is no activity for this intent. type scheme:content"
+- The issue appears to be related to intent filter configuration in AndroidManifest.xml
+- Adding GET_CONTENT and PICK actions to the intent filter did not resolve the issue
+- The problem may require supporting file extensions in addition to MIME types
+- Fixed in PR #9229 which implemented a better download and import system
+- Other file managers may work correctly with AnkiDroid

@@ -1,0 +1,30 @@
+Bug Report: Firefox Focus - Trashcan Icon Moving with Keyboard in Multi-Tab Mode
+
+App: Firefox Focus
+Version: 8.7.2
+Build ID: 342410345
+GeckoView: 80.0.20200827204751
+Android Version: Android 9
+Device: Pixel 2
+
+Issue Summary:
+When multiple tabs are open and the user taps on an input field to bring up the keyboard, the trashcan (erase) icon incorrectly appears above the keyboard instead of being hidden. This creates a visual inconsistency and poor user experience.
+
+Steps to Reproduce:
+1. Launch Firefox Focus app
+2. Visit google.com
+3. Long tap on "Images" link
+4. Choose "Open link in new tab" from the context menu
+5. Tap on the Google search input field
+6. Observe the trashcan icon behavior when the keyboard appears
+
+Expected Result:
+The trashcan icon should be hidden when the keyboard is displayed. Floating buttons (erase and sessions counter) should not be visible above the keyboard.
+
+Actual Result:
+The trashcan icon is displayed and moves with the keyboard, appearing above it. The floating button remains visible instead of being hidden when the keyboard is shown.
+
+Additional Notes:
+- The issue affects floating buttons in multi-tab scenarios
+- The bug was fixed in PR #4963 by updating the ResizableKeyboardViewDelegate to hide multiple floating buttons
+- Verified as fixed in build 8.13.1 (1191.0a1-20210705095222)

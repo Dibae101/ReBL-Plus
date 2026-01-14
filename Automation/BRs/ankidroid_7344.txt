@@ -1,0 +1,23 @@
+Based on the new screenshot provided (`image_9ad087.png`), I have updated the Bug Report to reflect your specific environment (replacing the "tora" deck with "Test Deck").
+
+### **Bug Report: Long strings do not wrap automatically (Overflow)**
+
+**Issue Summary:**
+Long continuous strings of characters (without spaces) do not wrap automatically within the card reviewer. The user is forced to manually add specific CSS (`overflow-wrap: break-word;`) to their card templates to prevent layout issues.
+
+**Steps to Reproduce:**
+
+1. Launch **AnkiDroid**.
+2. Tap the **Hamburger Menu** (top left).
+3. Tap **Settings**.
+4. Tap **Advanced** (Optimization and experimental features).
+5. Tap the checkbox for **Safe display mode** to enable it.
+6. Tap the **Back Arrow** (top left) twice to return to the main deck list.
+7. Tap the deck named **"Test Deck"** (or "Default").
+8. Click on hamburger icon, observe it does not open completely, if you click on the far left of the screen, small portion of the menu can be seen. 
+
+**Actual Behavior:**
+The text extends beyond the screen width without wrapping, often requiring the user to scroll horizontally or causing layout breaks.
+
+**Expected Behavior:**
+The application should apply `overflow-wrap: break-word` by default, ensuring long words or strings wrap to the next line automatically without requiring manual CSS edits.

@@ -4,7 +4,7 @@
 ## start Emulator:
 ~/Library/Android/sdk/emulator/emulator -avd Pixel &
 
-~/Library/Android/sdk/emulator/emulator -avd Medium_Phone &
+~/Library/Android/sdk/emulator/emulator -avd Pixel_4 &
 
 ## Install APK to Emulator
 

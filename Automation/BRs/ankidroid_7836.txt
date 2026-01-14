@@ -1,0 +1,44 @@
+Bug Report: AnkiDroid - Saved Whiteboard Has Inverted Background Color
+
+App: AnkiDroid
+Version: 2.15alpha10
+Android Version: Not specified
+Device: Not specified
+
+Issue Summary:
+When using the whiteboard feature with the Plain Theme and "black strokes" disabled, the saved whiteboard image has an inverted background color. The saved PNG file shows drawings on a black background instead of the expected white background, making the saved image inconsistent with the whiteboard appearance during use.
+
+Steps to Reproduce:
+1. Open AnkiDroid app
+2. Navigate to Settings > Reviewing
+3. Disable the "black strokes" checkbox option
+4. Go back to main Settings
+5. Navigate to Settings > Appearance
+6. Select "Plain Theme" as the Day theme
+7. Return to deck list and select any deck to start reviewing
+8. Open a flashcard for review
+9. Tap on the three dots menu (More options) in the top right
+10. Select "Enable whiteboard" from the menu
+11. Draw/scribble on the whiteboard using the doodle pen (make visible strokes on the canvas)
+12. Tap on the three dots menu (More options) again
+13. Select "Save whiteboard" from the menu
+14. Note the toast message showing the file save location (e.g., /storage/emulated/0/Pictures/AnkiDroid/Whiteboard[timestamp].png)
+15. Open the device's file manager application
+16. Navigate to Files > Pictures > AnkiDroid folder
+17. Locate the saved PNG file (Whiteboard[timestamp].png)
+18. Open the PNG file to view its contents and observe the background color
+
+Expected Result:
+The saved whiteboard image should display blue strokes (or whatever color was selected) on a white background, matching the visual appearance of the whiteboard during drawing. The background color should be white because the Plain Theme is selected and "black strokes" is disabled.
+
+Actual Result:
+The saved whiteboard PNG file displays blue strokes (or selected color) on a black background. The background color is incorrectly inverted, showing black instead of white, despite using the Plain Theme with "black strokes" disabled.
+
+Additional Notes:
+- The issue is caused by incorrect logic in Whiteboard.java lines 500-504 where the background color is inverted
+- The "black strokes" setting was originally designed as a memory optimization to use low bit colors
+- After the introduction of the color picker feature, the "black strokes" setting became obsolete and no longer functions as intended
+- The foregroundColor logic incorrectly determines the canvas background based on monochrome and inverted settings
+- Fixed in PR #7858 by removing legacy whiteboard settings and simplifying the color logic
+- The fix removes the "black strokes" setting entirely and bases foreground color solely on the night mode (inverted) setting
+- Related to PR #6451 which introduced additional pen colors

@@ -1,0 +1,44 @@
+Based on the video provided, here is the bug report for the issue (likely related to **Issue #7793** or similar behavior regarding gesture settings inconsistencies across languages).
+
+### **Bug Report: Gesture Action Selection Changes Based on System Language (List Sorting Issue)**
+
+**Summary:**
+The "Swipe up" gesture action changes automatically when switching the application language between English and Chinese. This suggests that the gesture actions are sorted alphabetically by their translated names, but the app saves the user's choice by **list index** rather than by a unique ID. Consequently, "Index 0" in English ("Abort learning") points to a different action in Chinese (or causes a fallback error), resulting in the wrong action being selected.
+
+**Steps to Reproduce (Button Clicks):**
+
+1. Launch **AnkiDroid**.
+2. Tap the **Hamburger Menu** (top left).
+3. Tap **Settings**.
+4. Tap **AnkiDroid** (General Settings).
+5. Tap **Languages**.
+6. Select **中文 (中国)** (Chinese - China).
+7. *The app refreshes in Chinese.*
+8. Tap the **Hamburger Menu**.
+9. Tap **设置** (Settings).
+10. Tap **手势操作** (Gestures).
+11. Tap **向上滑动** (Swipe up).
+* **Bug Observation 1:** The selected action is **中止学习和同步** (Abort learning and sync).
+
+12. Tap **Cancel** (取消) or tap outside to close.
+13. Tap the **Back Arrow** to return to the main menu.
+14. Tap the **Hamburger Menu**.
+15. Tap **设置** (Settings).
+16. Tap **AnkiDroid** (General Settings).
+17. Tap **语言** (Languages).
+18. Select **English**.
+19. *The app refreshes in English.*
+20. Tap **Gestures**.
+21. Tap **Swipe up**.
+* **Bug Observation 2:** The selected action is now **Abort learning**.
+
+
+
+**Expected Behavior:**
+The functional setting for "Swipe up" (e.g., "Abort learning") should remain the same regardless of the interface language.
+
+**Actual Behavior:**
+The setting shifts effectively:
+
+* In **English**, the first item "**Abort learning**" is selected.
+* In **Chinese**, the selection jumps to "**中止学习和同步**" (Abort learning and sync), which appears at the bottom of the list, likely due to the list being re-sorted alphabetically by the localized string while the saved preference relies on a fixed list index.

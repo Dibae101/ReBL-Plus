@@ -1,0 +1,38 @@
+Bug Report: AnkiDroid - Copied Images Always Paste at End of Field Regardless of Cursor Position
+
+App: AnkiDroid
+Version: 2.15alpha7
+Android Version: Not specified
+Device: Not specified
+
+Issue Summary:
+When copying an image from another application (such as Chrome) and pasting it into the Note Editor, the image is always inserted at the end of the field regardless of where the cursor is positioned. This behavior differs from pasting regular text (which respects cursor position) and from Anki Desktop's behavior (which also respects cursor position for images).
+
+Steps to Reproduce:
+1. Open Chrome browser 
+2. Find an image and long-tap on it
+3. Select "Copy image" from the context menu
+4. Open AnkiDroid app
+5. Open any deck from the deck list
+6. Start reviewing a card or open any card
+7. Tap on the three dots menu (More options) in the top right corner
+8. Select "Edit note" to open the Note Editor
+9. In the Note Editor, select a field that already contains some text (or type some text first)
+10. Tap on a position in the middle of the text (not at the end) to place the cursor there
+11. Verify the cursor is blinking at the desired position in the middle of the text
+12. Tap on the same position again to bring up the context menu
+13. Select "Paste" from the context menu
+14. Observe where the image appears in the field
+
+Expected Result:
+The image HTML string (e.g., `<img src="1234567812345678.png">`) should be inserted at the cursor position where the user tapped, just like regular copied text is inserted. This behavior should match Anki Desktop, where pasted images are inserted at the cursor position.
+
+Actual Result:
+The image HTML string is always pasted at the end of the field, ignoring the cursor position. Even when the cursor is positioned in the middle of existing text, the image appears at the very end of the field content instead of at the intended location.
+
+Additional Notes:
+- Regular text paste respects cursor position correctly - only image paste has this issue
+- This inconsistency creates a poor user experience as users expect paste behavior to be consistent
+- Anki Desktop correctly inserts images at the cursor position
+- Fixed in PR #7774 which ensures images are pasted at the cursor position instead of always at the end
+- The issue was specific to the Note Editor's handling of image clipboard data
