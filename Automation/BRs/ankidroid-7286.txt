@@ -1,0 +1,28 @@
+### **Bug Report: Card Browser Preview shows incorrect card after changing sort order**
+
+**Issue Reference:** [https://github.com/ankidroid/Anki-Android/issues/7286](https://github.com/ankidroid/Anki-Android/issues/7286)
+
+**Description:**
+When the user changes the sort order in the Card Browser (e.g., to "By created time"), selects a specific card (e.g., card "c"), and then selects "Preview" from the options menu, the app displays a different card (e.g., card "b") instead of the selected one. This suggests an index mismatch between the sorted list view and the preview activity's data source.
+
+**Environment:**
+
+* **App:** AnkiDroid
+* **Evidence:** Video `7286.mp4`
+
+**Steps to Reproduce:**
+
+1. Open AnkiDroid
+2. Tap the Hamburger icon and click on Card browser
+3. Make sure to select all decks from the top menu.
+4. Tap the Menu (three dots) and select Change display order.
+5. Change the sort order, select By created time.
+6. Long-press to select a specific card in the middle of the list.
+7. Tap the Menu (three dots) and select Preview.
+8. The preview screen displays a different card.
+
+**Expected Result:**
+The preview screen should display the card that was selected.
+
+**Actual Result:**
+The preview screen displays a different card (card "b").

@@ -1,0 +1,33 @@
+Bug Report: AnkiDroid - 1x1 Widget Not Working and Doesn't Open App on Tap
+
+App: AnkiDroid
+Version: 2.14alpha17
+Android Version: Android 9
+Device: Not specified
+Scheduler: std2
+
+Issue Summary:
+The 1x1 AnkiDroid widget displays an error message instead of showing the number of due reviews and estimated time. Additionally, tapping on the widget does not open the AnkiDroid app as expected. The widget is completely non-functional.
+
+Steps to Reproduce:
+1. Go to the phone homescreen
+2. Long tap on an empty area of the homescreen to bring up the menu
+3. Select "Widgets" from the menu
+4. Browse/scroll through the widget list to find AnkiDroid widgets
+5. Select the AnkiDroid 1x1 widget (small widget)
+6. Drag and drop the 1x1 widget to place it on the homescreen
+7. Observe the widget display on the homescreen
+8. Tap on the placed widget
+
+Expected Result:
+The widget should display the number of due reviews and the estimated time (ETA) for completing them. When tapped, the widget should open the AnkiDroid app, allowing the user to start reviewing cards immediately from the homescreen.
+
+Actual Result:
+The widget displays an error message instead of showing review information. The widget fails to function properly and shows an inflation error. When tapped, the widget does not open the AnkiDroid app - nothing happens or an error occurs. The widget is completely unusable.
+
+Additional Notes:
+- The widget fails to inflate properly with error: "Error inflating RemoteViews: android.view.InflateException: Binary XML file line #30: Error inflating class com.ichi2.ui.FixedTextView"
+- Root cause: Issue was introduced by PR #7352 which affected the widget's FixedTextView component
+- Fixed in PR #7368 which resolved the widget inflation error
+- No crash reports were generated, but the widget silently fails
+- This is a critical regression as the widget is a commonly used feature for quick access to reviews

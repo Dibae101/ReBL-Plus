@@ -1,0 +1,32 @@
+Bug Report: AnkiDroid - Card Browser Doesn't Remember Scroll Position After Editing Card
+
+App: AnkiDroid
+Version: 2.12.1
+Android Version: Android 9
+Device: Not specified
+
+Issue Summary:
+When editing a card from the Card Browser, the scroll position is not preserved after saving the changes. After tapping the save button, the browser jumps back to the top of the card list instead of maintaining the scroll position where the edited card was located. This forces users to scroll back down repeatedly when editing multiple cards in sequence.
+
+Steps to Reproduce:
+1. Open AnkiDroid app
+2. Open the navigation drawer/menu
+3. Select "Card browser" to open the card browser
+4. Scroll down the card list and select the last card.
+6. In the note editor that opens, make changes to either the Front or Back field of the card
+7. Tap the "Save" button (checkmark icon) to save the changes
+8. Observe the position in the card browser after returning
+
+Expected Result:
+The card list should appear in the same scroll position from which the card was tapped. The edited card should remain visible at the same position in the list where it was before editing. This behavior allows users to efficiently edit multiple consecutive cards without having to re-scroll to find their position each time.
+
+Actual Result:
+After saving the edited card, the card browser jumps to the top of the card list. The scroll position is lost, and the top of the note list is shown instead of the position where the edited card is located. If the user wants to edit multiple cards in a row, they must scroll down again after each edit to find the next card.
+
+Additional Notes:
+- This is a regression - the feature worked correctly in version 2.10.4 and earlier
+- The issue appeared sometime between version 2.10.4 and 2.12.1
+- The regression may have been caused by material library or appcompat library updates
+- Fixed in PR #7065 which restores the scroll position after editing
+- This significantly impacts user experience when bulk editing cards in the browser
+- Related issue: #15993 (recurrence of the same bug in later versions)

@@ -1,0 +1,36 @@
+Based on the video provided, here is the Bug Report formatted for GitHub.
+
+### **Bug Report: "Rename the existing custom study deck first" error when performing Custom Study on a deck named "Custom study session"**
+
+**Description:**
+When a user manually creates a deck with the specific name "Custom study session" and subsequently attempts to perform a "Custom study" action on that deck (e.g., Review ahead), pressing the back button triggers a dialog forcing the user to rename the deck. This appears to be a naming conflict between the user-created deck and the system's default name for temporary study sessions.
+
+**Steps to Reproduce:**
+
+1. Open AnkiDroid.
+2. Tap the **+** (FAB) button and select **Create deck**.
+3. Name the deck exactly: `Custom study session`.
+4. Tap **OK** to create.
+5. Tap (or long-press) the newly created "Custom study session" deck to open the deck options.
+6. Select **Custom study**.
+7. Choose an option (e.g., **Review ahead**).
+8. Enter a value (e.g., `1`) and tap **OK**.
+9. Press the device **Back** button to return to the deck list.
+
+**Actual Result:**
+A dialog box appears with the message: "Rename the existing custom study deck first" and a CANCEL button. The user is blocked from navigating back normally until they interact with this dialog.
+
+**Expected Result:**
+The app should either:
+
+1. Prevent the user from manually creating a deck with the reserved name "Custom study session" initially.
+2. Or, handle the Custom Study action gracefully without confusing the manual deck with the system-generated temporary deck.
+
+**Environment:**
+
+* **App:** AnkiDroid
+* **Device:** Android Emulator / Device (as seen in video)
+
+**Log/Error Message:**
+
+> Rename the existing custom study deck first

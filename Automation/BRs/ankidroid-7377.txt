@@ -1,0 +1,32 @@
+
+### **Bug Report: Broken image icon appears when multiple images are added via Camera in Advanced Editor**
+
+**Issue Reference:** [https://github.com/ankidroid/Anki-Android/issues/7377](https://github.com/ankidroid/Anki-Android/issues/7377)
+
+**Description:**
+When a user adds multiple images to a card field using the "Advanced editor" > "Camera" workflow, the card preview displays a broken image icon for the first image added, while the second image renders correctly. This suggests an issue with how the app handles or retrieves the file paths for earlier images when a new one is appended during an edit session.
+
+**Environment:**
+
+* **App:** AnkiDroid
+* **Evidence:** Video `7377.mp4`
+
+**Steps to Reproduce:**
+
+1. Open AnkiDroid and enter a deck.
+2. Tap the button and select*Add note (or edit an existing note).
+3. Tap the paperclip icon and select Advanced editor.
+4. Tap the camera icon to take a photo.
+5. Capture a photo and confirm it.
+6. When the "Do you want to crop this image?" dialog appears, select NO.
+7. Save the note (or confirm the field edit).
+8. Edit the same note again.
+9. Tap on Gallery icon and add the image from the camera again.
+9. Use the same
+10. Preview the card.
+
+**Expected Result:**
+Both images should display correctly in the card preview.
+
+**Actual Result:**
+The first image is displayed as a **broken image icon** (placeholder), while the second image displays correctly.

@@ -1,0 +1,26 @@
+Here is the Bug Report for the issue observed in the video `7695.mp4`.
+
+### **Bug Report: "Rename note type" title displayed incorrectly when renaming a field**
+
+**Description:**
+When attempting to rename a specific field (e.g., "Front") within the "Edit fields" menu, the dialog box that appears is incorrectly titled "**Rename note type**". The expected title for this dialog should be "**Rename field**" to accurately reflect the action being performed.
+
+**Steps to Reproduce:**
+
+1. Open the AnkiDroid main menu (three dots in the top right corner).
+2. Select **Manage note types**.
+3. Tap on a note type (e.g., "Basic") to open the **Edit fields** screen.
+4. Tap on a field name (e.g., "Front") to open the field options menu.
+5. Select **Rename field**.
+6. Observe the title of the dialog box that appears.
+
+**Actual Result:**
+The dialog box is titled "**Rename note type**", even though the user is renaming a specific field.
+
+**Expected Result:**
+The dialog box should be titled "**Rename field**".
+
+**Environment:**
+
+* **App:** AnkiDroid
+* **Feature:** Manage Note Types / Edit Fields

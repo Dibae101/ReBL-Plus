@@ -1,0 +1,27 @@
+Here is the Bug Report for the issue observed in the video `7674.mp4`.
+
+### **Bug Report: "Undo reposition" option persists in menu after use**
+
+**Description:**
+In the Card Browser, after repositioning a card and then using the "Undo reposition" feature, the "Undo reposition" option remains visible in the menu. The expected behavior is for the undo option to disappear after the action has been reversed.
+
+**Steps to Reproduce:**
+
+1. Open the navigation drawer and select **Card browser**.
+2. Long-press or select a card to enter selection mode.
+3. Tap the menu button (three dots) in the top right corner.
+4. Select **Reposition**.
+5. Enter a new position (e.g., `1`) and tap **OK**.
+6. Open the menu again and select **Undo reposition**.
+7. Open the menu once more to observe the available options.
+
+**Actual Result:**
+The **Undo reposition** option is still present in the menu, even though the undo action was just performed.
+
+**Expected Result:**
+The **Undo reposition** option should disappear from the menu after the user has successfully undone the repositioning action.
+
+**Environment:**
+
+* **App:** AnkiDroid
+* **Feature:** Card Browser / Reposition

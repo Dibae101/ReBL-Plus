@@ -1,0 +1,44 @@
+Based on the video provided, here is the Bug Reproduction Report for the issue where the Card Browser fails to display cards for decks with specific special characters in their names.
+
+### **Bug Report: Card Browser displays "0 cards shown" for decks containing parentheses `()` in the name**
+
+**Issue Reference:** [https://github.com/ankidroid/Anki-Android/issues/6288](https://github.com/ankidroid/Anki-Android/issues/6288)
+
+**Description:**
+When a user creates a deck with a name containing parentheses (and potentially other special characters like `*`) and adds cards to it, navigating to the **Card browser** and filtering by that specific deck results in an empty list ("0 cards shown"). However, the cards *do* exist and can be seen when viewing "All decks," indicating a filtering or query search error in the Card Browser logic.
+
+**Environment:**
+
+* **App:** AnkiDroid
+* **Evidence:** Video `6288.mp4`
+
+**Steps to Reproduce:**
+
+1. Launch AnkiDroid.
+2. Tap the **+** (Plus) button and select **Create deck**.
+3. Name the deck using special characters/parentheses (e.g., `*Hello (zanki)`).
+4. Tap **OK** to create the deck.
+5. Tap the **+** button again and select **Add**.
+6. Ensure the "Deck" field is set to the newly created deck (`*Hello (zanki)`).
+7. Enter text into the **Front** (e.g., "test1") and **Back** (e.g., "abc") fields.
+8. Tap the **Checkmark** icon to save the note.
+9. Return to the main deck list screen.
+10. Open the **Navigation Drawer** (Hamburger menu top-left).
+11. Select **Card browser**.
+12. If not already selected, tap the deck dropdown at the top and select `*Hello (zanki)`.
+
+**Expected Result:**
+The Card Browser should display the card(s) that were just added to the `*Hello (zanki)` deck.
+
+**Actual Result:**
+The Card Browser displays **"0 cards shown"** and the list is empty.
+
+**Additional Notes:**
+
+* At timestamp **00:53**, switching the view to **"All decks"** correctly displays the card ("test1"), confirming the data was saved successfully.
+* The issue appears to be a search query failure where the brackets `()` or asterisk `*` in the deck name are likely not being escaped correctly when the filter is applied in the browser.
+
+### **Would you like me to:**
+
+* Draft a fix for the Java/Kotlin search query builder that likely handles this string escaping?
+* Test if this occurs with other special characters (like `[]` or `?`)?

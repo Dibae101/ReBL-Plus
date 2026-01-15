@@ -1,0 +1,14 @@
+Issue Summary: AnkiDroid skips cards when showing answer button is pressed immediately after answering previous card.
+
+Steps to Reproduce:
+1. Open the AnkiDroid app
+2. Select a deck with multiple cards
+4. Answer a card by tapping "Show Answer" and selecting any answer option (Easy, Good, Hard, or Again)
+5. Immediately after the next card appears, tap "Show Answer" button
+6. Observe the card behavior, the card does not show the answer. Instead, it skips to the next card automatically.
+
+Expected Result: The card should display its answer content when the "Show Answer" button is pressed, allowing the user to review the answer and select an appropriate answer button (Easy, Good, Hard, or Again).
+
+Actual Result: The card does not show the answer. Instead, it skips to the next card automatically, causing the user to miss reviewing that card's answer.
+
+Additional Notes: This issue appears to be related to the touch animation feature introduced in version 2.13.0. The problem occurs when the "Show Answer" button is pressed too quickly after the previous card is answered, likely due to answer buttons not being properly disabled during the card transition. The issue was fixed in PR #7177 and is resolved in version 2.14alpha8 and later.

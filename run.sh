@@ -99,5 +99,5 @@ source ../env/bin/activate
 # $ADB -s "$DEVICE_SERIAL" install -t -r APKs/wordpress/wpandroid-15.9-rc-1-universal.apk
 
 
-python3 reproduction.py "$DEVICE_PORT" BRs/ankidroid_7730.txt
+python3 reproduction.py "$DEVICE_PORT" BRs/ankidroid_7138.txt
 
