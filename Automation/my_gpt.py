@@ -5,6 +5,7 @@ import time
 import json
 from utils import *
 from dotenv import load_dotenv
+from PIL import Image
 
 # Replace your key here 
 load_dotenv()
@@ -72,21 +73,68 @@ def convert_history_to_text(history):
             text += f"Assistant: {content}\n\n"
     return text
 
-def generate_text(prompt, history, package_name=None, model_name="models/gemini-2.5-pro", max_tokens=128000, attempts = 3):
+def convert_history_to_multimodal(history):
+    """Convert chat history to multimodal format for Gemini (text + images)"""
+    contents = []
+    for msg in history:
+        role = msg['role']
+        content = msg.get('content')
+        images = msg.get('images', [])
+        
+        # Build message parts
+        parts = []
+        if content:
+            if role == 'system':
+                parts.append(f"System: {content}")
+            elif role == 'user':
+                parts.append(f"User: {content}")
+            elif role == 'assistant':
+                parts.append(f"Assistant: {content}")
+        
+        # Add images if present
+        if images:
+            for img_path in images:
+                if os.path.exists(img_path):
+                    try:
+                        img = Image.open(img_path)
+                        parts.append(img)
+                    except Exception as e:
+                        print(f"Warning: Could not load image {img_path}: {e}")
+        
+        if parts:
+            contents.extend(parts)
+    
+    return contents
+
+def generate_text(prompt, history, package_name=None, model_name="models/gemini-2.5-pro", max_tokens=128000, attempts = 3, use_multimodal=False):
     
     history = process_history(prompt, history, max_tokens, threshold = 0.75)
 
     for times in range(attempts):  # retry up to 3 times
         try:
             model = genai.GenerativeModel(model_name)
-            chat_text = convert_history_to_text(history)
             
-            response = model.generate_content(
-                chat_text,
-                generation_config=genai.types.GenerationConfig(
-                    temperature=0.3,
+            # Check if any message in history has images
+            has_images = any(msg.get('images') for msg in history)
+            
+            if has_images or use_multimodal:
+                # Use multimodal format
+                contents = convert_history_to_multimodal(history)
+                response = model.generate_content(
+                    contents,
+                    generation_config=genai.types.GenerationConfig(
+                        temperature=0.3,
+                    )
                 )
-            )
+            else:
+                # Use text-only format
+                chat_text = convert_history_to_text(history)
+                response = model.generate_content(
+                    chat_text,
+                    generation_config=genai.types.GenerationConfig(
+                        temperature=0.3,
+                    )
+                )
             
             # Create a response object similar to OpenAI format
             formatted_response = {

@@ -33,11 +33,32 @@ def get_logcat(device_port):
     return result.stdout  # This is the output of the adb logcat command
 
 def read_bug_report(file_path):
-    #file_path = f"{file_path}"
+    """Read bug report and extract images if referenced"""
+    with open(file_path, "r") as file:
+        content = file.read()
+    
+    # Extract image paths
+    import re
+    image_pattern = r'\[IMAGE:(.*?)\]'
+    image_paths = re.findall(image_pattern, content)
+    
+    # Return both text and image paths
+    bug_report_text = re.sub(image_pattern, '', content)  # Remove image markers from text
+    bug_report_text = ' '.join([line.strip() for line in bug_report_text.split('\n')])
+    
+    # Make image paths absolute
+    base_dir = os.path.dirname(file_path)
+    absolute_image_paths = [os.path.join(base_dir, img_path) for img_path in image_paths]
+    
+    return {
+        'text': f"Bug Report: {bug_report_text}",
+        'images': absolute_image_paths
+    }
+
+def read_bug_report_simple(file_path):
+    """Simple version without multimodal support (backward compatible)"""
     with open(file_path, "r") as file:
         content = file.readlines()
-
-    #app_name = content[0].strip()
     bug_report = ' '.join([line.strip() for line in content])
     return f"App Name: {file_path[11:file_path.find('_issue')]}. Bug Report: {bug_report}"
 

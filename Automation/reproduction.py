@@ -71,17 +71,30 @@ def reproduce_bug(device_port, reprot_file_name):
 
     device.set_orientation("natural")
     package_name = device.app_current()['package']
-    bug_report = read_bug_report(reprot_file_name)
+    
+    # Read bug report with images
+    bug_report_data = read_bug_report(reprot_file_name)
+    
+    # Check if it's new format (dict) or old format (string)
+    if isinstance(bug_report_data, dict):
+        bug_report_text = bug_report_data['text']
+        bug_report_images = bug_report_data['images']
+        use_multimodal = len(bug_report_images) > 0
+    else:
+        # Old format - backward compatible
+        bug_report_text = bug_report_data
+        bug_report_images = []
+        use_multimodal = False
 
     history = load_training_prompts('./prompts/training_prompts_ori.json')
     
-
-
-  
+    # Add bug report to history with images
+    history.append({
+        "role": "user", 
+        "content": f"{bug_report_text}",
+        "images": bug_report_images
+    })
     
-    #print(br_content)
-    #history.append({"role": "user", "content": br_content})
-    history.append({"role": "user", "content": f"{bug_report}"})
     execution_data = [datetime.now(), 0, 0] # current time, num response, num commands
     flags = [None, False, False, None] # bug_report, need_hint, is_not_completet, repeating_commands
     crash = False
@@ -94,7 +107,7 @@ def reproduce_bug(device_port, reprot_file_name):
         widget_dict, prompt = get_prompt(device, attribute_to_element_map, package_name, execution_status, flags)
         
         print(f"*Prompt: {prompt}") 
-        response,  history = generate_text(prompt, history, package_name)
+        response,  history = generate_text(prompt, history, package_name, use_multimodal=use_multimodal)
         message = get_message(response)
         print(get_model_name(response))
         print('###############################################\n')

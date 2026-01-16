@@ -1,0 +1,65 @@
+App Name: NewPipe
+
+Bug Report Title:
+Text copied from HTML is rendered in search bar
+
+Bug Report Issue:
+When visually formatted text (bold, italic, underline, superscript, subscript) is copied from a web browser and pasted into the NewPipe search bar, the formatting is preserved and rendered instead of being converted to plain text.
+
+### DESCRIPTION
+The search bar in NewPipe does not properly strip rich text formatting when users paste content copied from web browsers. When copying text with HTML formatting from a browser (such as underlined text, bold words, superscript numbers, or subscript text), the visual formatting is preserved and rendered in the search bar instead of being converted to plain text. For example, if you copy "This is some mispeled text" where "mispeled" and "text" are underlined in the browser, the underlines appear in the search bar as well. This creates visual inconsistency and makes the search input difficult to read and use properly.
+
+### STEPS TO REPRODUCE
+[STEP 1] Open a web browser (e.g., Chrome Mobile)
+[IMAGE:images/newpipe_5912_step1.png]
+
+[STEP 2] Search for or navigate to a page with HTML formatting examples (e.g., search "HTML underline tag example")
+[IMAGE:images/newpipe_5912_step2.png]
+
+[STEP 3] Find text that has formatting applied, such as underlined text (e.g., "This is some mispeled text" where "mispeled" is underlined). You should see visually formatted text on the webpage - look for underlined, bold, or styled text.
+[IMAGE:images/newpipe_5912_step3.png]
+
+[STEP 4] Select and copy the formatted text from the browser (including the underlined/formatted portions). Long press on the formatted text and select "Copy".
+[IMAGE:images/newpipe_5912_step4.png]
+
+[STEP 5] Open NewPipe app
+[IMAGE:images/newpipe_5912_step5.png]
+
+[STEP 6] Tap on the search bar
+[IMAGE:images/newpipe_5912_step6.png]
+
+[STEP 7] Long press and paste the copied text
+[IMAGE:images/newpipe_5912_step7.png]
+
+[STEP 8] Observe that the formatting (underline, superscript, etc.) is preserved in the search bar
+[EXPECTED] The text should appear as plain text without any formatting
+[ACTUAL] The underlined text appears with underlines in the search bar
+[IMAGE:images/newpipe_5912_step8.png]
+
+### EXPECTED BEHAVIOR
+When HTML formatted text is pasted into the search bar:
+- The text should be automatically converted to plain text
+- All HTML formatting should be stripped
+- Only the raw text content should appear in the search bar
+
+### ACTUAL BEHAVIOR
+When formatted text is pasted into the search bar:
+- The HTML/rich text formatting from the browser is preserved and rendered in the search bar
+- Underlined text remains underlined
+- The search bar displays text with mixed formatting styles instead of uniform plain text
+
+### ENVIRONMENT
+NewPipe version: 0.20.11
+Android version: Android 11
+Device: Samsung S20 FE
+Browser tested: Chrome Mobile
+
+### ROOT CAUSE
+The search EditText field accepts rich text formatting from the clipboard without stripping it. The field needs to be configured to only accept plain text input or implement a paste handler that converts rich text to plain text before insertion.
+
+Comments:
+Comment#1:
+Issue was fixed in PR #6353 - "Fix unwanted rich text formatting when pasting"
+---
+Comment#2:
+The fix added formatting removal on paste for search functionality, ensuring that only plain text is pasted into the search bar regardless of the source formatting.
