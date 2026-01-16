@@ -80,11 +80,24 @@ def reproduce_bug(device_port, reprot_file_name):
         bug_report_text = bug_report_data['text']
         bug_report_images = bug_report_data['images']
         use_multimodal = len(bug_report_images) > 0
+        print(f"\n{'='*60}")
+        print(f"MULTIMODAL MODE: {'ENABLED' if use_multimodal else 'DISABLED'}")
+        print(f"Bug report format: Dictionary (multimodal)")
+        print(f"Images found: {len(bug_report_images)}")
+        if bug_report_images:
+            for i, img_path in enumerate(bug_report_images, 1):
+                print(f"   {i}. {img_path}")
+        print(f"{'='*60}\n")
     else:
         # Old format - backward compatible
         bug_report_text = bug_report_data
         bug_report_images = []
         use_multimodal = False
+        print(f"\n{'='*60}")
+        print(f"MULTIMODAL MODE: DISABLED")
+        print(f"Bug report format: String (text-only)")
+        print(f"Images found: 0")
+        print(f"{'='*60}\n")
 
     history = load_training_prompts('./prompts/training_prompts_ori.json')
     

@@ -11,30 +11,25 @@ The search bar in NewPipe does not properly strip rich text formatting when user
 
 ### STEPS TO REPRODUCE
 [STEP 1] Open a web browser (e.g., Chrome Mobile)
-[IMAGE:images/newpipe_5912_step1.png]
+[IMAGE:images/newpipe1.png]
 
-[STEP 2] Search for or navigate to a page with HTML formatting examples (e.g., search "HTML underline tag example")
-[IMAGE:images/newpipe_5912_step2.png]
+[STEP 2] Search for or navigate to a page with HTML formatting examples (e.g., search "html subscript and superscript example")
 
-[STEP 3] Find text that has formatting applied, such as underlined text (e.g., "This is some mispeled text" where "mispeled" is underlined). You should see visually formatted text on the webpage - look for underlined, bold, or styled text.
-[IMAGE:images/newpipe_5912_step3.png]
+[STEP 3] Find text that has formatting applied (not the html tag), such as subscript text (e.g., "H20" is subscript).
+[IMAGE:images/newpipe2.png]
 
-[STEP 4] Select and copy the formatted text from the browser (including the underlined/formatted portions). Long press on the formatted text and select "Copy".
-[IMAGE:images/newpipe_5912_step4.png]
+[STEP 4] Select and copy the formatted text from the browser (including the subscript and superscript portions). Long press on the formatted text and select "Copy".
 
 [STEP 5] Open NewPipe app
-[IMAGE:images/newpipe_5912_step5.png]
 
 [STEP 6] Tap on the search bar
-[IMAGE:images/newpipe_5912_step6.png]
 
 [STEP 7] Long press and paste the copied text
-[IMAGE:images/newpipe_5912_step7.png]
+[IMAGE:images/newpipe3.png]
 
 [STEP 8] Observe that the formatting (underline, superscript, etc.) is preserved in the search bar
 [EXPECTED] The text should appear as plain text without any formatting
 [ACTUAL] The underlined text appears with underlines in the search bar
-[IMAGE:images/newpipe_5912_step8.png]
 
 ### EXPECTED BEHAVIOR
 When HTML formatted text is pasted into the search bar:

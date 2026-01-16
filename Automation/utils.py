@@ -77,6 +77,9 @@ def convert_message_to_command_list(message):
                 command_list = []
             else:
                 command_list = ast.literal_eval(message)
+                # Handle double-nested lists from LLM: [[{...}]] -> [{...}]
+                if command_list and isinstance(command_list[0], list):
+                    command_list = command_list[0]
         elif "{" in message and "}" in message:
             start_index = message.index("{")
             end_index = message.rindex("}")

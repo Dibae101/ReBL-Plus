@@ -119,7 +119,9 @@ def generate_text(prompt, history, package_name=None, model_name="models/gemini-
             
             if has_images or use_multimodal:
                 # Use multimodal format
+                print(f"Sending to Gemini with IMAGES (multimodal mode)")
                 contents = convert_history_to_multimodal(history)
+                print(f"Content parts: {len(contents)} (text + images)")
                 response = model.generate_content(
                     contents,
                     generation_config=genai.types.GenerationConfig(
@@ -128,6 +130,7 @@ def generate_text(prompt, history, package_name=None, model_name="models/gemini-
                 )
             else:
                 # Use text-only format
+                print(f"Sending to Gemini with TEXT ONLY")
                 chat_text = convert_history_to_text(history)
                 response = model.generate_content(
                     chat_text,
