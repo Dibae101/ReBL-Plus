@@ -1,0 +1,15 @@
+Issue Summary: Text is truncated in the "Enable Reminder" setting within Deck Options, making the full message unreadable.
+
+Steps to Reproduce:
+1. Open the AnkiDroid app
+2. On the main deck list screen, long press on any deck
+3. Select "Options" from the context menu that appears
+4. Scroll down and tap on "Reminders" section
+5. Observe the "Enable Reminder" checkbox setting
+6. Attempt to read the full text description next to the checkbox
+
+Expected Result: The full text of the "Enable Reminder" setting description should be visible and readable. All text should be displayed without truncation, allowing users to understand the complete message about what enabling reminders will do.
+
+Actual Result: The text in the "Enable Reminder" checkbox preference is truncated and cut off. Only a partial message is visible, making it impossible to read the complete description. The text does not wrap properly or resize to fit within the available space, resulting in the message being unreadable.
+
+Additional Notes: This is a UI layout issue where the checkbox preference text does not adjust its size or wrapping to accommodate longer text strings. The issue affects the readability of the reminder settings in Deck Options. The problem was fixed in PR #6581 by implementing an AutoSizeCheckBoxPreference that automatically resizes text to fit the available space. This fix is included in version 2.12 and later.

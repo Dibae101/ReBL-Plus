@@ -1,0 +1,24 @@
+### **Bug Report: Card Browser context menu item opens browser without searching selected text**
+
+**Issue Reference:** [https://github.com/ankidroid/Anki-Android/issues/5016](https://github.com/ankidroid/Anki-Android/issues/5016)
+
+**Description:**
+When a user selects text within the Note Editor and chooses "Card Browser" from the system text selection menu, the Card Browser opens but displays all cards instead of filtering for the selected text. The search query is not automatically applied, forcing the user to manually search for the term.
+
+**Environment:**
+
+* **App:** AnkiDroid
+* **Evidence:** Video `5016 issue manually.webm`
+
+**Steps to Reproduce:**
+
+1. Open AnkiDroid and  click on any card and tap the **+** button -> **Edit note** from the manu (three dots)
+3. Select the text on Front field with double click.
+4. Tap the **Menu** (three dots) on the text selection toolbar.
+5. Select **Card Browser**.
+
+**Expected Result:**
+The Card Browser should open with a search automatically applied for the selected text (e.g., "5 test"), showing only matching cards.
+
+**Actual Result:**
+The Card Browser opens displaying all cards in the collection ("8 cards shown" in the video), with no filter applied.

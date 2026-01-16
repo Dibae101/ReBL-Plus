@@ -1,0 +1,16 @@
+Issue Summary: Missing language name for "yu" in the language picker - displays language code instead of proper language name.
+
+Steps to Reproduce:
+1. Open the AnkiDroid app
+2. Tap on the hamburger icon (three horizontal lines) in the top left corner to open the navigation drawer
+3. Select "Settings" from the navigation menu
+4. Tap on "General Settings"
+5. Tap on "Language" to open the language selection list
+6. Scroll down through the list of available languages
+7. Observe the entry for "yu" near the bottom of the list
+
+Expected Result: A proper language name should be displayed for the "yu" language code. The language should be identified as "Cantonese" (or "Yue") with its appropriate display name, following the standard language naming convention used for all other languages in the list.
+
+Actual Result: The language code "yu" is displayed without a corresponding language name. Instead of showing a readable language name like "Cantonese" or other languages that show their full names (e.g., "English", "Spanish"), only the code "yu" appears, making it unclear what language this represents.
+
+Additional Notes: This issue is caused by a mismatch between Crowdin's custom language codes and Android's standard IANA language tags. Crowdin uses "yu" as a custom code for Cantonese, but the IANA standard designates Cantonese as "yue". The language picker uses Android's locale system which requires proper IETF language tags, and "yu" is not a recognized language code in the IANA registry. The issue was fixed in PR #6313 by properly mapping the custom "yu" code to the standard "yue" code and handling 3-letter language root codes correctly. This fix is included in version 2.11 and later.

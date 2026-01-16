@@ -1,0 +1,15 @@
+Issue Summary: Tagged cards not appearing when filtering by tags containing special characters like brackets.
+
+Steps to Reproduce:
+1. Open the AnkiDroid app
+2. Tap on "Card Browser" to access the card browser
+3. On the card browser, select "All Decks" from the navbar at the top
+4. Tap on the three dots menu (overflow menu) in the top right corner
+5. Select "Filter by tag" from the menu options
+6. Observe the list of available tags
+
+Expected Result: All tags should appear in the tag filter list, and selecting a tag with special characters (such as brackets, colons, or other symbols) should display the cards associated with that tag.
+
+Actual Result: No tags are observed in the filter list, or when tags with special characters (especially brackets like parentheses) are selected, no cards appear in the results even though those cards exist and have those tags assigned.
+
+Additional Notes: This issue affects tags that contain special characters, particularly brackets and parentheses. For example, tags like "tag:#SketchyMicro::Parasites::(3)-Protozoa_of_Blood::3.3-Plasmodium_spp" do not return any results. The bug is caused by improper handling of special characters in tag searches. The issue was fixed in PR #7071 and is resolved in version 2.13.0beta3 and later.

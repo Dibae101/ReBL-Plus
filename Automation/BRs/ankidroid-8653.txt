@@ -1,0 +1,28 @@
+### **Bug Report: Timebox time limit shows "0 cards studied" toast instead of summary dialog**
+
+**Issue Reference:** [https://github.com/ankidroid/Anki-Android/issues/6853](https://github.com/ankidroid/Anki-Android/issues/6853)
+
+**Description:**
+When a user sets a "Timebox time limit" (e.g., 1 minute), answering a card after the limit triggers a toast notification instead of the expected summary dialog. Specifically, after the first minute, it correctly shows "1 card studied in 1 minute". However, if the user waits another minute on the next card and answers it, the app displays a toast saying **"0 cards studied in 1 minute"** and continues the session, failing to interrupt the user or show the summary screen.
+
+**Environment:**
+
+* **App:** AnkiDroid
+* **Evidence:** Video `6853.mp4`
+
+**Steps to Reproduce:**
+
+1. Open AnkiDroid app
+2. Click on hamburger icon and go to **Settings** > **Reviewing**.
+3. Tap **Timebox time limit**.
+4. Set the limit to **1 minute** and tap **OK**.
+5. Open a deck and start reviewing.
+6. Wait for 1 minute to pass, then tap an answer button (e.g., **Good**).
+7. Observe the toast "1 card studied in 1 minute".
+8. Wait for **another 1 minute** on the next card.
+9. Tap an answer button (e.g., **Good**).
+
+**Expected Result:**
+The app toast message should display 1 cards studied in 1 minute while reviewing second card.
+**Actual Result:**
+The app displays a toast message saying **"0 cards studied in 1 minute"** and immediately loads the next card, failing to interrupt the session.

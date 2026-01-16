@@ -1,0 +1,26 @@
+### **Bug Report: Tapping a parent deck with sub-decks and cards immediately starts review instead of opening Deck Overview**
+
+**Issue Reference:** [https://github.com/ankidroid/Anki-Android/issues/7076](https://github.com/ankidroid/Anki-Android/issues/7076)
+
+**Description:**
+When a parent deck contains both sub-decks and its own cards, tapping the parent deck's row in the deck list immediately launches the Reviewer. This bypasses the Deck Overview screen (where options like "Custom Study" or "Rebuild" would usually be found) and makes it difficult to manage the deck or view its details without accidentally starting a study session.
+
+**Environment:**
+
+* **App:** AnkiDroid
+* **Evidence:** Video `7076.mp4`
+
+**Steps to Reproduce:**
+
+1. Launch AnkiDroid.
+2. Create a parent deck named `html`.
+3. Create several sub-decks inside it (e.g., `html::Emmet`, `html::Markdown`, `html::css3`).
+4. Add at least one card directly to the parent `html` deck.
+5. Go to the main Deck List.
+6. Tap the row for the subdeck `css` deck, it displays the card title as 'html'
+
+**Expected Result:**
+The app should open the Deck Overview screen for the `html` deck.
+
+**Actual Result:**
+The app immediately opens the Reviewer (study mode) for the `html` deck.

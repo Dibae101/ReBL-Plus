@@ -1,0 +1,20 @@
+Issue Summary: Unbury function does not work properly - buried cards cannot be unburied using the deck picker's long-press menu, and buried cards are not searchable in card browser.
+
+Steps to Reproduce:
+1. Open the AnkiDroid app
+2. Tap on any deck to start reviewing cards
+3. During review, tap on the three dots menu in the top right corner
+4. Select "Bury card" from the menu to bury the current card
+5. Continue to the next card and repeat steps 3-4 to bury 2 or 3 more cards
+6. Exit the deck and go back to the main deck list screen
+7. Tap on the hamburger menu icon (three horizontal lines) in the top left corner
+8. Select "Card Browser" from the navigation drawer
+9. In the card browser, tap on the search/magnifier icon at the top
+10. Enter "is:buried" in the search box and tap search
+11. Observe the search results
+
+Expected Result: The card browser should display all the cards that were manually buried in steps 3-5. The search query "is:buried" should return a list of all buried cards from the deck.
+
+Actual Result: The card browser shows no results for the "is:buried" search query. None of the buried cards appear in the search results, even though they were successfully buried earlier. Additionally, attempting to unbury cards by long-pressing on a deck in the deck list and selecting "Unbury" does not work - it either fails to unbury any cards or unburys the wrong number of cards, especially after finishing all daily reviews.
+
+Additional Notes: The unbury functionality works inconsistently - it may work before finishing the day's tasks but typically fails after completing all reviews. The issue is related to deck selection: the unbury operation was attempting to unbury cards from the currently selected deck, but the deck picker's long-press menu does not change the deck selection. As a workaround until fixed, users must select the deck they want to unbury before pressing "Unbury". This issue was introduced in version 2.10 and was fixed in PR #6222 by allowing unbury to work on non-selected decks.

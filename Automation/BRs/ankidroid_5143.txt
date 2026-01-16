@@ -1,0 +1,19 @@
+Issue Summary: AnkiDroid ignores custom launcher animation settings and always uses slide-up animation when launching.
+
+Steps to Reproduce:
+1. On the Android homescreen and Open Nova Launcher settings.
+3. Navigate to "App drawer" section
+4. Tap on "Transition Animation" option
+5. Select a slide up animation and hit "OK"
+6. Exit settings and return to the homescreen
+7. Open the app drawer by swiping up or tapping the app drawer icon
+8. Locate the AnkiDroid app icon
+9. Ensure AnkiDroid is not already running in the background (force stop it if needed from system settings)
+10. Tap on the AnkiDroid app icon to launch it
+11. Observe the animation used when launching AnkiDroid
+
+Expected Result: AnkiDroid should launch using the custom animation chosen in Nova Launcher settings (e.g., "Zoom" animation where the app zooms from the icon to full screen, or the selected transition effect).
+
+Actual Result: AnkiDroid always uses a slide-up animation when launching, ignoring the custom launcher animation setting. Other apps respect the Nova Launcher animation settings and use the chosen animation, but AnkiDroid overrides it with its own slide-up animation.
+
+Additional Notes: This issue occurs only when launching the app for the first time (not already running in RAM/background). The problem is caused by AnkiDroid's IntentHandler setting an animation on launch that overrides the system or launcher-provided animation. This affects Nova Launcher and other third-party launchers that allow custom app launch animations. The issue was fixed in PR #6809 by removing the animation override from IntentHandler and is resolved in version 2.13 and later.

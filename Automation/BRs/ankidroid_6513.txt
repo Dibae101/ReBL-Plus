@@ -1,0 +1,15 @@
+Issue Summary: Tag names are truncated in the "Filter by Tag" dialog in Card Browser, making lengthy tags unreadable.
+
+Steps to Reproduce:
+1. Open the AnkiDroid app
+2. Tap on "Card Browser" to open the card browser
+3. In the card browser, tap on the three dots menu (overflow menu) in the top right corner
+4. Select "Filter by tag" from the menu options
+5. Observe the tag names displayed in the tag selection dialog
+6. Look for tags with lengthy names, especially hierarchical tags (tags with nested structure like "parent::child::grandchild")
+
+Expected Result: All tag names should be displayed in full without truncation. Lengthy tag names, including hierarchical tags with multiple levels, should be fully visible so users can read and identify the complete tag name before selecting it.
+
+Actual Result: Tag names that are lengthy are truncated and not displayed fully. The text is cut off with ellipsis (...) or simply ends abruptly, making it impossible to read the complete tag name. This is especially problematic for hierarchical tags which tend to have longer names due to their nested structure (e.g., "category::subcategory::specific_topic"). Users cannot distinguish between similar tags or identify which tag they need to select.
+
+Additional Notes: This issue particularly affects users who rely on hierarchical tag structures for organizing their cards. The truncation makes it impossible to unsuspend cards or perform other tag-based operations on mobile devices, forcing users to switch to desktop for these tasks. The issue was fixed in PR #6514 by preventing tag text truncation in the tags dialog, and the fix is included in version 2.12 and later.

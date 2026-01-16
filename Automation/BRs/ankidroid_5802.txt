@@ -1,0 +1,15 @@
+Issue Summary: Wrong symbol displayed for ascending/descending sorting in card browser - the arrow direction is inverted.
+
+Steps to Reproduce:
+1. Open the AnkiDroid app
+2. Tap on "Card Browser" to open the card browser
+3. Tap on the menu icon (three dots) in the top right corner
+4. Select "Change display order" from the menu
+5. Observe the symbol/arrow displayed next to the current sort selection
+6. Note the actual sorting order of the cards (e.g., A to Z or Z to A)
+
+Expected Result: When cards are sorted in descending order (Z to A, largest to smallest), a downward-pointing triangle should be displayed. When cards are sorted in ascending order (A to Z, smallest to largest), an upward-pointing triangle should be displayed. The triangle direction should match the sorting direction.
+
+Actual Result: The triangle symbol is inverted. When the sort field is sorted Z to A (descending order), the triangle points upward (ascending symbol). When sorted A to Z (ascending order), the triangle points downward (descending symbol). The visual indicator contradicts the actual sorting behavior.
+
+Additional Notes: This is a UI inconsistency where the sort direction indicator does not match the actual sorting behavior. The triangle should be thought of as a visual mnemonic of the current state - a triangle pointing down represents descending order (largest/base at top, smallest/point at bottom), and a triangle pointing up represents ascending order (smallest/point at top, largest/base at bottom). Initial fix attempt in PR #6326 did not fully resolve the issue.

@@ -1,0 +1,15 @@
+Issue Summary: Note Preview feature does not display cloze deletions correctly and fails to pass field values from the Note Editor.
+
+Steps to Reproduce:
+1. Open the AnkiDroid app
+2. Tap on the FAB (Floating Action Button) at the bottom right corner
+3. Select "Add" from the menu
+4. Select "Cloze" note type from the list of available note types
+5. In the text field, enter a cloze deletion such as "{{c1::cloze}}" or any text with cloze deletion syntax
+6. Tap on the "Preview" button to preview the card
+
+Expected Result: The preview should display the cloze deletion correctly. On the front side, the cloze deletion should appear as "[...]" (hidden), and on the back side, it should be revealed showing the actual text (e.g., "cloze").
+
+Actual Result: The preview shows an error message "Please enter some cloze deletions" instead of displaying the cloze card. The field values entered in the Note Editor are not passed to the previewer, so the preview displays empty or placeholder values rather than the actual content entered by the user.
+
+Additional Notes: This issue affects both cloze deletion cards and regular cards in the Note Editor's preview functionality. The problem is that field values from the Note Editor are not being provided to the preview system. The preview generates a dummy card without the actual field content. This issue was present in version 2.12.0beta6 and was fixed in PR #6692.

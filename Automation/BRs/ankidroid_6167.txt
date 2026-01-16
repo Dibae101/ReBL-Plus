@@ -1,0 +1,20 @@
+Issue Summary: "Basic (type in the answer)" note type does not work in translated languages - displays "{unknown field Front}" error instead of answer.
+
+Steps to Reproduce:
+1. Open the AnkiDroid app
+2. Tap on the hamburger menu icon (three horizontal lines) in the top left corner
+3. Select "Settings" from the navigation drawer
+4. Tap on "General Settings"
+5. Tap on "Language" to open the language selection list
+6. Scroll down and select "Russian" (Русский) as the language
+7. Exit settings and return to the main screen
+8. Create a new card or select an existing card with the "Basic (typed)" note type, which appears as "Базовый (ввод ответа)" in Russian
+9. Add content to the Front and Back fields of the card
+10. Start reviewing the card
+11. Tap "Show Answer" or flip the card to view the answer side
+
+Expected Result: The answer should be displayed correctly on the back of the card, showing the typed answer input field and the correct answer text. The card should function the same way as it does in English.
+
+Actual Result: Instead of displaying the answer, the card shows an error message "{unknown field Front}" on the back. The typed answer functionality fails completely, and the card cannot be reviewed properly. This happens because the template is looking for a field named "Front" in English, but when the language is changed to Russian (or other translated languages), the field references in the template are not properly internationalized.
+
+Additional Notes: This issue affects all translated languages, not just Russian. The problem occurs because the "Basic (type in the answer)" note type template was not properly internationalized - when users create cards in non-English languages, the template field references remain in English while the actual field names are translated, causing a mismatch. The issue also affects cards created in English where the Front template incorrectly references {{Front}} instead of using the proper typed answer syntax. The issue was fixed in PR #6169 by internationalizing the "Type In Answer" note template to properly find the Front template regardless of language. This fix is included in version 2.10.2 and later.
