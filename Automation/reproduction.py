@@ -109,13 +109,13 @@ def reproduce_bug(device_port, reprot_file_name):
             flags[1] = True
             device.set_orientation("natural")
             time.sleep(2)
-        elif command_list[0].get('result', None) is not None:
+        elif command_list and isinstance(command_list[0], dict) and command_list[0].get('result', None) is not None:
             #if command_list[0].get('result') == 'success':
             if command_list[0].get('result'):
                 crash = True # here the variabel name should be bug_triggered
             else:
                 flags[1] = True
-        elif command_list[0].get('action', '') == 'check crash':
+        elif command_list and isinstance(command_list[0], dict) and command_list[0].get('action', '') == 'check crash':
             crash = check_crash(reprot_file_name, history, package_name, device_port, execution_data)
             if not crash:
                 time.sleep(1)
